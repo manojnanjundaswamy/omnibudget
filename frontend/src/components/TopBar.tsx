@@ -130,12 +130,12 @@ export const TopBar: React.FC<TopBarProps> = ({
           <button
             type="button"
             onClick={onOpenQuickCapture}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] transition"
+            className="interactive-btn flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] shadow-xs"
             title="Quick Action or Search (Ctrl+K)"
           >
-            <Search className="w-3.5 h-3.5 text-[var(--fg-muted)]" />
+            <Search className="w-3.5 h-3.5 text-[var(--fg-muted)] transition-transform group-hover:scale-110" />
             <span className="hidden md:inline text-[11px]">Search</span>
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-[var(--surface)] border border-[var(--border)] rounded text-[var(--fg-muted)]">
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-[var(--surface)] border border-[var(--border)] rounded text-[var(--fg-muted)] shadow-2xs">
               Ctrl K
             </kbd>
           </button>
@@ -144,13 +144,13 @@ export const TopBar: React.FC<TopBarProps> = ({
           <button
             type="button"
             onClick={toggleMode}
-            className="p-2 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)] transition"
+            className="interactive-btn p-2 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)] group"
             title={`Switch to ${resolvedMode === 'dark' ? 'Light' : 'Dark'} mode`}
           >
             {resolvedMode === 'dark' ? (
-              <Sun className="w-3.5 h-3.5 text-amber-400" />
+              <Sun className="w-3.5 h-3.5 text-amber-400 transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110" />
             ) : (
-              <Moon className="w-3.5 h-3.5 text-[var(--fg)]" />
+              <Moon className="w-3.5 h-3.5 text-[var(--fg)] transition-transform duration-300 group-hover:-rotate-45 group-hover:scale-110" />
             )}
           </button>
 
@@ -159,10 +159,10 @@ export const TopBar: React.FC<TopBarProps> = ({
             <button
               type="button"
               onClick={onOpenSmartIngest}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-[var(--fg)] text-xs font-medium transition active:scale-[0.98]"
+              className="interactive-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-[var(--fg)] text-xs font-medium shadow-xs group"
               title="Import bank statements or SMS notifications"
             >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+              <Sparkles className="w-3.5 h-3.5 text-emerald-500 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
               <span className="hidden sm:inline">Import</span>
             </button>
           )}
@@ -171,9 +171,9 @@ export const TopBar: React.FC<TopBarProps> = ({
           <button
             type="button"
             onClick={onOpenAddTransaction}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-semibold transition active:scale-[0.98] shadow-sm"
+            className="interactive-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-semibold shadow-xs group"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-90" />
             <span className="hidden sm:inline">Add</span>
           </button>
         </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Trophy, Plus, ShieldCheck, Home, Plane, Car, Sparkles, Target, Calendar, CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { Goal } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
+import { AnimatedAmount } from './AnimatedAmount';
 
 interface GoalsViewProps {
   goals: Goal[];
@@ -46,7 +47,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
         <button
           type="button"
           onClick={onOpenAddGoal}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-semibold transition active:scale-[0.98] shadow-sm shrink-0"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-semibold transition active:scale-[0.98] shadow-sm shrink-0 interactive-btn"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>New Goal</span>
@@ -55,31 +56,31 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
 
       {/* KPI Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1 interactive-card">
           <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Total Saved
           </span>
           <span className="text-2xl font-bold tracking-tight text-emerald-500 tabular block">
-            {formatAmount(totalSaved)}
+            <AnimatedAmount value={totalSaved} />
           </span>
           <span className="text-[11px] text-[var(--fg-muted)]">
             Across {goals.length} active goals
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1 interactive-card">
           <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Target Total
           </span>
           <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block">
-            {formatAmount(totalTarget)}
+            <AnimatedAmount value={totalTarget} />
           </span>
           <span className="text-[11px] text-[var(--fg-muted)]">
             {formatAmount(Math.max(0, totalTarget - totalSaved))} remaining to reach target
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1 interactive-card">
           <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Overall Progress
           </span>
@@ -94,7 +95,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1 interactive-card">
           <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Goals Reached
           </span>
@@ -142,7 +143,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
             return (
               <div
                 key={goal.id}
-                className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-strong)] transition-all flex flex-col justify-between space-y-4 shadow-sm group"
+                className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-strong)] transition-all flex flex-col justify-between space-y-4 shadow-sm group interactive-card"
               >
                 {/* Top Card Header */}
                 <div className="flex items-start justify-between gap-3">
@@ -180,7 +181,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between text-xs">
                     <span className="font-bold text-lg text-[var(--fg)] tabular">
-                      {formatAmount(goal.currentAmount)}
+                      <AnimatedAmount value={goal.currentAmount} />
                     </span>
                     <span className="text-xs text-[var(--fg-muted)] tabular">
                       of {formatAmount(goal.targetAmount)}

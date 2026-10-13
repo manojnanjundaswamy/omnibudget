@@ -56,10 +56,10 @@ export const WidgetCard: React.FC<WidgetCardProps> = ({
       className={`${SIZE_CLASSES[widget.size]} min-w-0`}
     >
       <div
-        className={`h-full flex flex-col rounded-2xl border bg-[var(--surface)] transition-all duration-200 ${
+        className={`h-full flex flex-col rounded-2xl border bg-[var(--surface)] ${
           editing
             ? 'border-dashed border-[var(--border-strong)] bg-[var(--surface-2)] shadow-md'
-            : 'border-[var(--border)] shadow-xs hover:border-[var(--border-strong)]'
+            : 'border-[var(--border)] shadow-xs hover:border-[var(--border-strong)] interactive-card'
         }`}
       >
         {/* Header */}

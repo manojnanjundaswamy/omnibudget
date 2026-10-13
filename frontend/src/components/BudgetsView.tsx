@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { BudgetEnvelope, EnvelopeGroup, Transaction } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
+import { AnimatedAmount } from './AnimatedAmount';
 
 interface BudgetsViewProps {
   envelopes: BudgetEnvelope[];
@@ -70,7 +71,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
         <button
           type="button"
           onClick={onOpenAddEnvelope}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] text-xs font-semibold transition active:scale-[0.98] shadow-sm shrink-0"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] text-xs font-semibold transition active:scale-[0.98] shadow-sm shrink-0 interactive-btn"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Add Budget Category</span>
@@ -79,12 +80,12 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
 
       {/* KPI Overview Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1 interactive-card">
           <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Total Monthly Budget
           </span>
           <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block">
-            {formatAmount(totalBudget)}
+            <AnimatedAmount value={totalBudget} />
           </span>
           <span className="text-[11px] text-[var(--fg-muted)]">
             Across {envelopes.length} budgeted categories
@@ -100,7 +101,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
               onNavigateToTransactions();
             }
           }}
-          className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition space-y-1 group"
+          className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition space-y-1 group interactive-card"
           title="Click to drill down into all spent transactions"
         >
           <div className="flex items-center justify-between">
@@ -112,14 +113,14 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
             </span>
           </div>
           <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block group-hover:text-emerald-400 transition">
-            {formatAmount(totalSpent)}
+            <AnimatedAmount value={totalSpent} />
           </span>
           <span className="text-[11px] text-[var(--fg-muted)]">
             {overallUsed}% of target cap consumed
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1 interactive-card">
           <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Remaining to Spend
           </span>
@@ -128,14 +129,14 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
               totalSpent > totalBudget ? 'text-rose-400' : 'text-emerald-400'
             }`}
           >
-            {formatAmount(totalRemaining)}
+            <AnimatedAmount value={totalRemaining} />
           </span>
           <span className="text-[11px] text-[var(--fg-muted)]">
             {totalSpent > totalBudget ? 'Over budget limit' : 'Available headroom'}
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1 interactive-card">
           <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Budget Health
           </span>
@@ -201,7 +202,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                   return (
                     <div
                       key={env.id}
-                      className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-strong)] transition-all flex flex-col justify-between space-y-3 shadow-sm group"
+                      className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-strong)] transition-all flex flex-col justify-between space-y-3 shadow-sm group interactive-card"
                     >
                       {/* Top Row */}
                       <div className="flex items-start justify-between gap-2">

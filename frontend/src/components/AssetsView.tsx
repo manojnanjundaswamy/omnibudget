@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Asset, AssetPortfolioSummary, AssetType, CreateAssetPayload } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
+import { AnimatedAmount } from './AnimatedAmount';
 import { api } from '../services/api';
 
 const ASSET_TYPE_LABELS: Record<AssetType, { label: string; color: string }> = {
@@ -163,14 +164,14 @@ export const AssetsView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => openAddModal('SIP')}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--fg)] hover:bg-[var(--surface-2)] transition-colors"
+            className="interactive-btn inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--fg)] hover:bg-[var(--surface-2)] shadow-xs"
           >
             <Calendar className="w-3.5 h-3.5 text-emerald-500" />
             + New SIP
           </button>
           <button
             onClick={() => openAddModal()}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-xl bg-[var(--accent)] text-white hover:opacity-90 shadow-xs transition-opacity"
+            className="interactive-btn inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-xl bg-[var(--accent)] text-white hover:opacity-90 shadow-xs"
           >
             <Plus className="w-3.5 h-3.5" />
             Add Investment
@@ -181,15 +182,15 @@ export const AssetsView: React.FC = () => {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Value */}
-        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4.5 shadow-xs">
+        <div className="interactive-card bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4.5 shadow-xs">
           <div className="flex items-center justify-between text-xs text-[var(--fg-muted)] mb-1">
             <span>Portfolio Value</span>
-            <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center transition-transform group-hover:scale-110">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
           <div className="text-2xl font-bold text-[var(--fg)] tracking-tight">
-            {formatAmount(totalValue)}
+            <AnimatedAmount value={totalValue} />
           </div>
           <div className="flex items-center gap-1.5 mt-2 text-xs font-medium">
             <span
@@ -209,7 +210,7 @@ export const AssetsView: React.FC = () => {
         </div>
 
         {/* Invested Capital */}
-        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4.5 shadow-xs">
+        <div className="interactive-card bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4.5 shadow-xs">
           <div className="flex items-center justify-between text-xs text-[var(--fg-muted)] mb-1">
             <span>Total Invested</span>
             <div className="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-600 flex items-center justify-center">
@@ -217,7 +218,7 @@ export const AssetsView: React.FC = () => {
             </div>
           </div>
           <div className="text-2xl font-bold text-[var(--fg)] tracking-tight">
-            {formatAmount(totalInvested)}
+            <AnimatedAmount value={totalInvested} />
           </div>
           <p className="text-xs text-[var(--fg-muted)] mt-2">
             Net capital contributed to date
@@ -225,7 +226,7 @@ export const AssetsView: React.FC = () => {
         </div>
 
         {/* Monthly SIP Outflow */}
-        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4.5 shadow-xs">
+        <div className="interactive-card bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4.5 shadow-xs">
           <div className="flex items-center justify-between text-xs text-[var(--fg-muted)] mb-1">
             <span>Automated SIPs</span>
             <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
@@ -233,7 +234,7 @@ export const AssetsView: React.FC = () => {
             </div>
           </div>
           <div className="text-2xl font-bold text-emerald-600 tracking-tight">
-            {formatAmount(totalSip)}
+            <AnimatedAmount value={totalSip} />
             <span className="text-xs font-normal text-[var(--fg-muted)]">/mo</span>
           </div>
           <p className="text-xs text-[var(--fg-muted)] mt-2">
@@ -242,7 +243,7 @@ export const AssetsView: React.FC = () => {
         </div>
 
         {/* Asset Count & Diversity */}
-        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4.5 shadow-xs">
+        <div className="interactive-card bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-4.5 shadow-xs">
           <div className="flex items-center justify-between text-xs text-[var(--fg-muted)] mb-1">
             <span>Holdings Diversity</span>
             <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
@@ -312,7 +313,7 @@ export const AssetsView: React.FC = () => {
             <button
               key={typeKey}
               onClick={() => setFilterType(typeKey)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-xl whitespace-nowrap transition-colors ${
+              className={`interactive-pill px-3 py-1.5 text-xs font-medium rounded-xl whitespace-nowrap transition-colors ${
                 isSelected
                   ? 'bg-[var(--fg)] text-[var(--bg)] shadow-xs'
                   : 'bg-[var(--surface)] text-[var(--fg-muted)] border border-[var(--border)] hover:bg-[var(--surface-2)]'
@@ -353,7 +354,7 @@ export const AssetsView: React.FC = () => {
               return (
                 <div
                   key={asset.id}
-                  className="p-4 sm:px-6 hover:bg-[var(--surface-2)]/40 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  className="interactive-row p-4 sm:px-6 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                 >
                   <div className="flex items-start gap-3">
                     <div
@@ -441,8 +442,8 @@ export const AssetsView: React.FC = () => {
 
       {/* Add / Edit Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
-          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-lg p-6 shadow-xl relative animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs modal-backdrop">
+          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-lg p-6 shadow-xl relative modal-content">
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 text-[var(--fg-muted)] hover:text-[var(--fg)] p-1 rounded-lg"

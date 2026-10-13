@@ -272,7 +272,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
                     <tr
                       key={tx.id}
                       onClick={() => onEditTransaction(tx)}
-                      className="hover:bg-[var(--surface-2)] transition cursor-pointer group"
+                      className="interactive-row cursor-pointer group border-b border-[var(--border)] last:border-b-0"
                     >
                       {/* Date */}
                       <td className="py-3 px-4 text-[var(--fg-muted)] whitespace-nowrap">

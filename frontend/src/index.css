@@ -114,9 +114,229 @@
 .privacy-blur {
   filter: blur(8px);
   user-select: none;
-  transition: filter 0.2s ease;
+  transition: filter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tabular {
   font-variant-numeric: tabular-nums;
 }
+
+/* ============================================================
+   MOTION & ANIMATION SYSTEM
+   Apple / Linear spring physics: cubic-bezier(0.16, 1, 0.3, 1)
+   ============================================================ */
+
+:root {
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.96);
+  }
+  60% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes shimmerWave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.32s var(--ease-spring) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.22s var(--ease-out) both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.28s var(--ease-spring) both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.28s var(--ease-spring) both;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.28s var(--ease-spring) both;
+}
+
+.animate-pop {
+  animation: pop 0.28s var(--ease-spring) both;
+}
+
+.animate-float {
+  animation: floatGentle 3s ease-in-out infinite;
+}
+
+/* Stagger Delays */
+.stagger-1 { animation-delay: 40ms; }
+.stagger-2 { animation-delay: 80ms; }
+.stagger-3 { animation-delay: 120ms; }
+.stagger-4 { animation-delay: 160ms; }
+.stagger-5 { animation-delay: 200ms; }
+.stagger-6 { animation-delay: 240ms; }
+
+/* Interactive Micro-Interactions */
+.interactive-card {
+  transition: transform 0.22s var(--ease-spring), box-shadow 0.22s var(--ease-spring), border-color 0.2s ease, background-color 0.2s ease;
+  will-change: transform, box-shadow;
+}
+.interactive-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.07), 0 4px 8px -4px rgba(0, 0, 0, 0.04);
+  border-color: var(--border-strong);
+}
+.interactive-card:active {
+  transform: translateY(0px) scale(0.995);
+}
+
+.interactive-btn {
+  transition: transform 0.16s var(--ease-spring), opacity 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
+  will-change: transform;
+}
+.interactive-btn:hover {
+  transform: translateY(-1px);
+}
+.interactive-btn:active {
+  transform: translateY(0.5px) scale(0.97);
+}
+
+.interactive-row {
+  transition: background-color 0.16s ease, transform 0.2s var(--ease-spring), border-color 0.16s ease;
+  will-change: transform;
+}
+.interactive-row:hover {
+  transform: translateX(3px);
+  background-color: var(--surface-2);
+}
+
+.interactive-pill {
+  transition: all 0.2s var(--ease-spring);
+  will-change: transform;
+}
+.interactive-pill:hover {
+  transform: scale(1.03);
+}
+.interactive-pill:active {
+  transform: scale(0.96);
+}
+
+/* Modal Dialog Motion */
+.modal-backdrop {
+  animation: fadeIn 0.22s var(--ease-out) both;
+}
+
+.modal-content {
+  animation: scaleIn 0.28s var(--ease-spring) both;
+}
+
+/* Skeleton Loading Shimmer */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 0%,
+    var(--surface-3) 50%,
+    var(--surface-2) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerWave 1.6s infinite linear;
+}
+
+/* Accessibility: Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

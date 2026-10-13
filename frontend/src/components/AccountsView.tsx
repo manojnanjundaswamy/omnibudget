@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { Account, Transaction } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
+import { AnimatedAmount } from './AnimatedAmount';
 import { api } from '../services/api';
 
 interface AccountsViewProps {
@@ -83,13 +84,13 @@ export const AccountsView: React.FC<AccountsViewProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={onOpenAddAccount}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] transition shadow-sm"
+            className="interactive-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] shadow-xs"
           >
             <span>+ Add Account</span>
           </button>
           <button
             onClick={() => setIsTransferModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[var(--surface-2)] hover:bg-[var(--surface)] text-[var(--fg)] border border-[var(--border)] transition"
+            className="interactive-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-[var(--surface-2)] hover:bg-[var(--surface)] text-[var(--fg)] border border-[var(--border)] shadow-xs"
           >
             <ArrowRightLeft className="w-3.5 h-3.5 text-[var(--fg-muted)]" />
             <span>Transfer Funds</span>
@@ -97,10 +98,10 @@ export const AccountsView: React.FC<AccountsViewProps> = ({
           {onOpenSmartIngest ? (
             <button
               onClick={onOpenSmartIngest}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/20 transition shadow-sm"
+              className="interactive-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 border border-emerald-500/20 shadow-xs"
               title="Bank statement drop, OFX/QFX parser, or SMS smart clip"
             >
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+              <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
               <span>Smart Ingest</span>
             </button>
           ) : (
@@ -149,7 +150,7 @@ export const AccountsView: React.FC<AccountsViewProps> = ({
                     onNavigateToTransactions({ accountId: acc.id });
                   }
                 }}
-                className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-sm hover:border-[var(--border-strong)] transition space-y-4 cursor-pointer group"
+                className="interactive-card p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-xs space-y-4 cursor-pointer group"
               >
                 <div className="flex items-start justify-between">
                   <div>
@@ -172,15 +173,15 @@ export const AccountsView: React.FC<AccountsViewProps> = ({
                     >
                       <span className="text-[10px] font-medium px-1">Edit</span>
                     </button>
-                    <div className="w-8 h-8 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center text-[var(--fg-muted)]">
+                    <div className="w-8 h-8 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center text-[var(--fg-muted)] transition-transform duration-200 group-hover:scale-110">
                       {isCredit ? (
-                        <CreditCard className="w-4 h-4 text-amber-400" />
+                        <CreditCard className="w-4 h-4 text-amber-500" />
                       ) : isInvestment ? (
-                        <TrendingUp className="w-4 h-4 text-purple-400" />
+                        <TrendingUp className="w-4 h-4 text-purple-500" />
                       ) : isSavings ? (
-                        <Building2 className="w-4 h-4 text-emerald-400" />
+                        <Building2 className="w-4 h-4 text-emerald-500" />
                       ) : (
-                        <Wallet className="w-4 h-4 text-[var(--fg)]" />
+                        <Wallet className="w-4 h-4 text-blue-500" />
                       )}
                     </div>
                   </div>
@@ -192,10 +193,10 @@ export const AccountsView: React.FC<AccountsViewProps> = ({
                   </span>
                   <div
                     className={`text-2xl font-bold tracking-tight mt-0.5 tabular ${
-                      isCredit ? 'text-amber-400' : 'text-[var(--fg)]'
+                      isCredit ? 'text-amber-500' : 'text-[var(--fg)]'
                     }`}
                   >
-                    {formatAmount(acc.balance)}
+                    <AnimatedAmount value={acc.balance} />
                   </div>
                 </div>
 

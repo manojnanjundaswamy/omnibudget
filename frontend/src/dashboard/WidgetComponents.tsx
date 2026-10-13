@@ -10,6 +10,7 @@ import {
   Goal,
 } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
+import { AnimatedAmount } from '../components/AnimatedAmount';
 import { BarList, Progress, Badge } from './charts';
 import { ArrowUpRight, ArrowDownLeft, Users2, ShieldCheck, Clock, Trophy } from 'lucide-react';
 
@@ -44,7 +45,7 @@ export const SafeToSpendWidget: React.FC<WidgetContextProps> = ({ summary }) => 
     <div className="flex h-full flex-col justify-between gap-4">
       <div>
         <div className="text-3xl font-bold tracking-tight text-[var(--fg)] tabular">
-          {formatAmount(summary.safeToSpend)}
+          <AnimatedAmount value={summary.safeToSpend} />
         </div>
         <p className="text-xs text-[var(--fg-muted)] mt-1.5">
           about <strong className="text-[var(--fg)] font-medium">{formatAmount(dailyPace)}</strong> a day for the next {daysLeft} days
@@ -123,11 +124,11 @@ export const CashFlowWidget: React.FC<WidgetContextProps> = ({ summary, transact
               onNavigateToTransactions?.();
             }
           }}
-          className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition group"
+          className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition group interactive-card"
         >
           <span className="text-[11px] text-[var(--fg-muted)] block">Income</span>
           <span className="text-base font-bold text-emerald-400 tabular block mt-0.5">
-            +{formatAmount(summary.totalIncomeThisMonth)}
+            +<AnimatedAmount value={summary.totalIncomeThisMonth} />
           </span>
         </div>
         <div
@@ -139,20 +140,20 @@ export const CashFlowWidget: React.FC<WidgetContextProps> = ({ summary, transact
               onNavigateToTransactions?.();
             }
           }}
-          className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] hover:border-rose-500/40 cursor-pointer transition group"
+          className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] hover:border-rose-500/40 cursor-pointer transition group interactive-card"
         >
           <span className="text-[11px] text-[var(--fg-muted)] block">Outlays</span>
           <span className="text-base font-bold text-[var(--fg)] tabular block mt-0.5">
-            -{formatAmount(summary.totalExpensesThisMonth)}
+            -<AnimatedAmount value={summary.totalExpensesThisMonth} />
           </span>
         </div>
       </div>
 
-      <div className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-between text-xs">
+      <div className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-between text-xs interactive-card">
         <span className="text-[var(--fg-muted)]">Net Cash Flow:</span>
         <span className={`font-bold tabular ${isSurplus ? 'text-emerald-400' : 'text-rose-400'}`}>
           {isSurplus ? '+' : ''}
-          {formatAmount(netSavings)}
+          <AnimatedAmount value={netSavings} />
         </span>
       </div>
     </div>
@@ -184,7 +185,7 @@ export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes, transac
                 onNavigateToTransactions?.({ envelopeId: env.id, category: env.name });
               }
             }}
-            className="space-y-1 cursor-pointer hover:opacity-85 transition group"
+            className="space-y-1 cursor-pointer hover:opacity-85 transition group p-1.5 rounded-lg interactive-row"
           >
             <div className="flex items-center justify-between text-xs">
               <span className="font-medium text-[var(--fg)] truncate max-w-[140px] transition">
@@ -230,7 +231,7 @@ export const AccountsWidget: React.FC<WidgetContextProps> = ({ accounts, transac
               onNavigateToTransactions?.({ accountId: acc.id });
             }
           }}
-          className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs cursor-pointer hover:border-[var(--border-strong)] transition group"
+          className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs cursor-pointer hover:border-[var(--border-strong)] transition group interactive-card"
         >
           <div className="truncate pr-2">
             <span className="text-[var(--fg)] font-medium block truncate transition">{acc.name}</span>
@@ -317,7 +318,7 @@ export const BillsRadarWidget: React.FC<WidgetContextProps> = ({ subscriptions }
       {subscriptions.slice(0, 3).map((sub) => (
         <li
           key={sub.id}
-          className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs"
+          className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs interactive-card"
         >
           <div className="truncate pr-2">
             <span className="text-[var(--fg)] font-medium block truncate">{sub.name}</span>
@@ -347,7 +348,7 @@ export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transac
           <div
             key={tx.id}
             onClick={() => onEditTransaction?.(tx)}
-            className="py-2.5 flex items-center justify-between text-xs gap-3 cursor-pointer hover:bg-[var(--surface-2)] -mx-2 px-2 rounded-lg transition group"
+            className="py-2.5 flex items-center justify-between text-xs gap-3 cursor-pointer hover:bg-[var(--surface-2)] -mx-2 px-2 rounded-lg transition group interactive-row"
           >
             <div className="flex items-center gap-3 truncate">
               <div
@@ -424,7 +425,7 @@ export const GoalsWidget: React.FC<WidgetContextProps> = ({ goals = [] }) => {
             : 0;
 
         return (
-          <div key={goal.id} className="space-y-1.5 p-2 rounded-xl bg-[var(--surface-2)] border border-[var(--border)]">
+          <div key={goal.id} className="space-y-1.5 p-2 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] interactive-card">
             <div className="flex items-center justify-between text-xs">
               <span className="font-semibold text-[var(--fg)] truncate">{goal.name}</span>
               <span className="font-bold tabular text-emerald-400">{progress}%</span>

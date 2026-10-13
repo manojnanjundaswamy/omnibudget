@@ -89,8 +89,8 @@ export const OnboardingWizardModal: React.FC<{ onComplete: () => void }> = ({ on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md modal-backdrop">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] modal-content">
         {/* Step Indicator Header */}
         <div className="px-6 py-5 border-b border-[var(--border)] bg-[var(--surface-2)]">
           <div className="flex items-center justify-between mb-3">

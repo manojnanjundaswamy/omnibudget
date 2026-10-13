@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { Subscription } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
+import { AnimatedAmount } from './AnimatedAmount';
 
 interface SubscriptionsViewProps {
   subscriptions: Subscription[];
@@ -56,7 +57,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
           <div className="text-right">
             <span className="text-[var(--fg-muted)] text-[11px] block">Monthly bills total</span>
             <span className="text-2xl font-bold text-[var(--fg)] tabular-nums">
-              {formatAmount(totalMonthly)}/mo
+              <AnimatedAmount value={totalMonthly} />/mo
             </span>
             <span className="text-[10px] text-[var(--fg-subtle)] block">
               Annual total: {formatAmount(totalMonthly * 12)}/yr
@@ -65,7 +66,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
 
           <button
             onClick={onOpenAddSubscription}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] transition shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] transition shadow-sm interactive-btn"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Bill</span>
@@ -80,7 +81,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
           <p className="text-xs text-[var(--fg-muted)]">Add your streaming services, gym, rent, or utilities to keep track of renewals.</p>
           <button
             onClick={onOpenAddSubscription}
-            className="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition"
+            className="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition interactive-btn"
           >
             + Add Your First Bill
           </button>
@@ -92,7 +93,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
               <div
                 key={sub.id}
                 onClick={() => onEditSubscription(sub)}
-                className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-strong)] transition space-y-4 cursor-pointer group"
+                className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-strong)] transition space-y-4 cursor-pointer group interactive-card"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">

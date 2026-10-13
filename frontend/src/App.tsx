@@ -276,7 +276,7 @@ const AppContent: React.FC = () => {
               <span className="text-xs font-medium tracking-wide">Syncing financial workspace...</span>
             </div>
           ) : (
-            <>
+            <div key={currentTab} className="animate-fade-in-up">
               {currentTab === 'dashboard' && (
                 <DashboardPage
                   summary={summary}
@@ -380,7 +380,7 @@ const AppContent: React.FC = () => {
                   onNavigateToPlans={() => setCurrentTab('plans')}
                 />
               )}
-            </>
+            </div>
           )}
         </main>
 

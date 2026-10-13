@@ -180,20 +180,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         onSelectTab(item.id);
                         if (onCloseMobile) onCloseMobile();
                       }}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-all group ${
                         isActive
                           ? 'bg-[var(--surface-2)] text-[var(--fg)] font-semibold shadow-xs'
-                          : 'text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]'
+                          : 'text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]/70'
                       } ${isCollapsed ? 'justify-center px-0' : ''}`}
                       title={item.label}
                     >
                       <Icon
-                        className={`w-4 h-4 shrink-0 transition-colors ${
-                          isActive ? 'text-[var(--fg)]' : 'text-[var(--fg-muted)]'
+                        className={`w-4 h-4 shrink-0 transition-transform duration-200 group-hover:scale-115 ${
+                          isActive ? 'text-[var(--fg)]' : 'text-[var(--fg-muted)] group-hover:text-[var(--fg)]'
                         }`}
                       />
                       {!isCollapsed && (
                         <span className="truncate tracking-tight flex-1 text-left">{item.label}</span>
+                      )}
+                      {isActive && !isCollapsed && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0 animate-scale-in" />
                       )}
                     </button>
                   );
