@@ -18,6 +18,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final BudgetEnvelopeRepository envelopeRepository;
+    private final EmailService emailService;
 
     public static final String DEMO_USER_ID = "demo-user-id";
     public static final String DEMO_USER_EMAIL = "demo@omnibudget.app";
@@ -84,6 +85,69 @@ public class AuthService {
                 .user(user)
                 .isNewUser(isNew || !Boolean.TRUE.equals(user.getHasCompletedOnboarding()))
                 .message("Authenticated successfully via Email")
+                .build();
+    }
+
+    @Transactional
+    public AuthResponse sendOtp(OtpRequest req) {
+        String email = req.getEmail().trim().toLowerCase();
+        Optional<User> existing = userRepository.findByEmail(email);
+
+        User user;
+        boolean isNew = false;
+        if (existing.isPresent()) {
+            user = existing.get();
+        } else {
+            isNew = true;
+            user = User.builder()
+                    .email(email)
+                    .name(req.getName() != null && !req.getName().isBlank() ? req.getName() : email.split("@")[0])
+                    .provider("EMAIL")
+                    .currency("USD")
+                    .hasCompletedOnboarding(false)
+                    .build();
+        }
+
+        String code = String.format("%06d", new java.security.SecureRandom().nextInt(1000000));
+        user.setEmailOtp(code);
+        user.setOtpExpiresAt(java.time.Instant.now().plus(10, java.time.temporal.ChronoUnit.MINUTES));
+        user = userRepository.save(user);
+
+        emailService.sendOtpEmail(email, code, user.getName());
+
+        return AuthResponse.builder()
+                .token(null)
+                .user(user)
+                .isNewUser(isNew)
+                .message("Verification code sent to " + email)
+                .build();
+    }
+
+    @Transactional
+    public AuthResponse verifyOtp(VerifyOtpRequest req) {
+        String email = req.getEmail().trim().toLowerCase();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("No account registered with " + email));
+
+        if (user.getEmailOtp() == null || !user.getEmailOtp().equals(req.getCode().trim())) {
+            throw new IllegalArgumentException("Invalid verification code");
+        }
+
+        if (user.getOtpExpiresAt() != null && java.time.Instant.now().isAfter(user.getOtpExpiresAt())) {
+            throw new IllegalArgumentException("Verification code has expired. Please request a new code.");
+        }
+
+        // Clear OTP after successful verification
+        user.setEmailOtp(null);
+        user.setOtpExpiresAt(null);
+        user.setLastLoginAt(java.time.Instant.now());
+        user = userRepository.save(user);
+
+        return AuthResponse.builder()
+                .token("jwt-session-" + user.getId().toString())
+                .user(user)
+                .isNewUser(!Boolean.TRUE.equals(user.getHasCompletedOnboarding()))
+                .message("Verified and signed in successfully")
                 .build();
     }
 

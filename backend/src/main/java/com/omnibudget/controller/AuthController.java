@@ -24,6 +24,16 @@ public class AuthController {
         return ResponseEntity.ok(authService.handleEmailAuth(req));
     }
 
+    @PostMapping("/send-otp")
+    public ResponseEntity<AuthResponse> sendOtp(@RequestBody OtpRequest req) {
+        return ResponseEntity.ok(authService.sendOtp(req));
+    }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<AuthResponse> verifyOtp(@RequestBody VerifyOtpRequest req) {
+        return ResponseEntity.ok(authService.verifyOtp(req));
+    }
+
     @GetMapping("/me")
     public ResponseEntity<User> getCurrentUser(
             @RequestHeader(value = "X-User-Id", required = false) String userId) {

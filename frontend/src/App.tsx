@@ -279,6 +279,8 @@ const AppContent: React.FC = () => {
           onOpenAddTransaction={handleOpenAddTransaction}
           onOpenSmartIngest={() => setIsSmartIngestOpen(true)}
           onOpenUtilities={() => handleOpenUtilities('calculator')}
+          onNavigateTab={(tab) => setCurrentTab(tab)}
+          onOpenSettings={() => setCurrentTab('settings')}
           activeFilter={activeFilter}
           onClearFilter={() => setActiveFilter(undefined)}
         />

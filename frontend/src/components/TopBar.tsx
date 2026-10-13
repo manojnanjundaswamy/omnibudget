@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, Search, Plus, Sparkles, Filter, X, Sun, Moon, Calculator } from 'lucide-react';
 import { NavTab, TransactionFilter } from '../types';
 import { useTheme } from '../context/ThemeContext';
+import { NotificationCenter } from './NotificationCenter';
 
 interface TopBarProps {
   currentTab: NavTab;
@@ -10,6 +11,8 @@ interface TopBarProps {
   onOpenAddTransaction: () => void;
   onOpenSmartIngest?: () => void;
   onOpenUtilities?: () => void;
+  onNavigateTab?: (tab: NavTab) => void;
+  onOpenSettings?: () => void;
   activeFilter?: TransactionFilter;
   onClearFilter?: () => void;
 }
@@ -76,6 +79,8 @@ export const TopBar: React.FC<TopBarProps> = ({
   onOpenAddTransaction,
   onOpenSmartIngest,
   onOpenUtilities,
+  onNavigateTab,
+  onOpenSettings,
   activeFilter,
   onClearFilter,
 }) => {
@@ -141,6 +146,12 @@ export const TopBar: React.FC<TopBarProps> = ({
               Ctrl K
             </kbd>
           </button>
+
+          {/* Real-Time Notification & Alert Center */}
+          <NotificationCenter
+            onNavigateTab={onNavigateTab}
+            onOpenSettings={onOpenSettings}
+          />
 
           {/* Finance Utilities & Calculator Floating System */}
           {onOpenUtilities && (

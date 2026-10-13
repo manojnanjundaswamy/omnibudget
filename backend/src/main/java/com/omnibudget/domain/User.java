@@ -51,6 +51,10 @@ public class User {
 
     private Instant lastLoginAt;
 
+    private String emailOtp;
+
+    private Instant otpExpiresAt;
+
     @Builder.Default
     private Boolean hasCompletedOnboarding = false;
 

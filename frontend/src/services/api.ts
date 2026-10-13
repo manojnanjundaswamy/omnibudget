@@ -42,6 +42,10 @@ import {
   AssetPortfolioSummary,
   CreateAssetPayload,
   TrendPoint,
+  AppNotification,
+  FinancialHealth,
+  CashFlowForecast,
+  AnomalyDetection,
 } from '../types';
 
 const API_BASE = '/api';
@@ -745,6 +749,118 @@ export const api = {
       headers: getHeaders(),
     });
     if (!res.ok) throw new Error('Failed to delete asset');
+  },
+
+  // Notifications & Alerts
+  getNotifications: async (): Promise<AppNotification[]> => {
+    const res = await fetch(`${API_BASE}/notifications`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch notifications');
+    return res.json();
+  },
+
+  getUnreadNotificationCount: async (): Promise<number> => {
+    const res = await fetch(`${API_BASE}/notifications/unread-count`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) return 0;
+    const data = await res.json();
+    return data.unreadCount || 0;
+  },
+
+  markNotificationAsRead: async (id: string): Promise<AppNotification> => {
+    const res = await fetch(`${API_BASE}/notifications/${id}/read`, {
+      method: 'PATCH',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to mark notification as read');
+    return res.json();
+  },
+
+  markAllNotificationsAsRead: async (): Promise<void> => {
+    const res = await fetch(`${API_BASE}/notifications/read-all`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to mark all notifications as read');
+  },
+
+  deleteNotification: async (id: string): Promise<void> => {
+    const res = await fetch(`${API_BASE}/notifications/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete notification');
+  },
+
+  clearAllNotifications: async (): Promise<void> => {
+    const res = await fetch(`${API_BASE}/notifications/clear-all`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to clear notifications');
+  },
+
+  scanAlerts: async (): Promise<{ alertsCreated: number }> => {
+    const res = await fetch(`${API_BASE}/notifications/scan`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to scan alerts');
+    return res.json();
+  },
+
+  // Auth - Email OTP / Magic Code
+  sendOtp: async (email: string, name?: string): Promise<{ message: string; isNewUser: boolean }> => {
+    const res = await fetch(`${API_BASE}/auth/send-otp`, {
+      method: 'POST',
+      headers: getHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ email, name }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Failed to send OTP code');
+    }
+    return res.json();
+  },
+
+  verifyOtp: async (email: string, code: string): Promise<AuthResponse> => {
+    const res = await fetch(`${API_BASE}/auth/verify-otp`, {
+      method: 'POST',
+      headers: getHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ email, code }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Invalid or expired OTP code');
+    }
+    return res.json();
+  },
+
+  // Financial Analytics Cockpit
+  getFinancialHealth: async (): Promise<FinancialHealth> => {
+    const res = await fetch(`${API_BASE}/analytics/financial-health`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch financial health');
+    return res.json();
+  },
+
+  getCashFlowForecast: async (): Promise<CashFlowForecast> => {
+    const res = await fetch(`${API_BASE}/analytics/forecast`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch cash flow forecast');
+    return res.json();
+  },
+
+  getAnomalies: async (): Promise<AnomalyDetection> => {
+    const res = await fetch(`${API_BASE}/analytics/anomalies`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch anomalies');
+    return res.json();
   },
 };
 

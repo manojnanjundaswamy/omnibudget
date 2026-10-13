@@ -8,6 +8,8 @@ interface AuthContextType {
   isDemoMode: boolean;
   loginWithGoogle: (email: string, name?: string, avatarUrl?: string) => Promise<AuthResponse>;
   loginWithEmail: (email: string, password?: string, name?: string, isRegister?: boolean) => Promise<AuthResponse>;
+  sendLoginOtp: (email: string, name?: string) => Promise<{ message: string; isNewUser: boolean }>;
+  verifyLoginOtp: (email: string, code: string) => Promise<AuthResponse>;
   loginAsDemo: () => void;
   logout: () => void;
   completeOnboarding: (data: OnboardingPayload) => Promise<void>;
@@ -97,6 +99,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return res;
   };
 
+  const sendLoginOtp = async (email: string, name?: string): Promise<{ message: string; isNewUser: boolean }> => {
+    return await api.sendOtp(email, name);
+  };
+
+  const verifyLoginOtp = async (email: string, code: string): Promise<AuthResponse> => {
+    const res = await api.verifyOtp(email, code);
+    setCurrentUser(res.user);
+    setIsDemoMode(false);
+    localStorage.setItem('omnibudget_user', JSON.stringify(res.user));
+    localStorage.setItem('omnibudget_user_id', res.user.id);
+    localStorage.setItem('omnibudget_token', res.token);
+
+    if (res.isNewUser || !res.user.hasCompletedOnboarding) {
+      setIsOnboardingOpen(true);
+    }
+    setIsAuthModalOpen(false);
+    return res;
+  };
+
   const loginAsDemo = () => {
     setCurrentUser(DEMO_USER);
     setIsDemoMode(true);
@@ -128,6 +149,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isDemoMode,
         loginWithGoogle,
         loginWithEmail,
+        sendLoginOtp,
+        verifyLoginOtp,
         loginAsDemo,
         logout,
         completeOnboarding,

@@ -536,5 +536,91 @@ export interface TrendPoint {
   savingsRate: number;
 }
 
+export type NotificationType =
+  | 'BILL_DUE'
+  | 'BUDGET_WARNING'
+  | 'BUDGET_EXCEEDED'
+  | 'LOW_BUFFER'
+  | 'GOAL_MILESTONE'
+  | 'LARGE_TRANSACTION'
+  | 'SECURITY'
+  | 'SYSTEM';
+
+export type NotificationSeverity = 'INFO' | 'WARNING' | 'ALERT' | 'SUCCESS';
+
+export interface AppNotification {
+  id: string;
+  userId?: string;
+  title: string;
+  message: string;
+  type: NotificationType;
+  severity: NotificationSeverity;
+  targetTab?: NavTab;
+  targetId?: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface HealthPillar {
+  name: string;
+  score: number;
+  maxScore: number;
+  status: 'EXCELLENT' | 'HEALTHY' | 'WARNING' | 'CRITICAL';
+  metric: string;
+  advice: string;
+}
+
+export interface FinancialHealth {
+  score: number;
+  grade: string;
+  statusText: string;
+  emergencyRunwayMonths: number;
+  savingsRatePercent: number;
+  debtToAssetRatio: number;
+  budgetAdherencePercent: number;
+  recurringBurdenPercent: number;
+  pillars: HealthPillar[];
+  recommendations: string[];
+}
+
+export interface ForecastDay {
+  date: string;
+  dayOfWeek: number;
+  balance: number;
+  inflow: number;
+  outflow: number;
+  eventDescription: string;
+  status: 'SAFE' | 'WARNING' | 'DANGER';
+}
+
+export interface CashFlowForecast {
+  startingBalance: number;
+  endingBalance: number;
+  lowestProjectedBalance: number;
+  lowestBalanceDate: string;
+  riskOfNegativeBalance: boolean;
+  totalExpectedInflow: number;
+  totalExpectedOutflow: number;
+  days: ForecastDay[];
+}
+
+export interface AnomalyItem {
+  id: string;
+  type: string;
+  title: string;
+  description: string;
+  amount: number;
+  date: string;
+  merchant: string;
+  severity: 'HIGH' | 'MEDIUM' | 'LOW';
+  suggestedAction: string;
+}
+
+export interface AnomalyDetection {
+  totalAnomalies: number;
+  potentialSavings: number;
+  items: AnomalyItem[];
+}
+
 
 

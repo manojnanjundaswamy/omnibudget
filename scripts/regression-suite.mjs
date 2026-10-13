@@ -300,6 +300,53 @@ async function run() {
   const exportJsonRes = await request('/ingest/export?format=json');
   assert(exportJsonRes.ok && exportJsonRes.data.accounts, 'Export complete financial workspace as JSON');
 
+  // 13. Notifications & Real-Time Alert Radar
+  console.log('\n[13/15] Testing Notification Center & Alert Scanner...');
+  const notifListRes = await request('/notifications');
+  assert(notifListRes.ok && Array.isArray(notifListRes.data), 'Fetch active notifications list');
+  assert(notifListRes.data.length >= 1, `Found ${notifListRes.data.length} notifications`);
+
+  const unreadRes = await request('/notifications/unread-count');
+  assert(unreadRes.ok && typeof unreadRes.data.unreadCount === 'number', `Unread count verified: ${unreadRes.data.unreadCount}`);
+
+  if (notifListRes.data.length > 0) {
+    const firstNotif = notifListRes.data[0];
+    const markReadRes = await request(`/notifications/${firstNotif.id}/read`, { method: 'PATCH' });
+    assert(markReadRes.ok && markReadRes.data.isRead === true, 'Marked notification as read');
+  }
+
+  const scanRes = await request('/notifications/scan', { method: 'POST' });
+  assert(scanRes.ok && typeof scanRes.data.alertsCreated === 'number', `Scanned recurring bills & budget limits (alerts created: ${scanRes.data.alertsCreated})`);
+
+  // 14. Email OTP Authentication & Mail Delivery
+  console.log('\n[14/15] Testing Passwordless Email OTP Login & Mail Delivery...');
+  const testEmail = `test.e2e.${Date.now()}@example.com`;
+  const sendOtpRes = await request('/auth/send-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email: testEmail, name: 'E2E Tester' }),
+  });
+  assert(sendOtpRes.ok && sendOtpRes.data.user && sendOtpRes.data.user.emailOtp, `Dispatched 6-digit OTP code to ${testEmail}`);
+
+  const receivedCode = sendOtpRes.data.user.emailOtp;
+  const verifyRes = await request('/auth/verify-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email: testEmail, code: receivedCode }),
+  });
+  assert(verifyRes.ok && verifyRes.data.token && verifyRes.data.token.startsWith('jwt-session-'), 'Verified OTP and generated authenticated session token');
+
+  // 15. Financial Health Index, 30-Day Forecast & Anomaly Radar
+  console.log('\n[15/15] Testing Financial Health Index (FHI), 30-Day Forecast & Anomaly Detection...');
+  const healthRes = await request('/analytics/financial-health');
+  assert(healthRes.ok && healthRes.data.score >= 0 && healthRes.data.score <= 100, `Calculated Financial Health Index score: ${healthRes.data?.score}/100 (${healthRes.data?.grade})`);
+  assert(Array.isArray(healthRes.data.pillars) && healthRes.data.pillars.length === 5, 'Evaluated all 5 core health pillars (Runway, Savings, Debt, Budget, Recurring)');
+
+  const forecastRes = await request('/analytics/forecast');
+  assert(forecastRes.ok && Array.isArray(forecastRes.data.days) && forecastRes.data.days.length === 30, 'Generated 30-day predictive balance forecast timeline');
+  assert(typeof forecastRes.data.lowestProjectedBalance === 'number', `Identified 30-day balance trough: $${forecastRes.data.lowestProjectedBalance} on ${forecastRes.data.lowestBalanceDate}`);
+
+  const anomaliesRes = await request('/analytics/anomalies');
+  assert(anomaliesRes.ok && typeof anomaliesRes.data.totalAnomalies === 'number', `Audited transactions for price spikes & duplicate charges (${anomaliesRes.data.totalAnomalies} detected)`);
+
   // Summary
   console.log('\n======================================================');
   console.log(`   REGRESSION RESULTS: ${passed} PASSED, ${failed} FAILED`);

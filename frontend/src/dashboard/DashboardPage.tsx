@@ -56,6 +56,7 @@ import {
   Goal,
 } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
+import { FinancialHealthCockpit } from '../components/FinancialHealthCockpit';
 
 interface DashboardPageProps {
   summary: DashboardSummary | null;
@@ -310,6 +311,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </span>
         </div>
       )}
+
+      {/* Financial Health Cockpit & 30-Day Forecast & Anomaly Radar */}
+      <FinancialHealthCockpit
+        onNavigateTab={(tab) => {
+          if (tab === 'transactions' && onNavigateToTransactions) {
+            onNavigateToTransactions();
+          }
+        }}
+      />
 
       {/* Sortable Drag & Drop Grid */}
       <DndContext
