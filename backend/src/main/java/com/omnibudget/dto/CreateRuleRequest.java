@@ -1,8 +1,11 @@
 package com.omnibudget.dto;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateRuleRequest {
     private String userId;
     private String name;

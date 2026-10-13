@@ -38,6 +38,9 @@ import {
   ParsedTransaction,
   IngestCommitPayload,
   SmartClipPayload,
+  Asset,
+  AssetPortfolioSummary,
+  CreateAssetPayload,
 } from '../types';
 
 const API_BASE = '/api';
@@ -673,4 +676,50 @@ export const api = {
     if (!res.ok) throw new Error('Failed to commit ingested transactions');
     return res.json();
   },
+
+  // Assets & Investments (SIPs, Stocks, ETFs, Crypto, Gold)
+  getAssets: async (): Promise<Asset[]> => {
+    const res = await fetch(`${API_BASE}/assets`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch assets');
+    return res.json();
+  },
+
+  getAssetSummary: async (): Promise<AssetPortfolioSummary> => {
+    const res = await fetch(`${API_BASE}/assets/summary`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch portfolio summary');
+    return res.json();
+  },
+
+  createAsset: async (data: CreateAssetPayload): Promise<Asset> => {
+    const res = await fetch(`${API_BASE}/assets`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to create asset');
+    return res.json();
+  },
+
+  updateAsset: async (id: string, data: Partial<CreateAssetPayload>): Promise<Asset> => {
+    const res = await fetch(`${API_BASE}/assets/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update asset');
+    return res.json();
+  },
+
+  deleteAsset: async (id: string): Promise<void> => {
+    const res = await fetch(`${API_BASE}/assets/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete asset');
+  },
 };
+

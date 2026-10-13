@@ -6,6 +6,7 @@ import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { DashboardPage } from './dashboard/DashboardPage';
 import { AccountsView } from './components/AccountsView';
+import { AssetsView } from './components/AssetsView';
 import { BudgetsView } from './components/BudgetsView';
 import { TransactionsView } from './components/TransactionsView';
 import { CashFlowView } from './components/CashFlowView';
@@ -305,6 +306,9 @@ const AppContent: React.FC = () => {
                   onOpenDrilldown={handleOpenDrilldown}
                   onOpenSmartIngest={() => setIsSmartIngestOpen(true)}
                 />
+              )}
+              {currentTab === 'assets' && (
+                <AssetsView />
               )}
               {currentTab === 'budgets' && (
                 <BudgetsView

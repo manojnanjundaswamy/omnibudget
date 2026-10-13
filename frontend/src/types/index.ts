@@ -458,11 +458,65 @@ export interface SmartClipPayload {
   accountId?: string;
 }
 
+export type AssetType = 'STOCK' | 'SIP' | 'MUTUAL_FUND' | 'CRYPTO' | 'REAL_ESTATE' | 'GOLD' | 'OTHER';
+
+export interface Asset {
+  id: string;
+  userId: string;
+  name: string;
+  symbol?: string;
+  type: AssetType;
+  quantity?: number;
+  buyPrice?: number;
+  currentPrice?: number;
+  investedAmount: number;
+  currentValue: number;
+  unrealizedGainLoss: number;
+  unrealizedGainLossPercent: number;
+  sipMonthlyContribution?: number;
+  sipDayOfMonth?: number;
+  currency: string;
+  notes?: string;
+  accountId?: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface AssetPortfolioSummary {
+  totalInvested: number;
+  totalCurrentValue: number;
+  totalGainLoss: number;
+  totalGainLossPercent: number;
+  totalMonthlySip: number;
+  assetCount: number;
+  currency: string;
+  allocationByType: Record<string, number>;
+  assets: Asset[];
+}
+
+export interface CreateAssetPayload {
+  name: string;
+  symbol?: string;
+  type: AssetType;
+  quantity?: number;
+  buyPrice?: number;
+  currentPrice?: number;
+  investedAmount?: number;
+  currentValue?: number;
+  sipMonthlyContribution?: number;
+  sipDayOfMonth?: number;
+  currency?: string;
+  notes?: string;
+  accountId?: string;
+}
+
 export type NavTab =
   | 'dashboard'
   | 'transactions'
   | 'budgets'
   | 'accounts'
+  | 'assets'
   | 'recurring'
   | 'cashflow'
   | 'household'
@@ -471,5 +525,6 @@ export type NavTab =
   | 'plans'
   | 'settings'
   | 'admin';
+
 
 

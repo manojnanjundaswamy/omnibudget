@@ -28,6 +28,7 @@ public class SandboxDataService {
     private final UserRepository userRepository;
     private final GoalRepository goalRepository;
     private final TransactionRuleRepository ruleRepository;
+    private final AssetRepository assetRepository;
 
     @PostConstruct
     public void initOnStartup() {
@@ -40,6 +41,7 @@ public class SandboxDataService {
     @Transactional
     public void resetToDemoData() {
         ruleRepository.deleteAll();
+        assetRepository.deleteAll();
         splitRepository.deleteAll();
         peerDebtRepository.deleteAll();
         transactionRepository.deleteAll();
@@ -522,7 +524,78 @@ public class SandboxDataService {
 
         ruleRepository.saveAll(List.of(r1, r2, r3, r4, r5));
 
-        log.info("Sandbox demo dataset initialized successfully!");
+        // 8. ASSETS & INVESTMENTS (SIPs, Stocks, ETFs, Crypto, Gold)
+        Asset a1 = Asset.builder()
+                .userId("demo-user-id")
+                .name("Vanguard 500 Index ETF")
+                .symbol("VOO")
+                .type(AssetType.STOCK)
+                .quantity(new BigDecimal("25.0000"))
+                .buyPrice(new BigDecimal("480.0000"))
+                .currentPrice(new BigDecimal("542.5000"))
+                .currency("USD")
+                .notes("Core long-term index holding")
+                .build();
+
+        Asset a2 = Asset.builder()
+                .userId("demo-user-id")
+                .name("Apple Inc.")
+                .symbol("AAPL")
+                .type(AssetType.STOCK)
+                .quantity(new BigDecimal("45.0000"))
+                .buyPrice(new BigDecimal("172.0000"))
+                .currentPrice(new BigDecimal("229.8000"))
+                .currency("USD")
+                .notes("Technology dividend and growth")
+                .build();
+
+        Asset a3 = Asset.builder()
+                .userId("demo-user-id")
+                .name("Global Flexi Cap Growth Fund SIP")
+                .symbol("GFCGF")
+                .type(AssetType.SIP)
+                .quantity(new BigDecimal("180.0000"))
+                .buyPrice(new BigDecimal("55.0000"))
+                .currentPrice(new BigDecimal("72.4000"))
+                .sipMonthlyContribution(new BigDecimal("500.0000"))
+                .sipDayOfMonth(5)
+                .currency("USD")
+                .notes("Monthly automated SIP contribution")
+                .build();
+
+        Asset a4 = Asset.builder()
+                .userId("demo-user-id")
+                .name("Bitcoin Cold Storage")
+                .symbol("BTC")
+                .type(AssetType.CRYPTO)
+                .quantity(new BigDecimal("0.2800"))
+                .buyPrice(new BigDecimal("42000.0000"))
+                .currentPrice(new BigDecimal("65200.0000"))
+                .currency("USD")
+                .notes("Hardware wallet reserve")
+                .build();
+
+        Asset a5 = Asset.builder()
+                .userId("demo-user-id")
+                .name("Sovereign Gold Certificate")
+                .symbol("GOLD")
+                .type(AssetType.GOLD)
+                .quantity(new BigDecimal("50.0000"))
+                .buyPrice(new BigDecimal("65.0000"))
+                .currentPrice(new BigDecimal("84.5000"))
+                .currency("USD")
+                .notes("Precious metals hedge")
+                .build();
+
+        a1.recalculateValuation();
+        a2.recalculateValuation();
+        a3.recalculateValuation();
+        a4.recalculateValuation();
+        a5.recalculateValuation();
+
+        assetRepository.saveAll(List.of(a1, a2, a3, a4, a5));
+
+        log.info("Sandbox demo dataset initialized successfully with 5 asset holdings!");
     }
 
     /**

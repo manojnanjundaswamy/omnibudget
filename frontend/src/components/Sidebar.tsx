@@ -18,6 +18,7 @@ import {
   EyeOff,
   ChevronDown,
   RotateCcw,
+  TrendingUp,
 } from 'lucide-react';
 import { NavTab } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -46,6 +47,7 @@ const NAV_ITEMS: NavItemDef[] = [
   { id: 'transactions', label: 'Transactions', icon: ArrowLeftRight, section: 'money' },
   { id: 'budgets', label: 'Budgets', icon: PieChart, section: 'money' },
   { id: 'accounts', label: 'Accounts', icon: Wallet, section: 'money' },
+  { id: 'assets', label: 'Assets & Investments', icon: TrendingUp, section: 'money' },
   { id: 'recurring', label: 'Upcoming Bills', icon: CalendarClock, section: 'money' },
   { id: 'cashflow', label: 'Reports', icon: BarChart3, section: 'money' },
 

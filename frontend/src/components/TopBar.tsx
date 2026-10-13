@@ -30,6 +30,10 @@ const TAB_TITLES: Record<NavTab, { title: string; subtitle: string }> = {
     title: 'Accounts',
     subtitle: 'Your banks, cash and credit cards',
   },
+  assets: {
+    title: 'Assets & Investments',
+    subtitle: 'Stocks, SIPs, mutual funds and precious metals',
+  },
   recurring: {
     title: 'Upcoming Bills',
     subtitle: 'Upcoming regular bills and renewal dates',

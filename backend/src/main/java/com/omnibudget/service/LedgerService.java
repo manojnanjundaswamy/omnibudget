@@ -22,6 +22,7 @@ public class LedgerService {
     private final BudgetEnvelopeRepository envelopeRepository;
     private final SplitGroupRepository groupRepository;
     private final PeerDebtRepository peerDebtRepository;
+    private final AssetRepository assetRepository;
 
     public List<Account> getAllAccounts() {
         return accountRepository.findByIsActiveTrueOrderByCreatedAtAsc();
@@ -491,6 +492,21 @@ public class LedgerService {
                 investments = investments.add(acc.getBalance());
             }
         }
+
+        // Add investment assets (Stocks, SIPs, Crypto, Gold)
+        String effectiveUserId = (userId != null && !userId.isBlank()) ? userId : "demo-user-id";
+        List<Asset> userAssets = assetRepository.findByUserIdAndIsActiveTrueOrderByCreatedAtDesc(effectiveUserId);
+        if (userAssets.isEmpty() && "demo-user-id".equals(effectiveUserId)) {
+            userAssets = assetRepository.findByIsActiveTrueOrderByCreatedAtDesc();
+        }
+        BigDecimal assetValuation = BigDecimal.ZERO;
+        for (Asset a : userAssets) {
+            if (a.getCurrentValue() != null) {
+                assetValuation = assetValuation.add(a.getCurrentValue());
+            }
+        }
+        // If standalone assets are tracked, add them to total investments
+        investments = investments.add(assetValuation);
 
         BigDecimal netWorth = liquid.add(investments).subtract(liabilities);
 
