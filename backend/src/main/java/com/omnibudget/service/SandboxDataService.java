@@ -26,6 +26,7 @@ public class SandboxDataService {
     private final HouseholdRepository householdRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final UserRepository userRepository;
+    private final GoalRepository goalRepository;
 
     @PostConstruct
     public void initOnStartup() {
@@ -45,6 +46,7 @@ public class SandboxDataService {
         groupRepository.deleteAll();
         householdRepository.deleteAll();
         subscriptionRepository.deleteAll();
+        goalRepository.deleteAll();
 
         // Seed demo user
         if (!userRepository.existsByEmail("demo@omnibudget.app")) {
@@ -423,6 +425,42 @@ public class SandboxDataService {
                 .build();
 
         transactionRepository.saveAll(List.of(tx1, tx2, tx3, tx4, tx5, tx6, tx7));
+
+        // 7. FINANCIAL GOALS (Monarch-Style Moat Milestones)
+        Goal g1 = Goal.builder()
+                .userId("demo-user-id")
+                .name("6-Month Emergency Reserve")
+                .targetAmount(new BigDecimal("20000.00"))
+                .currentAmount(new BigDecimal("14200.00"))
+                .category("EMERGENCY")
+                .targetDate(LocalDate.now().plusMonths(8))
+                .color("#10b981")
+                .icon("shield-check")
+                .build();
+
+        Goal g2 = Goal.builder()
+                .userId("demo-user-id")
+                .name("Home Down Payment Fund")
+                .targetAmount(new BigDecimal("60000.00"))
+                .currentAmount(new BigDecimal("28500.00"))
+                .category("HOME")
+                .targetDate(LocalDate.now().plusYears(2))
+                .color("#3b82f6")
+                .icon("home")
+                .build();
+
+        Goal g3 = Goal.builder()
+                .userId("demo-user-id")
+                .name("Tokyo & Kyoto Vacation 2027")
+                .targetAmount(new BigDecimal("5000.00"))
+                .currentAmount(new BigDecimal("3200.00"))
+                .category("VACATION")
+                .targetDate(LocalDate.now().plusMonths(14))
+                .color("#f59e0b")
+                .icon("plane")
+                .build();
+
+        goalRepository.saveAll(List.of(g1, g2, g3));
 
         log.info("Sandbox demo dataset initialized successfully!");
     }

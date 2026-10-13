@@ -43,6 +43,7 @@ import {
   HouseholdWidget,
   BillsRadarWidget,
   RecentTransactionsWidget,
+  GoalsWidget,
 } from './WidgetComponents';
 import {
   DashboardSummary,
@@ -52,6 +53,7 @@ import {
   Subscription,
   Household,
   SimplifiedDebtItem,
+  Goal,
 } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
 
@@ -63,6 +65,7 @@ interface DashboardPageProps {
   subscriptions: Subscription[];
   household: Household | null;
   simplifiedDebts: SimplifiedDebtItem[];
+  goals?: Goal[];
   onOpenQuickCapture: () => void;
   onSimulatePaycheck: () => void;
   onSimulateExpense: () => void;
@@ -80,6 +83,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   subscriptions,
   household,
   simplifiedDebts,
+  goals = [],
   onOpenQuickCapture,
   onSimulatePaycheck,
   onSimulateExpense,
@@ -184,6 +188,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       subscriptions,
       household,
       simplifiedDebts,
+      goals,
       onNavigateToTransactions,
       onEditTransaction,
     };
@@ -198,6 +203,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         return <BudgetsWidget {...props} />;
       case 'accounts':
         return <AccountsWidget {...props} />;
+      case 'goals':
+        return <GoalsWidget {...props} />;
       case 'peer-debts':
         return <PeerDebtsWidget {...props} />;
       case 'household':

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { CurrencyProvider } from './context/CurrencyContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { Header, NavTab } from './components/Header';
+import { Sidebar } from './components/Sidebar';
+import { TopBar } from './components/TopBar';
 import { DashboardPage } from './dashboard/DashboardPage';
 import { AccountsView } from './components/AccountsView';
 import { BudgetsView } from './components/BudgetsView';
 import { TransactionsView } from './components/TransactionsView';
-import { SplitsView } from './components/SplitsView';
-import { HouseholdView } from './components/HouseholdView';
+import { CashFlowView } from './components/CashFlowView';
 import { SubscriptionsView } from './components/SubscriptionsView';
-import { SandboxView } from './components/SandboxView';
+import { GoalsView } from './components/GoalsView';
+import { HouseholdView } from './components/HouseholdView';
 import { QuickCaptureModal } from './components/QuickCaptureModal';
 import { AuthModal } from './components/AuthModal';
 import { OnboardingWizardModal } from './components/OnboardingWizardModal';
@@ -17,6 +18,7 @@ import { TransactionModal } from './components/TransactionModal';
 import { AccountModal } from './components/AccountModal';
 import { EnvelopeModal } from './components/EnvelopeModal';
 import { SubscriptionModal } from './components/SubscriptionModal';
+import { GoalModal } from './components/GoalModal';
 import { api } from './services/api';
 import {
   DashboardSummary,
@@ -26,14 +28,17 @@ import {
   SplitGroup,
   Household,
   Subscription,
+  Goal,
   SimplifiedDebtItem,
   TransactionFilter,
+  NavTab,
 } from './types';
 import { RefreshCw } from 'lucide-react';
 
 const AppContent: React.FC = () => {
   const { currentUser } = useAuth();
   const [currentTab, setCurrentTab] = useState<NavTab>('dashboard');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isQuickCaptureOpen, setIsQuickCaptureOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,6 +58,9 @@ const AppContent: React.FC = () => {
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
   const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
 
+  const [isGoalModalOpen, setIsGoalModalOpen] = useState(false);
+  const [goalToEdit, setGoalToEdit] = useState<Goal | null>(null);
+
   // Core Data States
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -61,6 +69,7 @@ const AppContent: React.FC = () => {
   const [groups, setGroups] = useState<SplitGroup[]>([]);
   const [household, setHousehold] = useState<Household | null>(null);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [goals, setGoals] = useState<Goal[]>([]);
   const [simplifiedDebts, setSimplifiedDebts] = useState<SimplifiedDebtItem[]>([]);
 
   // Global Ctrl+K shortcut listener
@@ -78,7 +87,7 @@ const AppContent: React.FC = () => {
   const refreshAllData = async () => {
     try {
       setIsLoading(true);
-      const [sum, accs, envs, txs, grps, house, subs, debtsRes] = await Promise.all([
+      const [sum, accs, envs, txs, grps, house, subs, debtsRes, gls] = await Promise.all([
         api.getDashboardSummary(),
         api.getAccounts(),
         api.getEnvelopes(),
@@ -87,6 +96,7 @@ const AppContent: React.FC = () => {
         api.getHousehold(),
         api.getSubscriptions(),
         api.getSimplifiedDebts(),
+        api.getGoals(),
       ]);
       setSummary(sum);
       setAccounts(accs);
@@ -96,6 +106,7 @@ const AppContent: React.FC = () => {
       setHousehold(house);
       setSubscriptions(subs);
       setSimplifiedDebts(debtsRes.simplifiedPayments || []);
+      setGoals(gls);
     } catch (err) {
       console.error('Error fetching data from Spring Boot backend:', err);
     } finally {
@@ -136,7 +147,7 @@ const AppContent: React.FC = () => {
     setIsAccountModalOpen(true);
   };
 
-  // Envelope CRUD handlers
+  // Envelope / Category CRUD handlers
   const handleOpenAddEnvelope = () => {
     setEnvelopeToEdit(null);
     setIsEnvelopeModalOpen(true);
@@ -158,6 +169,29 @@ const AppContent: React.FC = () => {
     setIsSubscriptionModalOpen(true);
   };
 
+  // Goal CRUD handlers
+  const handleOpenAddGoal = () => {
+    setGoalToEdit(null);
+    setIsGoalModalOpen(true);
+  };
+
+  const handleEditGoal = (goal: Goal) => {
+    setGoalToEdit(goal);
+    setIsGoalModalOpen(true);
+  };
+
+  // Reset demo dataset
+  const handleResetDemoData = async () => {
+    if (!confirm('Reset ledger and seed clean realistic dataset?')) return;
+    try {
+      await api.resetSandbox();
+      await refreshAllData();
+      alert('Ledger restored to clean realistic seed data.');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleSimulatePaycheck = async () => {
     try {
       await api.simulatePaycheck();
@@ -177,95 +211,132 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#f5f5f4] flex flex-col font-sans antialiased">
-      {/* Navbar Header */}
-      <Header
+    <div className="min-h-screen bg-[#09090b] text-[#f4f4f5] flex font-sans antialiased">
+      {/* Left Collapsible & Rearrangeable Sidebar (Monarch Money Layout) */}
+      <Sidebar
         currentTab={currentTab}
         onSelectTab={(tab) => {
           if (tab !== 'transactions') setActiveFilter(undefined);
           setCurrentTab(tab);
         }}
-        onOpenQuickCapture={() => setIsQuickCaptureOpen(true)}
+        onOpenAddTransaction={handleOpenAddTransaction}
+        onResetDemoData={handleResetDemoData}
+        isMobileOpen={isMobileSidebarOpen}
+        onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
-      {/* Main Content Viewport */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
-        {isLoading ? (
-          <div className="min-h-[60vh] flex flex-col items-center justify-center text-[#9e9e98] gap-3">
-            <RefreshCw className="w-6 h-6 animate-spin text-[#ededed]" />
-            <span className="text-xs font-medium tracking-wide">Syncing SaaS ledger...</span>
-          </div>
-        ) : (
-          <>
-            {currentTab === 'dashboard' && (
-              <DashboardPage
-                summary={summary}
-                transactions={transactions}
-                accounts={accounts}
-                envelopes={envelopes}
-                subscriptions={subscriptions}
-                household={household}
-                simplifiedDebts={simplifiedDebts}
-                onOpenQuickCapture={() => setIsQuickCaptureOpen(true)}
-                onSimulatePaycheck={handleSimulatePaycheck}
-                onSimulateExpense={handleSimulateExpense}
-                onNavigateToTransactions={handleNavigateToTransactions}
-                onEditTransaction={handleEditTransaction}
-              />
-            )}
-            {currentTab === 'accounts' && (
-              <AccountsView
-                accounts={accounts}
-                onRefresh={refreshAllData}
-                onOpenAddAccount={handleOpenAddAccount}
-                onEditAccount={handleEditAccount}
-                onNavigateToTransactions={handleNavigateToTransactions}
-              />
-            )}
-            {currentTab === 'budgets' && (
-              <BudgetsView
-                envelopes={envelopes}
-                onRefresh={refreshAllData}
-                onOpenAddEnvelope={handleOpenAddEnvelope}
-                onEditEnvelope={handleEditEnvelope}
-                onNavigateToTransactions={handleNavigateToTransactions}
-              />
-            )}
-            {currentTab === 'transactions' && (
-              <TransactionsView
-                transactions={transactions}
-                accounts={accounts}
-                envelopes={envelopes}
-                initialFilter={activeFilter}
-                onRefresh={refreshAllData}
-                onOpenAddModal={handleOpenAddTransaction}
-                onEditTransaction={handleEditTransaction}
-              />
-            )}
-            {currentTab === 'splits' && (
-              <SplitsView
-                groups={groups}
-                accounts={accounts}
-                onRefresh={refreshAllData}
-                onOpenQuickCapture={() => setIsQuickCaptureOpen(true)}
-              />
-            )}
-            {currentTab === 'household' && (
-              <HouseholdView household={household} onRefresh={refreshAllData} />
-            )}
-            {currentTab === 'subscriptions' && (
-              <SubscriptionsView
-                subscriptions={subscriptions}
-                onOpenAddSubscription={handleOpenAddSubscription}
-                onEditSubscription={handleEditSubscription}
-              />
-            )}
-            {currentTab === 'sandbox' && <SandboxView onRefresh={refreshAllData} />}
-          </>
-        )}
-      </main>
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen overflow-x-hidden">
+        {/* Top Header Bar on Canvas */}
+        <TopBar
+          currentTab={currentTab}
+          onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+          onOpenQuickCapture={() => setIsQuickCaptureOpen(true)}
+          onOpenAddTransaction={handleOpenAddTransaction}
+          activeFilter={activeFilter}
+          onClearFilter={() => setActiveFilter(undefined)}
+        />
 
-      {/* Quick Capture Command Modal */}
+        {/* Viewport Canvas */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+          {isLoading ? (
+            <div className="min-h-[60vh] flex flex-col items-center justify-center text-[#71717a] gap-3">
+              <RefreshCw className="w-5 h-5 animate-spin text-neutral-300" />
+              <span className="text-xs font-medium tracking-wide">Syncing financial workspace...</span>
+            </div>
+          ) : (
+            <>
+              {currentTab === 'dashboard' && (
+                <DashboardPage
+                  summary={summary}
+                  transactions={transactions}
+                  accounts={accounts}
+                  envelopes={envelopes}
+                  subscriptions={subscriptions}
+                  household={household}
+                  simplifiedDebts={simplifiedDebts}
+                  goals={goals}
+                  onOpenQuickCapture={() => setIsQuickCaptureOpen(true)}
+                  onSimulatePaycheck={handleSimulatePaycheck}
+                  onSimulateExpense={handleSimulateExpense}
+                  onNavigateToTransactions={handleNavigateToTransactions}
+                  onEditTransaction={handleEditTransaction}
+                />
+              )}
+              {currentTab === 'accounts' && (
+                <AccountsView
+                  accounts={accounts}
+                  onRefresh={refreshAllData}
+                  onOpenAddAccount={handleOpenAddAccount}
+                  onEditAccount={handleEditAccount}
+                  onNavigateToTransactions={handleNavigateToTransactions}
+                />
+              )}
+              {currentTab === 'budgets' && (
+                <BudgetsView
+                  envelopes={envelopes}
+                  onRefresh={refreshAllData}
+                  onOpenAddEnvelope={handleOpenAddEnvelope}
+                  onEditEnvelope={handleEditEnvelope}
+                  onNavigateToTransactions={handleNavigateToTransactions}
+                />
+              )}
+              {currentTab === 'transactions' && (
+                <TransactionsView
+                  transactions={transactions}
+                  accounts={accounts}
+                  envelopes={envelopes}
+                  initialFilter={activeFilter}
+                  onRefresh={refreshAllData}
+                  onOpenAddModal={handleOpenAddTransaction}
+                  onEditTransaction={handleEditTransaction}
+                />
+              )}
+              {currentTab === 'cashflow' && (
+                <CashFlowView
+                  summary={summary}
+                  transactions={transactions}
+                  onNavigateToTransactions={handleNavigateToTransactions}
+                />
+              )}
+              {currentTab === 'recurring' && (
+                <SubscriptionsView
+                  subscriptions={subscriptions}
+                  onOpenAddSubscription={handleOpenAddSubscription}
+                  onEditSubscription={handleEditSubscription}
+                />
+              )}
+              {currentTab === 'goals' && (
+                <GoalsView
+                  goals={goals}
+                  onRefresh={refreshAllData}
+                  onOpenAddGoal={handleOpenAddGoal}
+                  onEditGoal={handleEditGoal}
+                />
+              )}
+              {currentTab === 'household' && (
+                <HouseholdView
+                  household={household}
+                  onRefresh={refreshAllData}
+                />
+              )}
+            </>
+          )}
+        </main>
+
+        {/* Minimal Footer */}
+        <footer className="border-t border-[#1e1e24] bg-[#0c0c0e] px-6 py-3 text-center text-[11px] text-[#52525b]">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>OmniBudget Enterprise Financial Engine • Monarch-Inspired Architecture</span>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span className="text-[#71717a]">Spring Boot Core API :8088</span>
+            </div>
+          </div>
+        </footer>
+      </div>
+
+      {/* Global Quick Capture Modal (Ctrl+K) */}
       <QuickCaptureModal
         isOpen={isQuickCaptureOpen}
         onClose={() => setIsQuickCaptureOpen(false)}
@@ -299,7 +370,7 @@ const AppContent: React.FC = () => {
         onSuccess={refreshAllData}
       />
 
-      {/* Envelope Add & Edit Modal */}
+      {/* Category Budget Add & Edit Modal */}
       <EnvelopeModal
         isOpen={isEnvelopeModalOpen}
         onClose={() => setIsEnvelopeModalOpen(false)}
@@ -307,7 +378,7 @@ const AppContent: React.FC = () => {
         onSuccess={refreshAllData}
       />
 
-      {/* Subscription Add & Edit Modal */}
+      {/* Recurring Bill Add & Edit Modal */}
       <SubscriptionModal
         isOpen={isSubscriptionModalOpen}
         onClose={() => setIsSubscriptionModalOpen(false)}
@@ -316,16 +387,13 @@ const AppContent: React.FC = () => {
         onSuccess={refreshAllData}
       />
 
-      {/* Minimal Footer */}
-      <footer className="border-t border-[#1c1c1c] bg-[#0c0c0c] px-6 py-3 text-center text-[11px] text-[#6b6b66]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>OmniBudget SaaS Platform 2026</span>
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            <span className="text-[#9e9e98]">Spring Boot API :8088</span>
-          </div>
-        </div>
-      </footer>
+      {/* Financial Milestone Goal Modal */}
+      <GoalModal
+        isOpen={isGoalModalOpen}
+        onClose={() => setIsGoalModalOpen(false)}
+        goalToEdit={goalToEdit}
+        onSuccess={refreshAllData}
+      />
     </div>
   );
 };

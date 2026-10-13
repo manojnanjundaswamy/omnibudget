@@ -7,10 +7,11 @@ import {
   Subscription,
   Household,
   SimplifiedDebtItem,
+  Goal,
 } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
 import { BarList, Progress, Badge } from './charts';
-import { ArrowUpRight, ArrowDownLeft, Users2, ShieldCheck, Clock } from 'lucide-react';
+import { ArrowUpRight, ArrowDownLeft, Users2, ShieldCheck, Clock, Trophy } from 'lucide-react';
 
 interface WidgetContextProps {
   summary: DashboardSummary | null;
@@ -20,6 +21,7 @@ interface WidgetContextProps {
   subscriptions: Subscription[];
   household: Household | null;
   simplifiedDebts: SimplifiedDebtItem[];
+  goals?: Goal[];
   onNavigateToTransactions?: (filter?: { accountId?: string; category?: string; envelopeId?: string }) => void;
   onEditTransaction?: (tx: Transaction) => void;
 }
@@ -348,6 +350,48 @@ export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transac
                   IOU: +{formatAmount(tx.receivableAmount)}
                 </span>
               )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export const GoalsWidget: React.FC<WidgetContextProps> = ({ goals = [] }) => {
+  const { formatAmount } = useCurrency();
+
+  if (goals.length === 0) {
+    return (
+      <div className="flex h-full items-center justify-center text-xs text-[#71717a]">
+        No active financial milestones
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {goals.slice(0, 3).map((goal) => {
+        const progress =
+          goal.targetAmount > 0
+            ? Math.min(100, Math.round((goal.currentAmount / goal.targetAmount) * 100))
+            : 0;
+
+        return (
+          <div key={goal.id} className="space-y-1.5 p-2 rounded-xl bg-[#16161a] border border-[#222228]">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-semibold text-[#f4f4f5] truncate">{goal.name}</span>
+              <span className="font-bold tabular text-emerald-400">{progress}%</span>
+            </div>
+            <div className="w-full h-1.5 rounded-full bg-[#18181c] overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-300"
+                style={{ width: `${progress}%`, backgroundColor: goal.color || '#10b981' }}
+              />
+            </div>
+            <div className="flex items-center justify-between text-[10px] text-[#71717a]">
+              <span>{formatAmount(goal.currentAmount)} saved</span>
+              <span>Target: {formatAmount(goal.targetAmount)}</span>
             </div>
           </div>
         );

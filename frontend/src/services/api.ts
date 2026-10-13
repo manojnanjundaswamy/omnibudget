@@ -22,6 +22,9 @@ import {
   CreateSubscriptionPayload,
   UpdateSubscriptionPayload,
   CreateGroupPayload,
+  Goal,
+  CreateGoalPayload,
+  UpdateGoalPayload,
 } from '../types';
 
 const API_BASE = '/api';
@@ -382,6 +385,44 @@ export const api = {
       body: JSON.stringify({ amount: 50.0 }),
     });
     if (!res.ok) throw new Error('Smart offset failed');
+    return res.json();
+  },
+
+  // Goals (Milestone targets)
+  getGoals: async (): Promise<Goal[]> => {
+    const res = await fetch(`${API_BASE}/goals`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch goals');
+    return res.json();
+  },
+
+  createGoal: async (data: CreateGoalPayload): Promise<Goal> => {
+    const res = await fetch(`${API_BASE}/goals`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to create goal');
+    return res.json();
+  },
+
+  updateGoal: async (id: string, data: UpdateGoalPayload): Promise<Goal> => {
+    const res = await fetch(`${API_BASE}/goals/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update goal');
+    return res.json();
+  },
+
+  deleteGoal: async (id: string): Promise<{ message: string }> => {
+    const res = await fetch(`${API_BASE}/goals/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete goal');
     return res.json();
   },
 

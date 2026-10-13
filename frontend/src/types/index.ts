@@ -274,3 +274,47 @@ export interface CreateGroupPayload {
   members: string;
 }
 
+export interface Goal {
+  id: string;
+  userId: string;
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  category: string;
+  targetDate?: string;
+  color?: string;
+  icon?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface CreateGoalPayload {
+  name: string;
+  targetAmount: number;
+  currentAmount?: number;
+  category?: string;
+  targetDate?: string;
+  color?: string;
+  icon?: string;
+}
+
+export interface UpdateGoalPayload {
+  name?: string;
+  targetAmount?: number;
+  currentAmount?: number;
+  category?: string;
+  targetDate?: string;
+  color?: string;
+  icon?: string;
+}
+
+export type NavTab =
+  | 'dashboard'
+  | 'accounts'
+  | 'transactions'
+  | 'budgets'
+  | 'cashflow'
+  | 'recurring'
+  | 'goals'
+  | 'household';
+

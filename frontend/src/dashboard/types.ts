@@ -6,6 +6,7 @@ export type WidgetType =
   | 'cash-flow'
   | 'budgets'
   | 'accounts'
+  | 'goals'
   | 'peer-debts'
   | 'household'
   | 'bills-radar'
@@ -50,10 +51,10 @@ export const WIDGET_CATALOG: Record<WidgetType, WidgetMeta> = {
   },
   'budgets': {
     type: 'budgets',
-    name: 'Envelope Budgets',
-    description: 'Active envelope limits with progress and overspend alerts',
+    name: 'Category Budgets',
+    description: 'Active category budget targets with progress and headroom',
     defaultSize: 'm',
-    icon: 'PiggyBank',
+    icon: 'Target',
   },
   'accounts': {
     type: 'accounts',
@@ -61,6 +62,13 @@ export const WIDGET_CATALOG: Record<WidgetType, WidgetMeta> = {
     description: 'Liquid cash, credit liabilities, and investment balances',
     defaultSize: 's',
     icon: 'Wallet',
+  },
+  'goals': {
+    type: 'goals',
+    name: 'Financial Milestones & Goals',
+    description: 'Progress toward emergency reserves, home fund, and travel targets',
+    defaultSize: 'm',
+    icon: 'Trophy',
   },
   'peer-debts': {
     type: 'peer-debts',
@@ -72,7 +80,7 @@ export const WIDGET_CATALOG: Record<WidgetType, WidgetMeta> = {
   'household': {
     type: 'household',
     name: 'Household Pool',
-    description: 'Joint family pool balance and 60/40 proportional contribution',
+    description: 'Joint family pool balance and proportional contribution',
     defaultSize: 's',
     icon: 'Home',
   },
@@ -97,9 +105,8 @@ export const DEFAULT_DASHBOARD_WIDGETS: WidgetConfig[] = [
   { id: 'w-category-spend', type: 'spending-by-category', size: 'm' },
   { id: 'w-cash-flow', type: 'cash-flow', size: 'm' },
   { id: 'w-budgets', type: 'budgets', size: 'm' },
+  { id: 'w-goals', type: 'goals', size: 'm' },
   { id: 'w-accounts', type: 'accounts', size: 's' },
-  { id: 'w-peer-debts', type: 'peer-debts', size: 's' },
-  { id: 'w-household', type: 'household', size: 's' },
   { id: 'w-bills-radar', type: 'bills-radar', size: 's' },
   { id: 'w-recent-tx', type: 'recent-transactions', size: 'xl' },
 ];

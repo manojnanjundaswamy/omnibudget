@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import {
-  ArrowRightLeft,
-  Sparkles,
+  Target,
+  Plus,
   AlertTriangle,
-  X,
+  CheckCircle2,
+  ChevronRight,
+  TrendingUp,
+  Tag,
+  ArrowRight,
 } from 'lucide-react';
 import { BudgetEnvelope, EnvelopeGroup } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
-import { api } from '../services/api';
-import { Progress, Badge } from '../dashboard/charts';
 
 interface BudgetsViewProps {
   envelopes: BudgetEnvelope[];
@@ -26,281 +28,251 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
   onNavigateToTransactions,
 }) => {
   const { formatAmount } = useCurrency();
-  const [isRebalanceModalOpen, setIsRebalanceModalOpen] = useState(false);
-  const [sourceEnvId, setSourceEnvId] = useState('');
-  const [targetEnvId, setTargetEnvId] = useState('');
-  const [rebalanceAmount, setRebalanceAmount] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const groups: { key: EnvelopeGroup; title: string; subtitle: string; targetRatio: string }[] = [
+  const totalBudget = envelopes.reduce((acc, e) => acc + (e.monthlyBudget || 0), 0);
+  const totalSpent = envelopes.reduce((acc, e) => acc + (e.spentAmount || 0), 0);
+  const totalRemaining = Math.max(0, totalBudget - totalSpent);
+  const overallUsed = totalBudget > 0 ? Math.round((totalSpent / totalBudget) * 100) : 0;
+
+  const groups: { key: EnvelopeGroup; title: string; subtitle: string }[] = [
     {
       key: 'NEEDS',
-      title: '50% Needs & Fixed Commitments',
-      subtitle: 'Rent, groceries, power, insurance & essential living expenses',
-      targetRatio: '50%',
+      title: 'Essential Living & Needs',
+      subtitle: 'Housing, groceries, utilities, transit, and fixed commitments',
     },
     {
       key: 'WANTS',
-      title: '30% Lifestyle & Discretionary',
-      subtitle: 'Dining out, weekend leisure, concerts & shopping',
-      targetRatio: '30%',
+      title: 'Discretionary & Lifestyle',
+      subtitle: 'Dining out, weekend leisure, shopping, travel, and personal hobbies',
     },
     {
       key: 'SAVINGS_AND_DEBT',
-      title: '20% Savings, Vaults & Debt',
-      subtitle: 'Emergency buffer, investments, and debt payoff',
-      targetRatio: '20%',
+      title: 'Savings, Investments & Debt',
+      subtitle: 'Emergency buffer sweeps, index funds, and debt reduction',
     },
   ];
 
-  const handleRebalance = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!sourceEnvId || !targetEnvId || !rebalanceAmount) return;
-
-    try {
-      setIsSubmitting(true);
-      await api.rebalanceEnvelopes(sourceEnvId, targetEnvId, parseFloat(rebalanceAmount));
-      setIsRebalanceModalOpen(false);
-      setRebalanceAmount('');
-      onRefresh();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleAutoAllocate = async () => {
-    try {
-      await api.autoAllocateIncome(4500.0);
-      onRefresh();
-      alert('Monthly income of $4,500 allocated using 50/30/20 target ratios.');
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-2 border-b border-[#1c1c1c]">
+    <div className="space-y-6 animate-in fade-in duration-200">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-[#1e1e24]">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-[#f5f5f4]">Envelope Budgets</h2>
-          <p className="text-xs text-[#9e9e98] mt-0.5">
-            Zero-based envelope budgeting with surplus rollover and overspend protection
+          <h2 className="text-xl font-bold tracking-tight text-[#f4f4f5]">Category Budgets</h2>
+          <p className="text-xs text-[#71717a] mt-0.5">
+            Monarch-grade monthly category spending targets and real-time tracking
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onOpenAddEnvelope}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition shadow-sm"
+        <button
+          type="button"
+          onClick={onOpenAddEnvelope}
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#f4f4f5] hover:bg-white text-[#09090b] text-xs font-semibold transition active:scale-[0.98] shadow-sm shrink-0"
+        >
+          <Plus className="w-3.5 h-3.5" />
+          <span>Add Budget Category</span>
+        </button>
+      </div>
+
+      {/* KPI Overview Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
+          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
+            Total Monthly Budget
+          </span>
+          <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
+            {formatAmount(totalBudget)}
+          </span>
+          <span className="text-[11px] text-[#71717a]">
+            Across {envelopes.length} budgeted categories
+          </span>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
+          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
+            Actual Spent So Far
+          </span>
+          <span className="text-2xl font-bold tracking-tight text-neutral-200 tabular block">
+            {formatAmount(totalSpent)}
+          </span>
+          <span className="text-[11px] text-[#71717a]">
+            {overallUsed}% of target cap consumed
+          </span>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
+          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
+            Remaining to Spend
+          </span>
+          <span
+            className={`text-2xl font-bold tracking-tight tabular block ${
+              totalSpent > totalBudget ? 'text-rose-400' : 'text-emerald-400'
+            }`}
           >
-            <span>+ Add Envelope</span>
-          </button>
-          <button
-            onClick={() => setIsRebalanceModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#181818] hover:bg-[#222222] text-[#f5f5f4] border border-[#242424] transition"
-          >
-            <ArrowRightLeft className="w-3.5 h-3.5 text-[#9e9e98]" />
-            <span>Rebalance</span>
-          </button>
-          <button
-            onClick={handleAutoAllocate}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#181818] hover:bg-[#222222] text-[#f5f5f4] border border-[#242424] transition"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#9e9e98]" />
-            <span>Auto-Allocate</span>
-          </button>
+            {formatAmount(totalRemaining)}
+          </span>
+          <span className="text-[11px] text-[#71717a]">
+            {totalSpent > totalBudget ? 'Over budget limit' : 'Available headroom'}
+          </span>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
+          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
+            Budget Health
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
+              {overallUsed}%
+            </span>
+            {overallUsed > 100 ? (
+              <AlertTriangle className="w-4 h-4 text-rose-400" />
+            ) : (
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            )}
+          </div>
+          <div className="w-full h-1.5 rounded-full bg-[#1e1e24] overflow-hidden mt-1">
+            <div
+              className={`h-full rounded-full transition-all duration-500 ${
+                overallUsed > 100
+                  ? 'bg-rose-500'
+                  : overallUsed > 80
+                  ? 'bg-amber-400'
+                  : 'bg-emerald-400'
+              }`}
+              style={{ width: `${Math.min(100, overallUsed)}%` }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Envelopes by 50/30/20 Group */}
-      <div className="space-y-5">
+      {/* Category Groups */}
+      <div className="space-y-6">
         {groups.map((grp) => {
           const groupEnvelopes = envelopes.filter((e) => e.groupType === grp.key);
-          const totalBudget = groupEnvelopes.reduce((sum, e) => sum + e.monthlyBudget, 0);
-          const totalSpent = groupEnvelopes.reduce((sum, e) => sum + e.spentAmount, 0);
+          const grpBudget = groupEnvelopes.reduce((acc, e) => acc + (e.monthlyBudget || 0), 0);
+          const grpSpent = groupEnvelopes.reduce((acc, e) => acc + (e.spentAmount || 0), 0);
+
+          if (groupEnvelopes.length === 0) return null;
 
           return (
-            <div key={grp.key} className="bg-[#121212] p-5 rounded-2xl border border-[#242424] space-y-4">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#1e1e1e] pb-3">
+            <div key={grp.key} className="space-y-3">
+              {/* Group Header */}
+              <div className="flex items-center justify-between px-1">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-[#f5f5f4] text-sm">{grp.title}</h3>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#1e1e1e] border border-[#2c2c2c] text-[#9e9e98]">
-                      Target {grp.targetRatio}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-[#6b6b66] mt-0.5">{grp.subtitle}</p>
+                  <h3 className="font-semibold text-sm text-[#f4f4f5] tracking-tight">{grp.title}</h3>
+                  <p className="text-[11px] text-[#71717a]">{grp.subtitle}</p>
                 </div>
-
                 <div className="text-right text-xs">
-                  <span className="text-[#9e9e98]">Total: </span>
-                  <span className="font-semibold text-[#f5f5f4]">{formatAmount(totalSpent)}</span>
-                  <span className="text-[#6b6b66]"> / {formatAmount(totalBudget)}</span>
+                  <span className="text-[#a1a1aa] font-medium tabular">
+                    {formatAmount(grpSpent)} / {formatAmount(grpBudget)}
+                  </span>
                 </div>
               </div>
 
-              {/* Grid of Envelopes */}
-              {groupEnvelopes.length === 0 ? (
-                <div className="p-4 rounded-xl bg-[#161616] border border-[#202020] text-center text-xs text-[#737373]">
-                  No envelopes in this tier. Click "+ Add Envelope" above to create one.
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {groupEnvelopes.map((env) => {
-                    const remaining = env.monthlyBudget - env.spentAmount;
-                    const ratio = env.monthlyBudget > 0 ? env.spentAmount / env.monthlyBudget : 0;
-                    const isOverspent = remaining < 0;
+              {/* Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                {groupEnvelopes.map((env) => {
+                  const usedPercent =
+                    env.monthlyBudget > 0
+                      ? Math.round((env.spentAmount / env.monthlyBudget) * 100)
+                      : 0;
+                  const isOver = env.spentAmount > env.monthlyBudget;
+                  const remaining = Math.max(0, env.monthlyBudget - env.spentAmount);
 
-                    return (
-                      <div
-                        key={env.id}
-                        onClick={() => onNavigateToTransactions({ category: env.name, envelopeId: env.id })}
-                        className="p-4 rounded-xl bg-[#181818] border border-[#242424] space-y-3 cursor-pointer hover:border-[#383838] transition group"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="font-medium text-xs text-[#f5f5f4]">{env.name}</span>
-                          <div className="flex items-center gap-1.5">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onEditEnvelope(env);
-                              }}
-                              className="text-[10px] text-[#737373] hover:text-[#f5f5f4] transition opacity-0 group-hover:opacity-100"
-                            >
-                              Edit
-                            </button>
-                            {isOverspent ? (
-                              <Badge tone="critical">Overspent</Badge>
-                            ) : ratio > 0.8 ? (
-                              <Badge tone="warning">Warning</Badge>
-                            ) : (
-                              <Badge tone="good">On Track</Badge>
-                            )}
+                  return (
+                    <div
+                      key={env.id}
+                      className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] hover:border-[#383842] transition-all flex flex-col justify-between space-y-3 shadow-sm group"
+                    >
+                      {/* Top Row */}
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-center gap-2.5">
+                          <div
+                            className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border"
+                            style={{
+                              backgroundColor: `${env.color || '#10b981'}15`,
+                              borderColor: `${env.color || '#10b981'}30`,
+                              color: env.color || '#10b981',
+                            }}
+                          >
+                            <Tag className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-xs text-[#f4f4f5] line-clamp-1">
+                              {env.name}
+                            </h4>
+                            <span className="text-[10px] text-[#71717a] block">
+                              Monthly Target: {formatAmount(env.monthlyBudget)}
+                            </span>
                           </div>
                         </div>
 
-                        <div className="flex items-baseline justify-between">
-                          <div>
-                            <span className="text-base font-bold text-[#f5f5f4] tabular">
-                              {formatAmount(env.spentAmount)}
-                            </span>
-                            <span className="text-xs text-[#6b6b66]"> of {formatAmount(env.monthlyBudget)}</span>
-                          </div>
+                        <button
+                          type="button"
+                          onClick={() => onEditEnvelope(env)}
+                          className="p-1 rounded-md text-[#71717a] hover:text-[#f4f4f5] hover:bg-[#1a1a1f] transition text-xs font-medium"
+                        >
+                          Edit
+                        </button>
+                      </div>
+
+                      {/* Progress Bar */}
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="font-bold text-[#f4f4f5] tabular">
+                            {formatAmount(env.spentAmount)} spent
+                          </span>
                           <span
-                            className={`text-xs tabular font-medium ${
-                              isOverspent ? 'text-rose-400' : 'text-[#9e9e98]'
+                            className={`font-semibold tabular ${
+                              isOver ? 'text-rose-400' : 'text-[#71717a]'
                             }`}
                           >
-                            {isOverspent ? `-${formatAmount(Math.abs(remaining))}` : `${formatAmount(remaining)} left`}
+                            {isOver ? `+${formatAmount(env.spentAmount - env.monthlyBudget)} over` : `${formatAmount(remaining)} left`}
                           </span>
                         </div>
 
-                        <Progress
-                          value={ratio}
-                          color={isOverspent ? '#ef4444' : ratio > 0.8 ? '#f59e0b' : '#10b981'}
-                        />
+                        <div className="w-full h-2 rounded-full bg-[#18181c] overflow-hidden">
+                          <div
+                            className={`h-full rounded-full transition-all duration-500 ${
+                              isOver
+                                ? 'bg-rose-500'
+                                : usedPercent > 80
+                                ? 'bg-amber-400'
+                                : 'bg-emerald-400'
+                            }`}
+                            style={{ width: `${Math.min(100, usedPercent)}%` }}
+                          />
+                        </div>
 
-                        <div className="pt-2 border-t border-[#202020] flex items-center justify-between text-[10px] text-[#737373]">
-                          <span className="group-hover:text-[#f5f5f4] transition">View transactions →</span>
-                          <span>{Math.round(ratio * 100)}% utilized</span>
+                        <div className="flex items-center justify-between text-[11px] text-[#71717a]">
+                          <span>{usedPercent}% used</span>
+                          {isOver && <span className="text-rose-400 font-semibold">Exceeded Cap</span>}
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
+
+                      {/* Card Footer: Drilldown Link */}
+                      <div className="pt-2 border-t border-[#1c1c22] flex items-center justify-between text-[11px]">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            onNavigateToTransactions({
+                              envelopeId: env.id,
+                              category: env.name,
+                            })
+                          }
+                          className="text-[#a1a1aa] hover:text-[#f4f4f5] transition flex items-center gap-1 group/btn"
+                        >
+                          <span>View transactions</span>
+                          <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           );
         })}
       </div>
-
-      {/* Rebalance Modal */}
-      {isRebalanceModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-[#121212] border border-[#2a2a2a] rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-[#242424] pb-3">
-              <h3 className="font-semibold text-[#f5f5f4] text-sm flex items-center gap-2">
-                <ArrowRightLeft className="w-4 h-4 text-[#9e9e98]" /> Rebalance Envelope Surplus
-              </h3>
-              <button
-                type="button"
-                onClick={() => setIsRebalanceModalOpen(false)}
-                className="text-[#9e9e98] hover:text-[#f5f5f4]"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <form onSubmit={handleRebalance} className="space-y-4 text-xs">
-              <div>
-                <label className="block text-[#9e9e98] mb-1 font-medium">Source Envelope (Surplus)</label>
-                <select
-                  value={sourceEnvId}
-                  onChange={(e) => setSourceEnvId(e.target.value)}
-                  className="w-full bg-[#181818] border border-[#262626] rounded-lg px-3 py-2 text-[#f5f5f4]"
-                >
-                  <option value="">Select source envelope...</option>
-                  {envelopes.map((e) => (
-                    <option key={e.id} value={e.id}>
-                      {e.name} ({formatAmount(e.monthlyBudget - e.spentAmount)} available)
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[#9e9e98] mb-1 font-medium">Target Envelope (Deficit)</label>
-                <select
-                  value={targetEnvId}
-                  onChange={(e) => setTargetEnvId(e.target.value)}
-                  className="w-full bg-[#181818] border border-[#262626] rounded-lg px-3 py-2 text-[#f5f5f4]"
-                >
-                  <option value="">Select target envelope...</option>
-                  {envelopes.map((e) => (
-                    <option key={e.id} value={e.id} disabled={e.id === sourceEnvId}>
-                      {e.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[#9e9e98] mb-1 font-medium">Amount to Rebalance</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  required
-                  placeholder="50.00"
-                  value={rebalanceAmount}
-                  onChange={(e) => setRebalanceAmount(e.target.value)}
-                  className="w-full bg-[#181818] border border-[#262626] rounded-lg px-3 py-2 text-[#f5f5f4] font-semibold"
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-3 border-t border-[#242424]">
-                <button
-                  type="button"
-                  onClick={() => setIsRebalanceModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg text-[#9e9e98] hover:text-[#f5f5f4]"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !sourceEnvId || !targetEnvId || !rebalanceAmount}
-                  className="px-4 py-2 rounded-lg bg-white text-black font-semibold disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Balancing...' : 'Rebalance'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
