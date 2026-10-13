@@ -114,7 +114,9 @@ public class NotificationService {
         LocalDate today = LocalDate.now();
 
         // 1. Scan Upcoming Subscriptions & Bills (within 3 days or today)
-        List<Subscription> subs = subscriptionRepository.findAll();
+        List<Subscription> subs = (userIdStr != null && !userIdStr.isBlank())
+                ? subscriptionRepository.findByUserIdAndIsActiveTrueOrderByNextBillingDateAsc(userIdStr)
+                : subscriptionRepository.findAll();
         for (Subscription sub : subs) {
             if (sub.getNextBillingDate() != null) {
                 try {
@@ -127,7 +129,10 @@ public class NotificationService {
                         String msg = String.format("%s renewal of $%s is due on %s.",
                                 sub.getName(), sub.getAmount(), sub.getNextBillingDate().toString());
 
-                        boolean alreadyExists = notificationRepository.findAll().stream()
+                        List<Notification> existingNotes = userId != null
+                                ? notificationRepository.findByUserIdOrderByCreatedAtDesc(userId)
+                                : notificationRepository.findAll();
+                        boolean alreadyExists = existingNotes.stream()
                                 .anyMatch(n -> n.getType() == NotificationType.BILL_DUE
                                         && sub.getId().toString().equals(n.getTargetId())
                                         && n.getTitle().contains(sub.getName()));
@@ -145,12 +150,17 @@ public class NotificationService {
         }
 
         // 2. Scan Budget Envelopes for overruns
-        List<BudgetEnvelope> envelopes = envelopeRepository.findAll();
+        List<BudgetEnvelope> envelopes = (userIdStr != null && !userIdStr.isBlank())
+                ? envelopeRepository.findByUserIdOrderByGroupTypeAscCreatedAtAsc(userIdStr)
+                : envelopeRepository.findAll();
         for (BudgetEnvelope env : envelopes) {
             if (env.getMonthlyBudget() != null && env.getSpentAmount() != null
                     && env.getMonthlyBudget().compareTo(BigDecimal.ZERO) > 0) {
                 if (env.getSpentAmount().compareTo(env.getMonthlyBudget()) > 0) {
-                    boolean alreadyExists = notificationRepository.findAll().stream()
+                    List<Notification> existingNotes = userId != null
+                            ? notificationRepository.findByUserIdOrderByCreatedAtDesc(userId)
+                            : notificationRepository.findAll();
+                    boolean alreadyExists = existingNotes.stream()
                             .anyMatch(n -> n.getType() == NotificationType.BUDGET_EXCEEDED
                                     && env.getId().toString().equals(n.getTargetId()));
 
@@ -172,12 +182,17 @@ public class NotificationService {
         }
 
         // 3. Scan Goals for Milestones
-        List<Goal> goals = goalRepository.findAll();
+        List<Goal> goals = (userIdStr != null && !userIdStr.isBlank())
+                ? goalRepository.findByUserIdOrderByCreatedAtDesc(userIdStr)
+                : goalRepository.findAll();
         for (Goal g : goals) {
             if (g.getTargetAmount() != null && g.getCurrentAmount() != null
                     && g.getTargetAmount().compareTo(BigDecimal.ZERO) > 0) {
                 if (g.getCurrentAmount().compareTo(g.getTargetAmount()) >= 0) {
-                    boolean alreadyExists = notificationRepository.findAll().stream()
+                    List<Notification> existingNotes = userId != null
+                            ? notificationRepository.findByUserIdOrderByCreatedAtDesc(userId)
+                            : notificationRepository.findAll();
+                    boolean alreadyExists = existingNotes.stream()
                             .anyMatch(n -> n.getType() == NotificationType.GOAL_MILESTONE
                                     && g.getId().toString().equals(n.getTargetId()));
 

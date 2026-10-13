@@ -1,0 +1,5150 @@
+{
+  "executionSummary": {
+    "startedAt": "2026-10-13T22:45:39.903Z",
+    "totalUsers": 10,
+    "usersProvisioned": 10,
+    "totalTransactionsSeeded": 615,
+    "totalTestsExecuted": 160,
+    "totalTestsPassed": 160,
+    "totalTestsFailed": 0,
+    "evidenceScreenshotsCaptured": 6,
+    "userPerspectivesGenerated": 0,
+    "completedAt": "2026-10-13T22:45:54.714Z",
+    "passRatePercent": 100
+  },
+  "users": [
+    {
+      "persona": {
+        "id": "41fa07b5-0f31-4984-92fa-95da4ba5fb15",
+        "email": "marcus.vance@techcorp.io",
+        "name": "Marcus Vance",
+        "role": "USER",
+        "plan": "PRO",
+        "currency": "USD"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 477853.5,
+          "totalLiquidAssets": 121348.5,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 356505,
+          "safeToSpend": 116418.5,
+          "totalIncomeThisMonth": 7250,
+          "totalExpensesThisMonth": 4032.5,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "USD",
+          "accountCount": 4,
+          "envelopeCount": 6
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 121.3,
+          "savingsRatePercent": 152.3,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 1,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "121.3 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "152.3%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "1.0% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 121323,
+          "endingBalance": 124600.05,
+          "lowestProjectedBalance": 121240.05,
+          "lowestBalanceDate": "2026-10-14",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 2322.95,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 121240.05,
+              "inflow": 0,
+              "outflow": 82.95,
+              "eventDescription": "Apple One Premier (-$37.9500)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 123675.05,
+              "inflow": 2800,
+              "outflow": 365,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00), AWS Cloud Developer Pro (-$320.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 123630.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 123585.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 123195.05,
+              "inflow": 0,
+              "outflow": 390,
+              "eventDescription": "Equinox All-Access (-$345.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 123150.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 123105.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 123060.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 123015.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 122970.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 122925.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 122880.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 122835.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 122570.05,
+              "inflow": 0,
+              "outflow": 265,
+              "eventDescription": "Bloomberg Anywhere Terminal (-$220.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 122525.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 122480.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 122435.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 122340.05,
+              "inflow": 0,
+              "outflow": 95,
+              "eventDescription": "ChatGPT Enterprise Plus (-$50.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 125095.05,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 125050.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 125005.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 124960.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 124915.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 124870.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 124825.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 124780.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 124735.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 124690.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 124645.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 124600.05,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 158000,
+          "totalCurrentValue": 208005,
+          "totalGainLoss": 50005,
+          "totalGainLossPercent": 31.6487,
+          "totalMonthlySip": 0,
+          "assetCount": 3,
+          "currency": "USD",
+          "allocationByType": {
+            "CRYPTO": 43125,
+            "STOCK": 164880
+          },
+          "assets": [
+            {
+              "id": "ee169e1c-7890-46a9-8e31-38f7a6a25c63",
+              "userId": "41fa07b5-0f31-4984-92fa-95da4ba5fb15",
+              "name": "Ethereum Staking Node",
+              "symbol": "ETH",
+              "type": "CRYPTO",
+              "quantity": 12.5,
+              "buyPrice": 2200,
+              "currentPrice": 3450,
+              "investedAmount": 27500,
+              "currentValue": 43125,
+              "unrealizedGainLoss": 15625,
+              "unrealizedGainLossPercent": 56.8182,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:40:59.982852Z",
+              "updatedAt": "2026-10-13T22:40:59.982852Z"
+            },
+            {
+              "id": "2d7d19ce-40a2-428d-8d6b-6549bd4b28f4",
+              "userId": "41fa07b5-0f31-4984-92fa-95da4ba5fb15",
+              "name": "Apple Inc.",
+              "symbol": "AAPL",
+              "type": "STOCK",
+              "quantity": 180,
+              "buyPrice": 165,
+              "currentPrice": 232.8,
+              "investedAmount": 29700,
+              "currentValue": 41904,
+              "unrealizedGainLoss": 12204,
+              "unrealizedGainLossPercent": 41.0909,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:40:59.961669Z",
+              "updatedAt": "2026-10-13T22:40:59.961669Z"
+            },
+            {
+              "id": "e0c67022-3cfb-4a34-8f84-19212e68109e",
+              "userId": "41fa07b5-0f31-4984-92fa-95da4ba5fb15",
+              "name": "Vanguard S&P 500 ETF",
+              "symbol": "VOO",
+              "type": "STOCK",
+              "quantity": 240,
+              "buyPrice": 420,
+              "currentPrice": 512.4,
+              "investedAmount": 100800,
+              "currentValue": 122976,
+              "unrealizedGainLoss": 22176,
+              "unrealizedGainLossPercent": 22,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:40:59.927707Z",
+              "updatedAt": "2026-10-13T22:40:59.927707Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 71,
+        "accountsCount": 4,
+        "txCount": 65
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected marcus.vance@techcorp.io, got marcus.vance@techcorp.io",
+          "latencyMs": 7
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $477853.5, Safe-to-Spend: $116418.5",
+          "latencyMs": 21
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 4 isolated accounts",
+          "latencyMs": 6
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 65 transactions across 6-month timeline",
+          "latencyMs": 11
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "a3bc5adb-87ed-4f95-adfd-3bb907526097",
+          "detail": "Created Tx ID: a3bc5adb-87ed-4f95-adfd-3bb907526097",
+          "latencyMs": 69
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 6 category envelopes",
+          "latencyMs": 9
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 5 recurring bill commitments",
+          "latencyMs": 5
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 2 target milestones",
+          "latencyMs": 10
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $208005, Monthly SIP: $0",
+          "latencyMs": 8
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $121323 -> Projected EOM $124600.05",
+          "latencyMs": 30
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 152.3%, Runway: 121.3 mo",
+          "latencyMs": 20
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 23
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 71 alerts to user notification center",
+          "latencyMs": 13
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 27
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 16
+        },
+        {
+          "name": "Standard User Role Scoping (Non-Admin Isolation)",
+          "passed": true,
+          "detail": "Verified non-admin role isolation boundary intact",
+          "latencyMs": 0
+        }
+      ]
+    },
+    {
+      "persona": {
+        "id": "c3ec84a3-8edb-45ef-85d4-e8d7e2bb8056",
+        "email": "sarah.jenkins@familyhaven.org",
+        "name": "Dr. Sarah Jenkins",
+        "role": "USER",
+        "plan": "HOUSEHOLD",
+        "currency": "EUR"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 163994.27,
+          "totalLiquidAssets": 73604.27,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 90390,
+          "safeToSpend": 69874.27,
+          "totalIncomeThisMonth": 4250,
+          "totalExpensesThisMonth": 2632.49,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "EUR",
+          "accountCount": 4,
+          "envelopeCount": 6
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 73.6,
+          "savingsRatePercent": 154.1,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 0.7,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "73.6 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "154.1%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "0.7% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 73578.77,
+          "endingBalance": 77420.89,
+          "lowestProjectedBalance": 73533.77,
+          "lowestBalanceDate": "2026-10-14",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 1757.88,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 73533.77,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 76008.77,
+              "inflow": 2800,
+              "outflow": 325,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00), Family Health Insurance Private Top-Up (-$280.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 75943.78,
+              "inflow": 0,
+              "outflow": 64.99,
+              "eventDescription": "Netflix Premium Family (-$19.9900)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 75898.78,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 75853.78,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 75808.78,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 75673.88,
+              "inflow": 0,
+              "outflow": 134.9,
+              "eventDescription": "High-Speed Fiber & Smart Home (-$89.9000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 75628.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 75583.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 75538.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 75493.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 75448.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 75403.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 75358.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 75313.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 75268.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 75223.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 75178.88,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 77915.89,
+              "inflow": 2800,
+              "outflow": 62.99,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00), Spotify Family Plan (-$17.9900)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 77870.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 77825.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 77780.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 77735.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 77690.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 77645.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 77600.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 77555.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 77510.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 77465.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 77420.89,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 35325,
+          "totalCurrentValue": 42390,
+          "totalGainLoss": 7065,
+          "totalGainLossPercent": 20,
+          "totalMonthlySip": 0,
+          "assetCount": 1,
+          "currency": "USD",
+          "allocationByType": {
+            "STOCK": 42390
+          },
+          "assets": [
+            {
+              "id": "ddc40925-a609-49e4-85bd-59fdc31aa9ff",
+              "userId": "c3ec84a3-8edb-45ef-85d4-e8d7e2bb8056",
+              "name": "iShares Core MSCI World UCITS ETF",
+              "symbol": "IWDA",
+              "type": "STOCK",
+              "quantity": 450,
+              "buyPrice": 78.5,
+              "currentPrice": 94.2,
+              "investedAmount": 35325,
+              "currentValue": 42390,
+              "unrealizedGainLoss": 7065,
+              "unrealizedGainLossPercent": 20,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:03.626449Z",
+              "updatedAt": "2026-10-13T22:41:03.626449Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 71,
+        "accountsCount": 4,
+        "txCount": 65
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected sarah.jenkins@familyhaven.org, got sarah.jenkins@familyhaven.org",
+          "latencyMs": 14
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $163994.27, Safe-to-Spend: $69874.27",
+          "latencyMs": 30
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 4 isolated accounts",
+          "latencyMs": 17
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 65 transactions across 6-month timeline",
+          "latencyMs": 19
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "81909729-d9d5-4107-ac8c-0917f4c73eea",
+          "detail": "Created Tx ID: 81909729-d9d5-4107-ac8c-0917f4c73eea",
+          "latencyMs": 56
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 6 category envelopes",
+          "latencyMs": 17
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 4 recurring bill commitments",
+          "latencyMs": 16
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 2 target milestones",
+          "latencyMs": 15
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $42390, Monthly SIP: $0",
+          "latencyMs": 3
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $73578.77 -> Projected EOM $77420.89",
+          "latencyMs": 19
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 154.1%, Runway: 73.6 mo",
+          "latencyMs": 15
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 10
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 71 alerts to user notification center",
+          "latencyMs": 7
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 36
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 10
+        },
+        {
+          "name": "Standard User Role Scoping (Non-Admin Isolation)",
+          "passed": true,
+          "detail": "Verified non-admin role isolation boundary intact",
+          "latencyMs": 0
+        }
+      ]
+    },
+    {
+      "persona": {
+        "id": "90aea561-9930-46fe-bdd2-765f506c8a65",
+        "email": "elena.rostova@designcraft.co",
+        "name": "Elena Rostova",
+        "role": "USER",
+        "plan": "STARTER",
+        "currency": "GBP"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 60969.64,
+          "totalLiquidAssets": 42679.64,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 18290,
+          "safeToSpend": 40409.64,
+          "totalIncomeThisMonth": 2800,
+          "totalExpensesThisMonth": 2092.5,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "GBP",
+          "accountCount": 4,
+          "envelopeCount": 5
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 42.7,
+          "savingsRatePercent": 157.4,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 1.1,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "42.7 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "157.4%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "1.1% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 42654.14,
+          "endingBalance": 46462.16,
+          "lowestProjectedBalance": 42534.14,
+          "lowestBalanceDate": "2026-10-14",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 1791.98,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 42534.14,
+              "inflow": 0,
+              "outflow": 120,
+              "eventDescription": "Figma Organization Seat (-$75.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 45289.14,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 45214.14,
+              "inflow": 0,
+              "outflow": 75,
+              "eventDescription": "Midjourney & AI Asset Lab (-$30.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 45169.14,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 45124.14,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 45079.14,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 45034.14,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 44709.14,
+              "inflow": 0,
+              "outflow": 325,
+              "eventDescription": "London Shoreditch Coworking Desk (-$280.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 44664.14,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 44619.14,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 44517.16,
+              "inflow": 0,
+              "outflow": 101.98,
+              "eventDescription": "Adobe Creative Cloud All Apps (-$56.9800)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 44472.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 44427.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 44382.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 44337.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 44292.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 44247.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 44202.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 46957.16,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 46912.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 46867.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 46822.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 46777.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 46732.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 46687.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 46642.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 46597.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 46552.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 46507.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 46462.16,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 14540,
+          "totalCurrentValue": 18290,
+          "totalGainLoss": 3750,
+          "totalGainLossPercent": 25.7909,
+          "totalMonthlySip": 0,
+          "assetCount": 2,
+          "currency": "USD",
+          "allocationByType": {
+            "STOCK": 18290
+          },
+          "assets": [
+            {
+              "id": "abacaab8-6158-4da3-9ca7-685d221f274c",
+              "userId": "90aea561-9930-46fe-bdd2-765f506c8a65",
+              "name": "Apple Inc.",
+              "symbol": "AAPL",
+              "type": "STOCK",
+              "quantity": 25,
+              "buyPrice": 140,
+              "currentPrice": 182,
+              "investedAmount": 3500,
+              "currentValue": 4550,
+              "unrealizedGainLoss": 1050,
+              "unrealizedGainLossPercent": 30,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:07.051507Z",
+              "updatedAt": "2026-10-13T22:41:07.051507Z"
+            },
+            {
+              "id": "7673f5c9-b128-40a5-965b-384afee091da",
+              "userId": "90aea561-9930-46fe-bdd2-765f506c8a65",
+              "name": "Vanguard FTSE All-World UCITS ETF",
+              "symbol": "VWRP",
+              "type": "STOCK",
+              "quantity": 120,
+              "buyPrice": 92,
+              "currentPrice": 114.5,
+              "investedAmount": 11040,
+              "currentValue": 13740,
+              "unrealizedGainLoss": 2700,
+              "unrealizedGainLossPercent": 24.4565,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:07.042979Z",
+              "updatedAt": "2026-10-13T22:41:07.042979Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 71,
+        "accountsCount": 4,
+        "txCount": 65
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected elena.rostova@designcraft.co, got elena.rostova@designcraft.co",
+          "latencyMs": 26
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $60969.64, Safe-to-Spend: $40409.64",
+          "latencyMs": 30
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 4 isolated accounts",
+          "latencyMs": 11
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 65 transactions across 6-month timeline",
+          "latencyMs": 24
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "e1c8663e-ebd1-4d5e-9de1-0b0e31e23bbb",
+          "detail": "Created Tx ID: e1c8663e-ebd1-4d5e-9de1-0b0e31e23bbb",
+          "latencyMs": 51
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 5 category envelopes",
+          "latencyMs": 3
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 4 recurring bill commitments",
+          "latencyMs": 13
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 2 target milestones",
+          "latencyMs": 16
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $18290, Monthly SIP: $0",
+          "latencyMs": 16
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $42654.14 -> Projected EOM $46462.16",
+          "latencyMs": 24
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 157.4%, Runway: 42.7 mo",
+          "latencyMs": 16
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 26
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 71 alerts to user notification center",
+          "latencyMs": 13
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 28
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 6
+        },
+        {
+          "name": "Standard User Role Scoping (Non-Admin Isolation)",
+          "passed": true,
+          "detail": "Verified non-admin role isolation boundary intact",
+          "latencyMs": 0
+        }
+      ]
+    },
+    {
+      "persona": {
+        "id": "5a94c1be-e980-4d28-9122-2aeef697f157",
+        "email": "liam.patel@alumni.edu",
+        "name": "Liam Patel",
+        "role": "USER",
+        "plan": "STARTER",
+        "currency": "USD"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 40781.07,
+          "totalLiquidAssets": 31390.57,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 9390.5,
+          "safeToSpend": 28485.57,
+          "totalIncomeThisMonth": 2600,
+          "totalExpensesThisMonth": 1674.49,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "USD",
+          "accountCount": 3,
+          "envelopeCount": 6
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 31.4,
+          "savingsRatePercent": 149.9,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 0.7,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "31.4 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "149.9%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "0.7% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 31365.07,
+          "endingBalance": 35498.08,
+          "lowestProjectedBalance": 31320.07,
+          "lowestBalanceDate": "2026-10-14",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 1466.99,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 31320.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 34065.07,
+              "inflow": 2800,
+              "outflow": 55,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00), GitHub Copilot Individual (-$10.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 34020.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 33975.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 33930.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 33790.07,
+              "inflow": 0,
+              "outflow": 140,
+              "eventDescription": "Bouldering Project Gym (-$95.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 33745.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 33700.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 33655.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 33610.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 33565.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 33520.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 33475.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 33430.07,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 33373.08,
+              "inflow": 0,
+              "outflow": 56.99,
+              "eventDescription": "Spotify Individual (-$11.9900)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 33328.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 33283.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 33238.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 35993.08,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 35948.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 35903.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 35858.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 35813.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 35768.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 35723.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 35678.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 35633.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 35588.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 35543.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 35498.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 7525,
+          "totalCurrentValue": 9390.5,
+          "totalGainLoss": 1865.5,
+          "totalGainLossPercent": 24.7907,
+          "totalMonthlySip": 0,
+          "assetCount": 1,
+          "currency": "USD",
+          "allocationByType": {
+            "STOCK": 9390.5
+          },
+          "assets": [
+            {
+              "id": "583cea21-e7b8-4d6e-98b5-9114e19354f0",
+              "userId": "5a94c1be-e980-4d28-9122-2aeef697f157",
+              "name": "Vanguard Total Stock Market (VTI)",
+              "symbol": "VTI",
+              "type": "STOCK",
+              "quantity": 35,
+              "buyPrice": 215,
+              "currentPrice": 268.3,
+              "investedAmount": 7525,
+              "currentValue": 9390.5,
+              "unrealizedGainLoss": 1865.5,
+              "unrealizedGainLossPercent": 24.7907,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:10.231706Z",
+              "updatedAt": "2026-10-13T22:41:10.231706Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 70,
+        "accountsCount": 3,
+        "txCount": 65
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected liam.patel@alumni.edu, got liam.patel@alumni.edu",
+          "latencyMs": 9
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $40781.07, Safe-to-Spend: $28485.57",
+          "latencyMs": 19
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 3 isolated accounts",
+          "latencyMs": 10
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 65 transactions across 6-month timeline",
+          "latencyMs": 19
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "eadc476d-6acd-4af7-a360-d59ad776e553",
+          "detail": "Created Tx ID: eadc476d-6acd-4af7-a360-d59ad776e553",
+          "latencyMs": 36
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 6 category envelopes",
+          "latencyMs": 6
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 4 recurring bill commitments",
+          "latencyMs": 16
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 2 target milestones",
+          "latencyMs": 3
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $9390.5, Monthly SIP: $0",
+          "latencyMs": 12
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $31365.07 -> Projected EOM $35498.08",
+          "latencyMs": 20
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 149.9%, Runway: 31.4 mo",
+          "latencyMs": 20
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 8
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 70 alerts to user notification center",
+          "latencyMs": 17
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 28
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 16
+        },
+        {
+          "name": "Standard User Role Scoping (Non-Admin Isolation)",
+          "passed": true,
+          "detail": "Verified non-admin role isolation boundary intact",
+          "latencyMs": 0
+        }
+      ]
+    },
+    {
+      "persona": {
+        "id": "25bdcfca-d1d7-4c5e-a561-86ac38d13f1f",
+        "email": "kenji.sato@globalnexus.jp",
+        "name": "Kenji Sato",
+        "role": "USER",
+        "plan": "PRO",
+        "currency": "USD"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 575167.57,
+          "totalLiquidAssets": 107611.57,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 467556,
+          "safeToSpend": 104411.57,
+          "totalIncomeThisMonth": 6000,
+          "totalExpensesThisMonth": 3435.49,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "USD",
+          "accountCount": 4,
+          "envelopeCount": 5
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 107.6,
+          "savingsRatePercent": 139.4,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 0.5,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "107.6 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "139.4%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "0.5% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 107586.07,
+          "endingBalance": 111400.08,
+          "lowestProjectedBalance": 107518.08,
+          "lowestBalanceDate": "2026-10-14",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 1785.99,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 107518.08,
+              "inflow": 0,
+              "outflow": 67.99,
+              "eventDescription": "YouTube Premium Family (-$22.9900)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 110215.08,
+              "inflow": 2800,
+              "outflow": 103,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00), Nikkei Asia & FT Combined (-$58.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 110170.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 110125.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 110080.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 110035.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 109990.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 109945.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 109855.08,
+              "inflow": 0,
+              "outflow": 90,
+              "eventDescription": "Global eSIM Unlimited Data (-$45.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 109810.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 109765.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 109720.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 109675.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 109320.08,
+              "inflow": 0,
+              "outflow": 355,
+              "eventDescription": "Tokyo American Club Membership (-$310.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 109275.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 109230.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 109185.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 109140.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 111895.08,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 111850.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 111805.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 111760.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 111715.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 111670.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 111625.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 111580.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 111535.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 111490.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 111445.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 111400.08,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 192100,
+          "totalCurrentValue": 272556,
+          "totalGainLoss": 80456,
+          "totalGainLossPercent": 41.8824,
+          "totalMonthlySip": 0,
+          "assetCount": 3,
+          "currency": "USD",
+          "allocationByType": {
+            "REAL_ESTATE": 71150,
+            "CRYPTO": 147275,
+            "STOCK": 54131
+          },
+          "assets": [
+            {
+              "id": "77ac0697-fe29-424c-a01d-b6f36a0479fd",
+              "userId": "25bdcfca-d1d7-4c5e-a561-86ac38d13f1f",
+              "name": "Invesco QQQ Trust (Nasdaq 100)",
+              "symbol": "QQQ",
+              "type": "STOCK",
+              "quantity": 110,
+              "buyPrice": 380,
+              "currentPrice": 492.1,
+              "investedAmount": 41800,
+              "currentValue": 54131,
+              "unrealizedGainLoss": 12331,
+              "unrealizedGainLossPercent": 29.5,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:13.178720Z",
+              "updatedAt": "2026-10-13T22:41:13.178720Z"
+            },
+            {
+              "id": "17113507-6dec-4d26-b303-6c0864de301a",
+              "userId": "25bdcfca-d1d7-4c5e-a561-86ac38d13f1f",
+              "name": "Japan Real Estate Investment Trust",
+              "symbol": "JREIT",
+              "type": "REAL_ESTATE",
+              "quantity": 500,
+              "buyPrice": 120,
+              "currentPrice": 142.3,
+              "investedAmount": 60000,
+              "currentValue": 71150,
+              "unrealizedGainLoss": 11150,
+              "unrealizedGainLossPercent": 18.5833,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:13.164146Z",
+              "updatedAt": "2026-10-13T22:41:13.164146Z"
+            },
+            {
+              "id": "fb1a7ac6-865e-4c50-b5a6-f9fefe4cd74f",
+              "userId": "25bdcfca-d1d7-4c5e-a561-86ac38d13f1f",
+              "name": "Bitcoin (Cold Storage)",
+              "symbol": "BTC",
+              "type": "CRYPTO",
+              "quantity": 2.15,
+              "buyPrice": 42000,
+              "currentPrice": 68500,
+              "investedAmount": 90300,
+              "currentValue": 147275,
+              "unrealizedGainLoss": 56975,
+              "unrealizedGainLossPercent": 63.0952,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:13.151334Z",
+              "updatedAt": "2026-10-13T22:41:13.151334Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 71,
+        "accountsCount": 4,
+        "txCount": 65
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected kenji.sato@globalnexus.jp, got kenji.sato@globalnexus.jp",
+          "latencyMs": 5
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $575167.57, Safe-to-Spend: $104411.57",
+          "latencyMs": 17
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 4 isolated accounts",
+          "latencyMs": 8
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 65 transactions across 6-month timeline",
+          "latencyMs": 19
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "15d5f0bf-e85c-4d58-bac1-46fd4d222c05",
+          "detail": "Created Tx ID: 15d5f0bf-e85c-4d58-bac1-46fd4d222c05",
+          "latencyMs": 33
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 5 category envelopes",
+          "latencyMs": 9
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 4 recurring bill commitments",
+          "latencyMs": 16
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 2 target milestones",
+          "latencyMs": 15
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $272556, Monthly SIP: $0",
+          "latencyMs": 16
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $107586.07 -> Projected EOM $111400.08",
+          "latencyMs": 19
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 139.4%, Runway: 107.6 mo",
+          "latencyMs": 17
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 11
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 71 alerts to user notification center",
+          "latencyMs": 14
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 30
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 16
+        },
+        {
+          "name": "Standard User Role Scoping (Non-Admin Isolation)",
+          "passed": true,
+          "detail": "Verified non-admin role isolation boundary intact",
+          "latencyMs": 0
+        }
+      ]
+    },
+    {
+      "persona": {
+        "id": "b36560f8-b94e-4d98-b44f-792192bf0c8e",
+        "email": "admin.super@omnibudget.app",
+        "name": "Marcus Aurelius Super",
+        "role": "ADMIN",
+        "plan": "PRO",
+        "currency": "USD"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 266993.5,
+          "totalLiquidAssets": 184373.5,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 82620,
+          "safeToSpend": 181873.5,
+          "totalIncomeThisMonth": 8000,
+          "totalExpensesThisMonth": 4223.5,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "USD",
+          "accountCount": 3,
+          "envelopeCount": 2
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 184.3,
+          "savingsRatePercent": 162.2,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 2.1,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "184.3 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "162.2%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "2.1% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 184348,
+          "endingBalance": 186258,
+          "lowestProjectedBalance": 183998,
+          "lowestBalanceDate": "2026-10-31",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 3690,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 184303,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 185608,
+              "inflow": 2800,
+              "outflow": 1495,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00), AWS Production Cluster Ingress (-$1450.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 185563,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 185518,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 185473,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 185428,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 185383,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 185338,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 185293,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 185248,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 185203,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 184268,
+              "inflow": 0,
+              "outflow": 935,
+              "eventDescription": "Datadog Enterprise APM (-$890.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 184223,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 184178,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 184133,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 184088,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 184043,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 183998,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 186753,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 186708,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 186663,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 186618,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 186573,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 186528,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 186483,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 186438,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 186393,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 186348,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 186303,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 186258,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 66000,
+          "totalCurrentValue": 82620,
+          "totalGainLoss": 16620,
+          "totalGainLossPercent": 25.1818,
+          "totalMonthlySip": 0,
+          "assetCount": 1,
+          "currency": "USD",
+          "allocationByType": {
+            "STOCK": 82620
+          },
+          "assets": [
+            {
+              "id": "e63f5cfa-66bc-46c1-8d93-94b384a53eae",
+              "userId": "b36560f8-b94e-4d98-b44f-792192bf0c8e",
+              "name": "Vanguard Total Stock Market (VTI)",
+              "symbol": "VTI",
+              "type": "STOCK",
+              "quantity": 300,
+              "buyPrice": 220,
+              "currentPrice": 275.4,
+              "investedAmount": 66000,
+              "currentValue": 82620,
+              "unrealizedGainLoss": 16620,
+              "unrealizedGainLossPercent": 25.1818,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:16.230487Z",
+              "updatedAt": "2026-10-13T22:41:16.230487Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 63,
+        "accountsCount": 3,
+        "txCount": 58
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected admin.super@omnibudget.app, got admin.super@omnibudget.app",
+          "latencyMs": 15
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $266993.5, Safe-to-Spend: $181873.5",
+          "latencyMs": 22
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 3 isolated accounts",
+          "latencyMs": 4
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 58 transactions across 6-month timeline",
+          "latencyMs": 8
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "785375e9-8ec5-4368-862e-1944bca0e772",
+          "detail": "Created Tx ID: 785375e9-8ec5-4368-862e-1944bca0e772",
+          "latencyMs": 39
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 2 category envelopes",
+          "latencyMs": 20
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 2 recurring bill commitments",
+          "latencyMs": 14
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 1 target milestones",
+          "latencyMs": 16
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $82620, Monthly SIP: $0",
+          "latencyMs": 15
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $184348 -> Projected EOM $186258",
+          "latencyMs": 20
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 162.2%, Runway: 184.3 mo",
+          "latencyMs": 19
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 9
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 63 alerts to user notification center",
+          "latencyMs": 5
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 24
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 14
+        },
+        {
+          "name": "Admin Security & Observability Authorization",
+          "passed": true,
+          "detail": "Admin Telemetry Verified (MRR: $194.81, Audit Logs: 5)",
+          "latencyMs": 45
+        }
+      ]
+    },
+    {
+      "persona": {
+        "id": "392b776f-17c9-495a-bfe0-077729f3e427",
+        "email": "security.officer@omnibudget.app",
+        "name": "Elena Thorne",
+        "role": "ADMIN",
+        "plan": "PRO",
+        "currency": "USD"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 171408.5,
+          "totalLiquidAssets": 143463.5,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 27945,
+          "safeToSpend": 139763.5,
+          "totalIncomeThisMonth": 7500,
+          "totalExpensesThisMonth": 4023.5,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "USD",
+          "accountCount": 3,
+          "envelopeCount": 2
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 143.4,
+          "savingsRatePercent": 146.5,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 1,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "143.4 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "146.5%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "1.0% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 143438,
+          "endingBalance": 146618,
+          "lowestProjectedBalance": 142773,
+          "lowestBalanceDate": "2026-10-14",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 2420,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 142773,
+              "inflow": 0,
+              "outflow": 665,
+              "eventDescription": "CrowdStrike Falcon Endpoint (-$620.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 145528,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 145483,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 145438,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 145393,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 145348,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 145303,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 144808,
+              "inflow": 0,
+              "outflow": 495,
+              "eventDescription": "Snyk Enterprise Vulnerability Scanner (-$450.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 144763,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 144718,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 144673,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 144628,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 144583,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 144538,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 144493,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 144448,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 144403,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 144358,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 147113,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 147068,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 147023,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 146978,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 146933,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 146888,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 146843,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 146798,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 146753,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 146708,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 146663,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 146618,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 21600,
+          "totalCurrentValue": 27945,
+          "totalGainLoss": 6345,
+          "totalGainLossPercent": 29.375,
+          "totalMonthlySip": 0,
+          "assetCount": 1,
+          "currency": "USD",
+          "allocationByType": {
+            "STOCK": 27945
+          },
+          "assets": [
+            {
+              "id": "79613a6d-9562-4beb-a5f2-a519c4a1f086",
+              "userId": "392b776f-17c9-495a-bfe0-077729f3e427",
+              "name": "CrowdStrike Holdings",
+              "symbol": "CRWD",
+              "type": "STOCK",
+              "quantity": 90,
+              "buyPrice": 240,
+              "currentPrice": 310.5,
+              "investedAmount": 21600,
+              "currentValue": 27945,
+              "unrealizedGainLoss": 6345,
+              "unrealizedGainLossPercent": 29.375,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:18.458321Z",
+              "updatedAt": "2026-10-13T22:41:18.458321Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 63,
+        "accountsCount": 3,
+        "txCount": 58
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected security.officer@omnibudget.app, got security.officer@omnibudget.app",
+          "latencyMs": 17
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $171408.5, Safe-to-Spend: $139763.5",
+          "latencyMs": 23
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 3 isolated accounts",
+          "latencyMs": 8
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 58 transactions across 6-month timeline",
+          "latencyMs": 16
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "189e31a1-2ab3-49e8-a3f0-6f85e8e52e10",
+          "detail": "Created Tx ID: 189e31a1-2ab3-49e8-a3f0-6f85e8e52e10",
+          "latencyMs": 48
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 2 category envelopes",
+          "latencyMs": 4
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 2 recurring bill commitments",
+          "latencyMs": 9
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 1 target milestones",
+          "latencyMs": 17
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $27945, Monthly SIP: $0",
+          "latencyMs": 15
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $143438 -> Projected EOM $146618",
+          "latencyMs": 10
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 146.5%, Runway: 143.4 mo",
+          "latencyMs": 13
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 9
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 63 alerts to user notification center",
+          "latencyMs": 14
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 29
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 14
+        },
+        {
+          "name": "Admin Security & Observability Authorization",
+          "passed": true,
+          "detail": "Admin Telemetry Verified (MRR: $194.81, Audit Logs: 5)",
+          "latencyMs": 46
+        }
+      ]
+    },
+    {
+      "persona": {
+        "id": "67896f6c-8f50-4446-bbdd-fd54ea204765",
+        "email": "ops.engineer@omnibudget.app",
+        "name": "Devon Tanaka",
+        "role": "ADMIN",
+        "plan": "PRO",
+        "currency": "USD"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 141818.5,
+          "totalLiquidAssets": 121088.5,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 20730,
+          "safeToSpend": 118688.5,
+          "totalIncomeThisMonth": 7000,
+          "totalExpensesThisMonth": 3623.5,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "USD",
+          "accountCount": 3,
+          "envelopeCount": 2
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 121.1,
+          "savingsRatePercent": 145.8,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 0.4,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "121.1 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "145.8%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "0.4% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 121063,
+          "endingBalance": 124918,
+          "lowestProjectedBalance": 121018,
+          "lowestBalanceDate": "2026-10-14",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 1745,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 121018,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 123773,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 123518,
+              "inflow": 0,
+              "outflow": 255,
+              "eventDescription": "GitHub Enterprise Team (-$210.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 123473,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 123428,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 123383,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 123338,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 123293,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 123248,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 123018,
+              "inflow": 0,
+              "outflow": 230,
+              "eventDescription": "PagerDuty Incident Command (-$185.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 122973,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 122928,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 122883,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 122838,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 122793,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 122748,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 122703,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 122658,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 125413,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 125368,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 125323,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 125278,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 125233,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 125188,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 125143,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 125098,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 125053,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 125008,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 124963,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 124918,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 14250,
+          "totalCurrentValue": 20730,
+          "totalGainLoss": 6480,
+          "totalGainLossPercent": 45.4737,
+          "totalMonthlySip": 0,
+          "assetCount": 1,
+          "currency": "USD",
+          "allocationByType": {
+            "STOCK": 20730
+          },
+          "assets": [
+            {
+              "id": "61a4b4d8-e212-430d-95f5-51a6dbfca272",
+              "userId": "67896f6c-8f50-4446-bbdd-fd54ea204765",
+              "name": "NVIDIA Corporation",
+              "symbol": "NVDA",
+              "type": "STOCK",
+              "quantity": 150,
+              "buyPrice": 95,
+              "currentPrice": 138.2,
+              "investedAmount": 14250,
+              "currentValue": 20730,
+              "unrealizedGainLoss": 6480,
+              "unrealizedGainLossPercent": 45.4737,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:21.473312Z",
+              "updatedAt": "2026-10-13T22:41:21.473312Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 63,
+        "accountsCount": 3,
+        "txCount": 58
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected ops.engineer@omnibudget.app, got ops.engineer@omnibudget.app",
+          "latencyMs": 17
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $141818.5, Safe-to-Spend: $118688.5",
+          "latencyMs": 25
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 3 isolated accounts",
+          "latencyMs": 4
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 58 transactions across 6-month timeline",
+          "latencyMs": 22
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "0314e146-9e8e-42dd-8c36-d5541acbf3bb",
+          "detail": "Created Tx ID: 0314e146-9e8e-42dd-8c36-d5541acbf3bb",
+          "latencyMs": 34
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 2 category envelopes",
+          "latencyMs": 6
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 2 recurring bill commitments",
+          "latencyMs": 4
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 1 target milestones",
+          "latencyMs": 13
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $20730, Monthly SIP: $0",
+          "latencyMs": 4
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $121063 -> Projected EOM $124918",
+          "latencyMs": 14
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 145.8%, Runway: 121.1 mo",
+          "latencyMs": 23
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 13
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 63 alerts to user notification center",
+          "latencyMs": 12
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 28
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 14
+        },
+        {
+          "name": "Admin Security & Observability Authorization",
+          "passed": true,
+          "detail": "Admin Telemetry Verified (MRR: $194.81, Audit Logs: 5)",
+          "latencyMs": 44
+        }
+      ]
+    },
+    {
+      "persona": {
+        "id": "9c2ace06-efff-42d6-ae9e-9ddbbaeff7b2",
+        "email": "billing.lead@omnibudget.app",
+        "name": "Rebecca Sterling",
+        "role": "ADMIN",
+        "plan": "PRO",
+        "currency": "USD"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 164104.5,
+          "totalLiquidAssets": 123653.5,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 40451,
+          "safeToSpend": 122553.5,
+          "totalIncomeThisMonth": 6750,
+          "totalExpensesThisMonth": 3423.5,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "USD",
+          "accountCount": 3,
+          "envelopeCount": 2
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 123.6,
+          "savingsRatePercent": 146,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 0.6,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "123.6 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "146.0%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "0.6% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 123628,
+          "endingBalance": 127278,
+          "lowestProjectedBalance": 123583,
+          "lowestBalanceDate": "2026-10-14",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 1950,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 123583,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 125988,
+              "inflow": 2800,
+              "outflow": 395,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00), Stripe Billing Scale Tier (-$350.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 125943,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 125898,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 125853,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 125808,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 125763,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 125718,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 125423,
+              "inflow": 0,
+              "outflow": 295,
+              "eventDescription": "ChartMogul SaaS Analytics (-$250.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 125378,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 125333,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 125288,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 125243,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 125198,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 125153,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 125108,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 125063,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 125018,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 127773,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 127728,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 127683,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 127638,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 127593,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 127548,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 127503,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 127458,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 127413,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 127368,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 127323,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 127278,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 30400,
+          "totalCurrentValue": 40451,
+          "totalGainLoss": 10051,
+          "totalGainLossPercent": 33.0625,
+          "totalMonthlySip": 0,
+          "assetCount": 1,
+          "currency": "USD",
+          "allocationByType": {
+            "STOCK": 40451
+          },
+          "assets": [
+            {
+              "id": "f36c3535-e1ff-455e-b88e-dab57a3655f8",
+              "userId": "9c2ace06-efff-42d6-ae9e-9ddbbaeff7b2",
+              "name": "Microsoft Corporation",
+              "symbol": "MSFT",
+              "type": "STOCK",
+              "quantity": 95,
+              "buyPrice": 320,
+              "currentPrice": 425.8,
+              "investedAmount": 30400,
+              "currentValue": 40451,
+              "unrealizedGainLoss": 10051,
+              "unrealizedGainLossPercent": 33.0625,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:23.751904Z",
+              "updatedAt": "2026-10-13T22:41:23.751904Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 63,
+        "accountsCount": 3,
+        "txCount": 58
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected billing.lead@omnibudget.app, got billing.lead@omnibudget.app",
+          "latencyMs": 16
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $164104.5, Safe-to-Spend: $122553.5",
+          "latencyMs": 21
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 3 isolated accounts",
+          "latencyMs": 7
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 58 transactions across 6-month timeline",
+          "latencyMs": 21
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "a8fdb815-9783-43a3-abb0-391b3dfe1ed6",
+          "detail": "Created Tx ID: a8fdb815-9783-43a3-abb0-391b3dfe1ed6",
+          "latencyMs": 61
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 2 category envelopes",
+          "latencyMs": 14
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 2 recurring bill commitments",
+          "latencyMs": 14
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 1 target milestones",
+          "latencyMs": 4
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $40451, Monthly SIP: $0",
+          "latencyMs": 12
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $123628 -> Projected EOM $127278",
+          "latencyMs": 24
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 146%, Runway: 123.6 mo",
+          "latencyMs": 18
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 14
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 63 alerts to user notification center",
+          "latencyMs": 24
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 28
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 15
+        },
+        {
+          "name": "Admin Security & Observability Authorization",
+          "passed": true,
+          "detail": "Admin Telemetry Verified (MRR: $194.81, Audit Logs: 5)",
+          "latencyMs": 61
+        }
+      ]
+    },
+    {
+      "persona": {
+        "id": "83912a80-71aa-4b64-8089-3b56e6b3ba91",
+        "email": "split.admin@omnibudget.app",
+        "name": "Carlos Mendez",
+        "role": "ADMIN",
+        "plan": "PRO",
+        "currency": "USD"
+      },
+      "metrics": {
+        "dashData": {
+          "netWorth": 129911.5,
+          "totalLiquidAssets": 107143.5,
+          "totalCreditLiabilities": 0,
+          "totalInvestments": 22768,
+          "safeToSpend": 105643.5,
+          "totalIncomeThisMonth": 6250,
+          "totalExpensesThisMonth": 3023.5,
+          "totalReceivablesIOU": 205,
+          "totalPayablesIOU": 40,
+          "currency": "USD",
+          "accountCount": 3,
+          "envelopeCount": 2
+        },
+        "health": {
+          "score": 100,
+          "grade": "A+",
+          "statusText": "Elite Financial Resilience",
+          "emergencyRunwayMonths": 107.1,
+          "savingsRatePercent": 143.5,
+          "debtToAssetRatio": 0,
+          "budgetAdherencePercent": 100,
+          "recurringBurdenPercent": 0.7,
+          "pillars": [
+            {
+              "name": "Emergency Runway",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "107.1 months",
+              "advice": "Outstanding 6+ months safety cushion protects against income shocks."
+            },
+            {
+              "name": "Savings Rate",
+              "score": 25,
+              "maxScore": 25,
+              "status": "EXCELLENT",
+              "metric": "143.5%",
+              "advice": "Superb savings rate! You are retaining over a quarter of gross inflows."
+            },
+            {
+              "name": "Debt-to-Asset Leverage",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "0.0%",
+              "advice": "Minimal debt obligations relative to total portfolio assets."
+            },
+            {
+              "name": "Budget Discipline",
+              "score": 20,
+              "maxScore": 20,
+              "status": "EXCELLENT",
+              "metric": "100.0% adhered",
+              "advice": "Exceptional envelope discipline across categories."
+            },
+            {
+              "name": "Recurring Burden",
+              "score": 15,
+              "maxScore": 15,
+              "status": "EXCELLENT",
+              "metric": "0.7% of income",
+              "advice": "Fixed bill overhead is lean, preserving maximum disposable cash flow."
+            }
+          ],
+          "recommendations": [
+            "Your finances are operating at peak efficiency. Consider increasing long-term retirement investments."
+          ]
+        },
+        "forecast": {
+          "startingBalance": 107118,
+          "endingBalance": 110738,
+          "lowestProjectedBalance": 106933,
+          "lowestBalanceDate": "2026-10-14",
+          "riskOfNegativeBalance": false,
+          "totalExpectedInflow": 5600,
+          "totalExpectedOutflow": 1980,
+          "days": [
+            {
+              "date": "2026-10-14",
+              "dayOfWeek": 3,
+              "balance": 106933,
+              "inflow": 0,
+              "outflow": 185,
+              "eventDescription": "Twilio SMS Notification Gateway (-$140.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-15",
+              "dayOfWeek": 4,
+              "balance": 109688,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-16",
+              "dayOfWeek": 5,
+              "balance": 109643,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-17",
+              "dayOfWeek": 6,
+              "balance": 109598,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-18",
+              "dayOfWeek": 7,
+              "balance": 109553,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-19",
+              "dayOfWeek": 1,
+              "balance": 109508,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-20",
+              "dayOfWeek": 2,
+              "balance": 109463,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-21",
+              "dayOfWeek": 3,
+              "balance": 109418,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-22",
+              "dayOfWeek": 4,
+              "balance": 109373,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-23",
+              "dayOfWeek": 5,
+              "balance": 109328,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-24",
+              "dayOfWeek": 6,
+              "balance": 109283,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-25",
+              "dayOfWeek": 7,
+              "balance": 109238,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-26",
+              "dayOfWeek": 1,
+              "balance": 109193,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-27",
+              "dayOfWeek": 2,
+              "balance": 109148,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-28",
+              "dayOfWeek": 3,
+              "balance": 108613,
+              "inflow": 0,
+              "outflow": 535,
+              "eventDescription": "Plaid Open Banking API Tier (-$490.0000)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-29",
+              "dayOfWeek": 4,
+              "balance": 108568,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-30",
+              "dayOfWeek": 5,
+              "balance": 108523,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-10-31",
+              "dayOfWeek": 6,
+              "balance": 108478,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-01",
+              "dayOfWeek": 7,
+              "balance": 111233,
+              "inflow": 2800,
+              "outflow": 45,
+              "eventDescription": "Bi-Weekly Payday (+$2,800.00)",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-02",
+              "dayOfWeek": 1,
+              "balance": 111188,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-03",
+              "dayOfWeek": 2,
+              "balance": 111143,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-04",
+              "dayOfWeek": 3,
+              "balance": 111098,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-05",
+              "dayOfWeek": 4,
+              "balance": 111053,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-06",
+              "dayOfWeek": 5,
+              "balance": 111008,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-07",
+              "dayOfWeek": 6,
+              "balance": 110963,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-08",
+              "dayOfWeek": 7,
+              "balance": 110918,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-09",
+              "dayOfWeek": 1,
+              "balance": 110873,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-10",
+              "dayOfWeek": 2,
+              "balance": 110828,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-11",
+              "dayOfWeek": 3,
+              "balance": 110783,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            },
+            {
+              "date": "2026-11-12",
+              "dayOfWeek": 4,
+              "balance": 110738,
+              "inflow": 0,
+              "outflow": 45,
+              "eventDescription": "",
+              "status": "SAFE"
+            }
+          ]
+        },
+        "assetSum": {
+          "totalInvested": 18000,
+          "totalCurrentValue": 22768,
+          "totalGainLoss": 4768,
+          "totalGainLossPercent": 26.4889,
+          "totalMonthlySip": 0,
+          "assetCount": 1,
+          "currency": "USD",
+          "allocationByType": {
+            "STOCK": 22768
+          },
+          "assets": [
+            {
+              "id": "d67c2d3a-bdce-4050-a157-b69e385068ef",
+              "userId": "83912a80-71aa-4b64-8089-3b56e6b3ba91",
+              "name": "Visa Inc.",
+              "symbol": "V",
+              "type": "STOCK",
+              "quantity": 80,
+              "buyPrice": 225,
+              "currentPrice": 284.6,
+              "investedAmount": 18000,
+              "currentValue": 22768,
+              "unrealizedGainLoss": 4768,
+              "unrealizedGainLossPercent": 26.4889,
+              "sipMonthlyContribution": null,
+              "sipDayOfMonth": null,
+              "currency": "USD",
+              "notes": null,
+              "accountId": null,
+              "isActive": true,
+              "createdAt": "2026-10-13T22:41:25.968018Z",
+              "updatedAt": "2026-10-13T22:41:25.968018Z"
+            }
+          ]
+        },
+        "anomaliesCount": 0,
+        "notesCount": 63,
+        "accountsCount": 3,
+        "txCount": 58
+      },
+      "testsPassed": 16,
+      "testsTotal": 16,
+      "tests": [
+        {
+          "name": "Auth Me Identity Verification",
+          "passed": true,
+          "detail": "Expected split.admin@omnibudget.app, got split.admin@omnibudget.app",
+          "latencyMs": 7
+        },
+        {
+          "name": "Dashboard Financial Cockpit Metrics",
+          "passed": true,
+          "detail": "Net Worth: $129911.5, Safe-to-Spend: $105643.5",
+          "latencyMs": 26
+        },
+        {
+          "name": "Account Ledger Scoping & Isolation",
+          "passed": true,
+          "detail": "Found 3 isolated accounts",
+          "latencyMs": 16
+        },
+        {
+          "name": "Historical 6-Month Transaction Journal",
+          "passed": true,
+          "detail": "Found 58 transactions across 6-month timeline",
+          "latencyMs": 10
+        },
+        {
+          "name": "Live Transaction Execution & Balance Impact",
+          "passed": "eac49116-aded-4d0f-a29a-7045dc54a4e4",
+          "detail": "Created Tx ID: eac49116-aded-4d0f-a29a-7045dc54a4e4",
+          "latencyMs": 67
+        },
+        {
+          "name": "Zero-Based Budget Envelope Allocation",
+          "passed": true,
+          "detail": "Configured 2 category envelopes",
+          "latencyMs": 16
+        },
+        {
+          "name": "Recurring Subscription & Bill Radar",
+          "passed": true,
+          "detail": "Tracking 2 recurring bill commitments",
+          "latencyMs": 14
+        },
+        {
+          "name": "Financial Goals & Milestone Tracking",
+          "passed": true,
+          "detail": "Tracking 1 target milestones",
+          "latencyMs": 17
+        },
+        {
+          "name": "Investment SIP & Multi-Asset Valuation",
+          "passed": true,
+          "detail": "Total Portfolio Valuation: $22768, Monthly SIP: $0",
+          "latencyMs": 14
+        },
+        {
+          "name": "Predictive 30-Day Daily Cash Flow Modeling",
+          "passed": true,
+          "detail": "Forecast trajectory: Starting $107118 -> Projected EOM $110738",
+          "latencyMs": 14
+        },
+        {
+          "name": "Financial Health Index Score & Metrics",
+          "passed": true,
+          "detail": "Score: 100/100 (A+), Savings Rate: 143.5%, Runway: 107.1 mo",
+          "latencyMs": 32
+        },
+        {
+          "name": "Automated Outlier & Spending Anomaly Engine",
+          "passed": true,
+          "detail": "Detected 0 historical spending anomalies",
+          "latencyMs": 15
+        },
+        {
+          "name": "In-App Notification Dispatch & Radar Feed",
+          "passed": true,
+          "detail": "Dispatched 63 alerts to user notification center",
+          "latencyMs": 17
+        },
+        {
+          "name": "Notification Acknowledgment & Zero-Unread State",
+          "passed": true,
+          "detail": "Unread count after mark-all-read: 0",
+          "latencyMs": 29
+        },
+        {
+          "name": "Household / Split Group Ledger Integration",
+          "passed": true,
+          "detail": "Found 1 split groups",
+          "latencyMs": 16
+        },
+        {
+          "name": "Admin Security & Observability Authorization",
+          "passed": true,
+          "detail": "Admin Telemetry Verified (MRR: $194.81, Audit Logs: 5)",
+          "latencyMs": 44
+        }
+      ]
+    }
+  ]
+}

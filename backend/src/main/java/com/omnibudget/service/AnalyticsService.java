@@ -23,12 +23,56 @@ public class AnalyticsService {
     private final SubscriptionRepository subscriptionRepository;
     private final AssetRepository assetRepository;
 
+    private boolean isUserScoped(String userIdStr) {
+        return userIdStr != null && !userIdStr.isBlank() && !"demo-user-id".equalsIgnoreCase(userIdStr);
+    }
+
+    private List<Account> getScopedAccounts(String userIdStr) {
+        if (isUserScoped(userIdStr)) {
+            List<Account> userAccounts = accountRepository.findByUserIdAndIsActiveTrueOrderByCreatedAtAsc(userIdStr);
+            return userAccounts.isEmpty() ? accountRepository.findByIsActiveTrueOrderByCreatedAtAsc() : userAccounts;
+        }
+        return accountRepository.findAll();
+    }
+
+    private List<Transaction> getScopedTransactions(String userIdStr) {
+        if (isUserScoped(userIdStr)) {
+            List<Transaction> userTxs = transactionRepository.findByUserIdOrderByDateDescCreatedAtDesc(userIdStr);
+            return userTxs.isEmpty() ? transactionRepository.findAll() : userTxs;
+        }
+        return transactionRepository.findAll();
+    }
+
+    private List<BudgetEnvelope> getScopedEnvelopes(String userIdStr) {
+        if (isUserScoped(userIdStr)) {
+            List<BudgetEnvelope> envs = envelopeRepository.findByUserIdOrderByGroupTypeAscCreatedAtAsc(userIdStr);
+            return envs.isEmpty() ? envelopeRepository.findAll() : envs;
+        }
+        return envelopeRepository.findAll();
+    }
+
+    private List<Subscription> getScopedSubscriptions(String userIdStr) {
+        if (isUserScoped(userIdStr)) {
+            List<Subscription> subs = subscriptionRepository.findByUserIdAndIsActiveTrueOrderByNextBillingDateAsc(userIdStr);
+            return subs.isEmpty() ? subscriptionRepository.findAll() : subs;
+        }
+        return subscriptionRepository.findAll();
+    }
+
+    private List<Asset> getScopedAssets(String userIdStr) {
+        if (isUserScoped(userIdStr)) {
+            List<Asset> assets = assetRepository.findByUserIdAndIsActiveTrueOrderByCreatedAtDesc(userIdStr);
+            return assets.isEmpty() ? assetRepository.findAll() : assets;
+        }
+        return assetRepository.findAll();
+    }
+
     public FinancialHealthDto getFinancialHealth(String userIdStr) {
-        List<Account> accounts = accountRepository.findAll();
-        List<Transaction> transactions = transactionRepository.findAll();
-        List<BudgetEnvelope> envelopes = envelopeRepository.findAll();
-        List<Subscription> subscriptions = subscriptionRepository.findAll();
-        List<Asset> assets = assetRepository.findAll();
+        List<Account> accounts = getScopedAccounts(userIdStr);
+        List<Transaction> transactions = getScopedTransactions(userIdStr);
+        List<BudgetEnvelope> envelopes = getScopedEnvelopes(userIdStr);
+        List<Subscription> subscriptions = getScopedSubscriptions(userIdStr);
+        List<Asset> assets = getScopedAssets(userIdStr);
 
         // 1. Compute Liquid Cash & Liabilities
         BigDecimal liquidCash = accounts.stream()
@@ -288,9 +332,9 @@ public class AnalyticsService {
     }
 
     public CashFlowForecastDto getCashFlowForecast(String userIdStr) {
-        List<Account> accounts = accountRepository.findAll();
-        List<Subscription> subscriptions = subscriptionRepository.findAll();
-        List<Transaction> transactions = transactionRepository.findAll();
+        List<Account> accounts = getScopedAccounts(userIdStr);
+        List<Subscription> subscriptions = getScopedSubscriptions(userIdStr);
+        List<Transaction> transactions = getScopedTransactions(userIdStr);
 
         BigDecimal startingBalance = accounts.stream()
                 .filter(a -> a.getType() == AccountType.CHECKING || a.getType() == AccountType.SAVINGS || a.getType() == AccountType.CASH_WALLET)
@@ -386,8 +430,8 @@ public class AnalyticsService {
     }
 
     public AnomalyDetectionDto getAnomalies(String userIdStr) {
-        List<Transaction> transactions = transactionRepository.findAll();
-        List<Subscription> subscriptions = subscriptionRepository.findAll();
+        List<Transaction> transactions = getScopedTransactions(userIdStr);
+        List<Subscription> subscriptions = getScopedSubscriptions(userIdStr);
         List<AnomalyDetectionDto.AnomalyItem> items = new ArrayList<>();
         BigDecimal potentialSavings = BigDecimal.ZERO;
 

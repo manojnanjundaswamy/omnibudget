@@ -85,9 +85,9 @@ export const api = {
     return res.json();
   },
 
-  getCurrentUser: async (): Promise<User> => {
+  getCurrentUser: async (userIdOverride?: string): Promise<User> => {
     const res = await fetch(`${API_BASE}/auth/me`, {
-      headers: getHeaders(),
+      headers: getHeaders(userIdOverride ? { 'X-User-Id': userIdOverride } : {}),
     });
     if (!res.ok) throw new Error('Failed to fetch user profile');
     return res.json();

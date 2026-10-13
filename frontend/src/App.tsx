@@ -47,7 +47,12 @@ import { RefreshCw } from 'lucide-react';
 const AppContent: React.FC = () => {
   const { currentUser } = useAuth();
   const { formatAmount } = useCurrency();
-  const [currentTab, setCurrentTab] = useState<NavTab>('dashboard');
+  const [currentTab, setCurrentTab] = useState<NavTab>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get('tab') as NavTab;
+    if (tabParam) return tabParam;
+    return 'dashboard';
+  });
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isQuickCaptureOpen, setIsQuickCaptureOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

@@ -36,8 +36,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
 
-  // Initialize session from localStorage
+  // Initialize session from URL query params or localStorage
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramUserId = urlParams.get('userId');
+
+    if (paramUserId) {
+      api.getCurrentUser(paramUserId).then(user => {
+        if (user && user.id) {
+          setCurrentUser(user);
+          setIsDemoMode(false);
+          localStorage.setItem('omnibudget_user', JSON.stringify(user));
+          localStorage.setItem('omnibudget_user_id', user.id);
+        }
+      }).catch(err => {
+        console.warn('Failed to load user from query param:', err);
+      });
+      return;
+    }
+
     const savedUserJson = localStorage.getItem('omnibudget_user');
     const savedUserId = localStorage.getItem('omnibudget_user_id');
 
