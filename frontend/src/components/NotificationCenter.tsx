@@ -184,7 +184,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
 
       {/* Slide-out / Popover Notification Center */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-2xl z-50 overflow-hidden modal-content flex flex-col max-h-[540px] animate-in fade-in zoom-in-95 duration-150 backdrop-blur-md">
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl modal-card-luxury ambient-accent shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] z-50 overflow-hidden flex flex-col max-h-[540px] backdrop-blur-xl">
           {/* Header */}
           <div className="px-4 py-3 border-b border-[var(--border)] bg-[var(--surface-2)] flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">

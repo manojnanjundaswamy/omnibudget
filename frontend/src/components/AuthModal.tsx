@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X,
   LogIn,
@@ -43,7 +43,26 @@ export const AuthModal: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Keyboard shortcut listener (Escape to close)
+  useEffect(() => {
+    if (!isAuthModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setIsAuthModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isAuthModalOpen, setIsAuthModalOpen]);
+
   if (!isAuthModalOpen) return null;
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      setIsAuthModalOpen(false);
+    }
+  };
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,31 +127,42 @@ export const AuthModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm modal-backdrop">
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden modal-content">
+    <div
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 modal-backdrop-luxury overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="modal-card-luxury w-full max-w-md shadow-2xl overflow-hidden ambient-accent my-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-2)]">
+        <div className="flex items-center justify-between px-6 pt-5 pb-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--fg)] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 flex items-center justify-center">
               <LogIn className="w-4 h-4 text-[var(--accent)]" />
             </div>
             <div>
-              <h3 className="font-semibold text-[var(--fg)] text-sm">
+              <h3 className="font-bold text-sm text-[var(--fg)] tracking-tight">
                 OmniBudget Sign In
               </h3>
-              <p className="text-xs text-[var(--fg-muted)]">Secure multi-factor authentication</p>
+              <p className="text-[11px] text-[var(--fg-muted)]">Secure multi-factor authentication</p>
             </div>
           </div>
           <button
+            type="button"
             onClick={() => setIsAuthModalOpen(false)}
-            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
+            className="flex items-center gap-1.5 p-1.5 px-2.5 rounded-xl text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition border border-transparent hover:border-[var(--border)]"
+            title="Press Esc to close"
           >
+            <span className="text-[10px] uppercase font-mono opacity-60 tracking-wider">esc</span>
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Tab Selection */}
-        <div className="flex border-b border-[var(--border)] bg-[var(--surface)] p-1.5 gap-1 text-xs">
+        <div className="flex border-b border-[var(--border)] bg-[var(--surface-2)]/60 p-1.5 gap-1 text-xs">
           <button
             type="button"
             onClick={() => {

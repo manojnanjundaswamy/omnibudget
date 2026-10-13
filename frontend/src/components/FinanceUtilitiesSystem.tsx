@@ -257,7 +257,7 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
                   height: 'min(640px, calc(100vh - 40px))',
                 }
           }
-          className={`fixed z-50 flex flex-col bg-[var(--surface)] border border-[var(--border)] shadow-2xl rounded-2xl overflow-hidden modal-content backdrop-blur-md ${
+          className={`fixed z-50 flex flex-col modal-card-luxury ambient-accent shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden backdrop-blur-md ${
             isMaximized ? 'w-auto h-auto' : ''
           }`}
         >

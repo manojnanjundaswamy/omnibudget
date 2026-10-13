@@ -49,6 +49,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
   const [selectedCategory, setSelectedCategory] = useState(initialFilter?.category || '');
   const [selectedType, setSelectedType] = useState<TransactionType | ''>(initialFilter?.type || '');
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deletingConfirmId, setDeletingConfirmId] = useState<string | null>(null);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const handleExportCsv = async () => {
@@ -103,14 +104,11 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
     setSelectedType('');
   };
 
-  const handleDelete = async (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!confirm('Are you sure you want to delete this transaction? The account balance and envelope budget will be reverted.')) {
-      return;
-    }
+  const handleDelete = async (id: string) => {
     try {
       setDeletingId(id);
       await api.deleteTransaction(id);
+      setDeletingConfirmId(null);
       onRefresh();
     } catch (err) {
       console.error(err);
@@ -349,28 +347,54 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
 
                       {/* Actions */}
                       <td className="py-3 px-4 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition">
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onEditTransaction(tx);
-                            }}
-                            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
-                            title="Edit Transaction"
+                        {deletingConfirmId === tx.id ? (
+                          <div
+                            className="flex items-center justify-end gap-1.5 animate-fade-in"
+                            onClick={(e) => e.stopPropagation()}
                           >
-                            <Edit2 className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={(e) => handleDelete(tx.id, e)}
-                            disabled={deletingId === tx.id}
-                            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-red-400 hover:bg-red-500/10 transition"
-                            title="Delete Transaction"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
+                            <span className="text-[10px] text-rose-400 font-semibold mr-1">Delete?</span>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(tx.id)}
+                              disabled={deletingId === tx.id}
+                              className="px-2 py-0.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-[10px] transition shadow-xs"
+                            >
+                              {deletingId === tx.id ? '...' : 'Yes'}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setDeletingConfirmId(null)}
+                              className="px-2 py-0.5 rounded-lg bg-[var(--surface-2)] text-[var(--fg)] text-[10px] hover:bg-[var(--surface-3)] transition border border-[var(--border)]"
+                            >
+                              No
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onEditTransaction(tx);
+                              }}
+                              className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
+                              title="Edit Transaction"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setDeletingConfirmId(tx.id);
+                              }}
+                              className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-rose-400 hover:bg-rose-500/10 transition"
+                              title="Delete Transaction"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        )}
                       </td>
                     </tr>
                   );

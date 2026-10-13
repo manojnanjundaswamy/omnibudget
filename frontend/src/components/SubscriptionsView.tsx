@@ -427,23 +427,34 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
       )}
 
       {/* Confluence-style Calendar Date Action Modal */}
+      {/* Confluence-style Date Schedule Inspector Modal */}
       {selectedDateSchedule && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm modal-backdrop">
-          <div className="w-full max-w-md p-6 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-2xl modal-content space-y-4">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setSelectedDateSchedule(null);
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 modal-backdrop-luxury overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="modal-card-luxury w-full max-w-md p-6 space-y-4 shadow-2xl ambient-accent my-auto overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400">
+                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center">
                   <CalendarDays className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm text-[var(--fg)]">
+                  <h3 className="font-bold text-sm text-[var(--fg)] tracking-tight">
                     {selectedDateSchedule.formattedDate}
                   </h3>
                   <span className="text-[11px] text-[var(--fg-muted)] block">
                     {selectedDateSchedule.bills.length > 0
-                      ? `${selectedDateSchedule.bills.length} recurring bill${selectedDateSchedule.bills.length > 1 ? 's' : ''} scheduled`
-                      : 'No bills scheduled on this date'}
+                      ? `${selectedDateSchedule.bills.length} recurring commitment${selectedDateSchedule.bills.length > 1 ? 's' : ''} due`
+                      : 'No commitments scheduled on this date'}
                   </span>
                 </div>
               </div>
@@ -451,8 +462,10 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
               <button
                 type="button"
                 onClick={() => setSelectedDateSchedule(null)}
-                className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
+                className="flex items-center gap-1.5 p-1.5 px-2.5 rounded-xl text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition border border-transparent hover:border-[var(--border)]"
+                title="Press Esc to close"
               >
+                <span className="text-[10px] uppercase font-mono opacity-60 tracking-wider">esc</span>
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -461,7 +474,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
             {selectedDateSchedule.bills.length > 0 ? (
               <div className="space-y-2 max-h-60 overflow-y-auto no-scrollbar">
                 <span className="text-[10px] uppercase font-bold text-[var(--fg-subtle)] tracking-wider block">
-                  Scheduled Bills
+                  Scheduled Commitments
                 </span>
                 {selectedDateSchedule.bills.map((bill) => (
                   <div
@@ -470,10 +483,10 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
                       onEditSubscription(bill);
                       setSelectedDateSchedule(null);
                     }}
-                    className="flex items-center justify-between p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition interactive-card group"
+                    className="flex items-center justify-between p-3 rounded-xl bg-[var(--surface-2)]/70 border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition interactive-card group"
                   >
                     <div className="flex items-center gap-2.5 truncate">
-                      <div className="w-7 h-7 rounded-lg bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center text-[var(--fg)] shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center text-[var(--fg)] shrink-0">
                         {getSubIcon(bill.name)}
                       </div>
                       <div className="truncate">
@@ -490,7 +503,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
                       <span className="font-bold text-xs tabular text-[var(--fg)]">
                         {formatAmount(bill.amount)}
                       </span>
-                      <span className="text-[10px] text-emerald-400 group-hover:underline">
+                      <span className="text-[11px] font-semibold text-emerald-400 group-hover:underline">
                         Edit →
                       </span>
                     </div>
@@ -499,7 +512,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
               </div>
             ) : (
               <div className="py-6 text-center space-y-2">
-                <Clock className="w-8 h-8 text-[var(--fg-subtle)] mx-auto opacity-50" />
+                <Clock className="w-8 h-8 text-[var(--fg-subtle)] mx-auto opacity-40" />
                 <p className="text-xs text-[var(--fg-muted)]">
                   Keep your bills radar accurate by scheduling your rent, utilities, or recurring subscriptions.
                 </p>
@@ -507,11 +520,11 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
             )}
 
             {/* Actions */}
-            <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between gap-3">
+            <div className="pt-3 border-t border-[var(--border)] flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={() => setSelectedDateSchedule(null)}
-                className="px-3.5 py-2 rounded-xl text-xs font-semibold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
+                className="px-3.5 py-2 rounded-xl text-xs font-semibold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition border border-transparent hover:border-[var(--border)]"
               >
                 Cancel
               </button>
@@ -523,7 +536,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
                   setSelectedDateSchedule(null);
                   onOpenAddSubscription(targetDate);
                 }}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition shadow-sm interactive-btn"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition shadow-lg interactive-btn ml-auto active:scale-95"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>+ Add Bill for {monthName} {selectedDateSchedule.day}</span>

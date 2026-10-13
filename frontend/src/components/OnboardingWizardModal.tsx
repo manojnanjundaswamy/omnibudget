@@ -89,10 +89,17 @@ export const OnboardingWizardModal: React.FC<{ onComplete: () => void }> = ({ on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md modal-backdrop">
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] modal-content">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 modal-backdrop-luxury overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="modal-card-luxury w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] ambient-accent my-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Step Indicator Header */}
-        <div className="px-6 py-5 border-b border-[var(--border)] bg-[var(--surface-2)]">
+        <div className="px-6 py-5 border-b border-[var(--border)] bg-[var(--surface-2)]/60">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <span className="w-6 h-6 rounded-md bg-[var(--surface)] border border-[var(--border)] text-xs font-semibold text-[var(--fg)] flex items-center justify-center">

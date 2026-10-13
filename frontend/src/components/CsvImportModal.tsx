@@ -26,7 +26,26 @@ export const CsvImportModal: React.FC<CsvImportModalProps> = ({
   const [result, setResult] = useState<{ importedCount: number; skippedCount: number; errors: string[] } | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
 
+  // Keyboard shortcut listener (Escape to close)
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -68,19 +87,34 @@ export const CsvImportModal: React.FC<CsvImportModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-xl p-6 space-y-5 shadow-2xl">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-[var(--accent)]" />
-            <h3 className="text-base font-bold text-[var(--fg)]">Import Transactions CSV</h3>
+    <div
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 modal-backdrop-luxury overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="modal-card-luxury w-full max-w-xl p-6 space-y-5 shadow-2xl ambient-accent my-auto overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between pb-2 border-b border-[var(--border)]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center">
+              <FileSpreadsheet className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-[var(--fg)] tracking-tight">Import Transactions CSV</h3>
+              <p className="text-[11px] text-[var(--fg-muted)]">Upload bank ledger files or exports from Monarch / Mint</p>
+            </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="text-[var(--fg-muted)] hover:text-[var(--fg)]"
+            className="flex items-center gap-1.5 p-1.5 px-2.5 rounded-xl text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition border border-transparent hover:border-[var(--border)]"
+            title="Press Esc to close"
           >
-            <X className="w-5 h-5" />
+            <span className="text-[10px] uppercase font-mono opacity-60 tracking-wider">esc</span>
+            <X className="w-4 h-4" />
           </button>
         </div>
 

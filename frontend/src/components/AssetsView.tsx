@@ -37,6 +37,20 @@ export const AssetsView: React.FC = () => {
   const [filterType, setFilterType] = useState<string>('ALL');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
+  const [deletingAssetId, setDeletingAssetId] = useState<string | null>(null);
+
+  // Keyboard shortcut listener (Escape to close)
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setIsModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen]);
 
   // Form state
   const [formName, setFormName] = useState('');
@@ -128,10 +142,10 @@ export const AssetsView: React.FC = () => {
     }
   };
 
-  const handleDeleteAsset = async (id: string, name: string) => {
-    if (!window.confirm(`Are you sure you want to remove "${name}" from your portfolio?`)) return;
+  const handleDeleteAsset = async (id: string) => {
     try {
       await api.deleteAsset(id);
+      setDeletingAssetId(null);
       await fetchPortfolio();
     } catch (err) {
       console.error('Error deleting asset:', err);
@@ -417,20 +431,42 @@ export const AssetsView: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-1 text-[var(--fg-muted)]">
-                      <button
-                        onClick={() => openEditModal(asset)}
-                        className="p-1.5 hover:text-[var(--fg)] hover:bg-[var(--surface-2)] rounded-lg transition-colors"
-                        title="Edit holding"
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteAsset(asset.id, asset.name)}
-                        className="p-1.5 hover:text-rose-600 hover:bg-rose-500/10 rounded-lg transition-colors"
-                        title="Delete holding"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      {deletingAssetId === asset.id ? (
+                        <div className="flex items-center gap-1.5 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                          <span className="text-[10px] text-rose-400 font-semibold">Delete?</span>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteAsset(asset.id)}
+                            className="px-2 py-0.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-[10px] transition"
+                          >
+                            Yes
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDeletingAssetId(null)}
+                            className="px-2 py-0.5 rounded-lg bg-[var(--surface-2)] text-[var(--fg)] text-[10px] hover:bg-[var(--surface-3)] transition border border-[var(--border)]"
+                          >
+                            No
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => openEditModal(asset)}
+                            className="p-1.5 hover:text-[var(--fg)] hover:bg-[var(--surface-2)] rounded-lg transition-colors"
+                            title="Edit holding"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => setDeletingAssetId(asset.id)}
+                            className="p-1.5 hover:text-rose-600 hover:bg-rose-500/10 rounded-lg transition-colors"
+                            title="Delete holding"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -442,16 +478,28 @@ export const AssetsView: React.FC = () => {
 
       {/* Add / Edit Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs modal-backdrop">
-          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-lg p-6 shadow-xl relative modal-content">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsModalOpen(false);
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 modal-backdrop-luxury overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="modal-card-luxury w-full max-w-lg p-6 shadow-2xl relative ambient-accent my-auto overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-[var(--fg-muted)] hover:text-[var(--fg)] p-1 rounded-lg"
+              className="absolute top-4 right-4 flex items-center gap-1.5 p-1.5 px-2.5 rounded-xl text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition border border-transparent hover:border-[var(--border)]"
+              title="Press Esc to close"
             >
-              <X className="w-5 h-5" />
+              <span className="text-[10px] uppercase font-mono opacity-60 tracking-wider">esc</span>
+              <X className="w-4 h-4" />
             </button>
 
-            <h2 className="text-lg font-semibold text-[var(--fg)] mb-1">
+            <h2 className="text-base font-bold text-[var(--fg)] mb-1 tracking-tight">
               {editingAsset ? 'Edit Investment Holding' : 'Add Investment Holding'}
             </h2>
             <p className="text-xs text-[var(--fg-muted)] mb-4">

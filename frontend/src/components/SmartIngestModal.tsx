@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FileText,
   Upload,
@@ -48,7 +48,26 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Keyboard shortcut listener (Escape to close)
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   // Samples
   const handleLoadSampleStatement = () => {
@@ -199,23 +218,37 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm modal-backdrop">
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-2xl p-6 space-y-5 shadow-2xl max-h-[90vh] flex flex-col modal-content">
+    <div
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 modal-backdrop-luxury overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="modal-card-luxury w-full max-w-2xl max-h-[90vh] p-6 space-y-5 shadow-2xl flex flex-col ambient-accent my-auto overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-[var(--border)] shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-[var(--fg)]">
-              <Sparkles className="w-5 h-5 text-[var(--accent)]" />
+            <div className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400">
+              <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-[var(--fg)]">Import Transactions</h2>
+              <h2 className="text-base font-bold text-[var(--fg)] tracking-tight">Import Transactions</h2>
               <p className="text-xs text-[var(--fg-muted)]">
-                Bring in transactions from your statements, bank files, alerts, or CSV.
+                Bring in transactions from statements, OFX files, alert clips, or CSV
               </p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="text-[var(--fg-muted)] hover:text-[var(--fg)]">
-            <X className="w-5 h-5" />
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex items-center gap-1.5 p-1.5 px-2.5 rounded-xl text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition border border-transparent hover:border-[var(--border)]"
+            title="Press Esc to close"
+          >
+            <span className="text-[10px] uppercase font-mono opacity-60 tracking-wider">esc</span>
+            <X className="w-4 h-4" />
           </button>
         </div>
 

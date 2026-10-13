@@ -318,13 +318,95 @@
   transform: scale(0.96);
 }
 
-/* Modal Dialog Motion */
+/* Modal Dialog Motion & Luxury Popups */
+@keyframes modalSpringIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.93) translateY(14px);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.008) translateY(-1px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 .modal-backdrop {
   animation: fadeIn 0.22s var(--ease-out) both;
 }
 
 .modal-content {
-  animation: scaleIn 0.28s var(--ease-spring) both;
+  animation: modalSpringIn 0.3s var(--ease-spring) both;
+}
+
+.modal-backdrop-luxury {
+  background-color: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  animation: fadeIn 0.22s var(--ease-out) both;
+}
+
+.modal-card-luxury {
+  background-color: var(--surface);
+  border: 1px solid var(--border-strong);
+  box-shadow:
+    0 25px 65px -12px rgba(0, 0, 0, 0.55),
+    0 1px 0 0 rgba(255, 255, 255, 0.12) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  animation: modalSpringIn 0.32s var(--ease-spring) both;
+  will-change: transform, opacity;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-card-luxury::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  pointer-events: none;
+}
+
+.ambient-expense {
+  background-image: radial-gradient(circle at 50% -25%, rgba(244, 63, 94, 0.12) 0%, transparent 65%);
+}
+
+.ambient-income {
+  background-image: radial-gradient(circle at 50% -25%, rgba(16, 185, 129, 0.14) 0%, transparent 65%);
+}
+
+.ambient-transfer {
+  background-image: radial-gradient(circle at 50% -25%, rgba(99, 102, 241, 0.14) 0%, transparent 65%);
+}
+
+.ambient-accent {
+  background-image: radial-gradient(circle at 50% -25%, rgba(255, 255, 255, 0.07) 0%, transparent 65%);
+}
+
+.input-luxury {
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--fg);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-luxury:hover {
+  border-color: var(--border-strong);
+}
+
+.input-luxury:focus {
+  outline: none;
+  background-color: var(--surface);
+  border-color: var(--fg);
+  box-shadow: 0 0 0 3px var(--accent-soft), 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 /* Skeleton Loading Shimmer */
