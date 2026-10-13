@@ -1,10 +1,6 @@
 import React from 'react';
 import {
-  CalendarDays,
   Clock,
-  CreditCard,
-  AlertCircle,
-  Plus,
   Tv,
   Music,
   Dumbbell,
@@ -27,35 +23,35 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({ subscripti
   const getSubIcon = (name: string) => {
     const n = name.toLowerCase();
     if (n.includes('netflix') || n.includes('prime') || n.includes('hbo')) {
-      return <Tv className="w-4 h-4 text-rose-400" />;
+      return <Tv className="w-4 h-4 text-[#ededed]" />;
     }
     if (n.includes('spotify') || n.includes('apple music')) {
-      return <Music className="w-4 h-4 text-emerald-400" />;
+      return <Music className="w-4 h-4 text-[#ededed]" />;
     }
     if (n.includes('gym') || n.includes('equinox') || n.includes('fitness')) {
-      return <Dumbbell className="w-4 h-4 text-amber-400" />;
+      return <Dumbbell className="w-4 h-4 text-[#ededed]" />;
     }
-    return <Cpu className="w-4 h-4 text-indigo-400" />;
+    return <Cpu className="w-4 h-4 text-[#ededed]" />;
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-200">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-2 border-b border-[#1c1c1c]">
         <div>
-          <h2 className="text-xl font-bold text-slate-100 tracking-tight">Recurring Bills & Subscriptions</h2>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Ghost subscription audit • Upcoming auto-debit calendar • Cash drain forecasting
+          <h2 className="text-2xl font-bold tracking-tight text-[#f5f5f4]">Recurring Bills & Radar</h2>
+          <p className="text-xs text-[#9e9e98] mt-0.5">
+            Ghost subscription audit • Upcoming auto-debit calendar • Outflow forecasting
           </p>
         </div>
 
         <div className="text-right">
-          <span className="text-slate-400 text-xs block">Monthly Recurring Drain</span>
-          <span className="text-2xl font-black text-rose-400">
+          <span className="text-[#9e9e98] text-[11px] block">Monthly Recurring Drain</span>
+          <span className="text-2xl font-bold text-[#f5f5f4] tabular">
             {formatAmount(totalMonthly)}/mo
           </span>
-          <span className="text-[11px] text-slate-500 block">
-            Annual Run-rate: {formatAmount(totalMonthly * 12)}/yr
+          <span className="text-[10px] text-[#6b6b66] block">
+            Annual run-rate: {formatAmount(totalMonthly * 12)}/yr
           </span>
         </div>
       </div>
@@ -66,29 +62,29 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({ subscripti
           return (
             <div
               key={sub.id}
-              className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition space-y-4"
+              className="p-5 rounded-2xl bg-[#121212] border border-[#242424] hover:border-[#333333] transition space-y-4"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center">
                     {getSubIcon(sub.name)}
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-100 text-sm">{sub.name}</h3>
-                    <span className="text-[11px] text-slate-400">{sub.category}</span>
+                    <h3 className="font-semibold text-[#f5f5f4] text-xs">{sub.name}</h3>
+                    <span className="text-[11px] text-[#9e9e98]">{sub.category}</span>
                   </div>
                 </div>
 
-                <span className="text-sm font-black text-slate-100">
+                <span className="text-sm font-bold text-[#f5f5f4] tabular">
                   {formatAmount(sub.amount)}
                 </span>
               </div>
 
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+              <div className="pt-3 border-t border-[#1e1e1e] flex items-center justify-between text-xs text-[#9e9e98]">
                 <span className="flex items-center gap-1.5 text-[11px]">
-                  <Clock className="w-3.5 h-3.5 text-indigo-400" /> Next: {sub.nextBillingDate}
+                  <Clock className="w-3.5 h-3.5 text-[#6b6b66]" /> Next: {sub.nextBillingDate}
                 </span>
-                <span className="text-[10px] uppercase font-bold text-slate-500 px-2 py-0.5 rounded bg-slate-800">
+                <span className="text-[10px] uppercase font-bold text-[#6b6b66] px-2 py-0.5 rounded bg-[#181818]">
                   {sub.cadence}
                 </span>
               </div>
