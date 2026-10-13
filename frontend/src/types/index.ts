@@ -149,6 +149,9 @@ export interface User {
   name: string;
   avatarUrl?: string;
   currency: string;
+  plan?: string;
+  billingCycle?: string;
+  subscriptionStatus?: string;
   provider: 'GOOGLE' | 'EMAIL' | 'DEMO';
   hasCompletedOnboarding: boolean;
 }
@@ -308,6 +311,81 @@ export interface UpdateGoalPayload {
   icon?: string;
 }
 
+export interface TransactionRule {
+  id: string;
+  userId: string;
+  name: string;
+  matchField: 'DESCRIPTION' | 'MERCHANT';
+  matchType: 'CONTAINS' | 'EQUALS' | 'STARTS_WITH';
+  matchValue: string;
+  applyCategory: string;
+  applyMerchant?: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface CreateRulePayload {
+  name: string;
+  matchField?: string;
+  matchType?: string;
+  matchValue: string;
+  applyCategory: string;
+  applyMerchant?: string;
+  isActive?: boolean;
+}
+
+export interface UpdateRulePayload {
+  name?: string;
+  matchField?: string;
+  matchType?: string;
+  matchValue?: string;
+  applyCategory?: string;
+  applyMerchant?: string;
+  isActive?: boolean;
+}
+
+export interface BillingPlan {
+  id: string;
+  name: string;
+  tagline: string;
+  monthlyPrice: number;
+  annualPrice: number;
+  maxAccounts: number;
+  maxBudgets: number;
+  maxGoals: number;
+  rulesEngineEnabled: boolean;
+  recurringCalendarEnabled: boolean;
+  householdCollaborationEnabled: boolean;
+  splitSettlementEnabled: boolean;
+  features: string[];
+  isPopular: boolean;
+}
+
+export interface SubscriptionSummary {
+  planId: string;
+  planName: string;
+  billingCycle: 'MONTHLY' | 'ANNUAL';
+  status: string;
+  currentPrice: number;
+  renewsAt: string;
+  accountsUsed: number;
+  accountsLimit: number;
+  budgetsUsed: number;
+  budgetsLimit: number;
+  goalsUsed: number;
+  goalsLimit: number;
+  rulesUsed: number;
+  rulesEnabled: boolean;
+  householdEnabled: boolean;
+  splitSettlementEnabled: boolean;
+}
+
+export interface UpgradePlanPayload {
+  plan: 'STARTER' | 'PRO' | 'HOUSEHOLD';
+  billingCycle: 'MONTHLY' | 'ANNUAL';
+}
+
 export type NavTab =
   | 'dashboard'
   | 'accounts'
@@ -316,5 +394,8 @@ export type NavTab =
   | 'cashflow'
   | 'recurring'
   | 'goals'
-  | 'household';
+  | 'rules'
+  | 'household'
+  | 'plans';
+
 

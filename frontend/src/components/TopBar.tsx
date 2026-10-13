@@ -44,6 +44,14 @@ const TAB_TITLES: Record<NavTab, { title: string; subtitle: string }> = {
     title: 'Household & Partner Sharing',
     subtitle: 'Proportional joint contributions and shared expense pool',
   },
+  rules: {
+    title: 'Automated Categorization Rules',
+    subtitle: 'Monarch-grade rules engine to automatically categorize and clean transactions',
+  },
+  plans: {
+    title: 'Subscription & SaaS Plans',
+    subtitle: 'Transparent tier pricing, active plan entitlements, and quota usage',
+  },
 };
 
 export const TopBar: React.FC<TopBarProps> = ({

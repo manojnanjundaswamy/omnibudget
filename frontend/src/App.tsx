@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CurrencyProvider } from './context/CurrencyContext';
+import { CurrencyProvider, useCurrency } from './context/CurrencyContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
@@ -10,7 +10,9 @@ import { TransactionsView } from './components/TransactionsView';
 import { CashFlowView } from './components/CashFlowView';
 import { SubscriptionsView } from './components/SubscriptionsView';
 import { GoalsView } from './components/GoalsView';
+import { RulesView } from './components/RulesView';
 import { HouseholdView } from './components/HouseholdView';
+import { PricingView } from './components/PricingView';
 import { QuickCaptureModal } from './components/QuickCaptureModal';
 import { AuthModal } from './components/AuthModal';
 import { OnboardingWizardModal } from './components/OnboardingWizardModal';
@@ -37,6 +39,7 @@ import { RefreshCw } from 'lucide-react';
 
 const AppContent: React.FC = () => {
   const { currentUser } = useAuth();
+  const { formatAmount } = useCurrency();
   const [currentTab, setCurrentTab] = useState<NavTab>('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isQuickCaptureOpen, setIsQuickCaptureOpen] = useState(false);
@@ -318,6 +321,15 @@ const AppContent: React.FC = () => {
                 <HouseholdView
                   household={household}
                   onRefresh={refreshAllData}
+                />
+              )}
+              {currentTab === 'rules' && (
+                <RulesView />
+              )}
+              {currentTab === 'plans' && (
+                <PricingView
+                  formatCurrency={formatAmount}
+                  onPlanChanged={refreshAllData}
                 />
               )}
             </>

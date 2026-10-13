@@ -25,6 +25,12 @@ import {
   Goal,
   CreateGoalPayload,
   UpdateGoalPayload,
+  TransactionRule,
+  CreateRulePayload,
+  UpdateRulePayload,
+  BillingPlan,
+  SubscriptionSummary,
+  UpgradePlanPayload,
 } from '../types';
 
 const API_BASE = '/api';
@@ -460,6 +466,99 @@ export const api = {
       headers: getHeaders(),
     });
     if (!res.ok) throw new Error('Expense simulation failed');
+    return res.json();
+  },
+
+  // Transaction Rules (Monarch style)
+  getRules: async (): Promise<TransactionRule[]> => {
+    const res = await fetch(`${API_BASE}/rules`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch transaction rules');
+    return res.json();
+  },
+
+  createRule: async (data: CreateRulePayload): Promise<TransactionRule> => {
+    const res = await fetch(`${API_BASE}/rules`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to create rule');
+    return res.json();
+  },
+
+  updateRule: async (id: string, data: UpdateRulePayload): Promise<TransactionRule> => {
+    const res = await fetch(`${API_BASE}/rules/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update rule');
+    return res.json();
+  },
+
+  deleteRule: async (id: string): Promise<{ message: string }> => {
+    const res = await fetch(`${API_BASE}/rules/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete rule');
+    return res.json();
+  },
+
+  runRulesOnAll: async (): Promise<{ totalTransactions: number; updatedCount: number; activeRulesCount: number }> => {
+    const res = await fetch(`${API_BASE}/rules/run-all`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to execute rules');
+    return res.json();
+  },
+
+  // CSV Import & Export
+  exportTransactionsCsv: async (): Promise<string> => {
+    const res = await fetch(`${API_BASE}/transactions/export-csv`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to export CSV');
+    return res.text();
+  },
+
+  importTransactionsCsv: async (csvContent: string): Promise<{ importedCount: number; skippedCount: number; errors: string[] }> => {
+    const res = await fetch(`${API_BASE}/transactions/import-csv`, {
+      method: 'POST',
+      headers: getHeaders({ 'Content-Type': 'text/plain' }),
+      body: csvContent,
+    });
+    if (!res.ok) throw new Error('Failed to import CSV');
+    return res.json();
+  },
+
+  // Billing & Plans
+  getPlansCatalog: async (): Promise<BillingPlan[]> => {
+    const res = await fetch(`${API_BASE}/billing/plans`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch billing plans');
+    return res.json();
+  },
+
+  getSubscriptionSummary: async (): Promise<SubscriptionSummary> => {
+    const res = await fetch(`${API_BASE}/billing/subscription`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch subscription summary');
+    return res.json();
+  },
+
+  upgradePlan: async (data: UpgradePlanPayload): Promise<SubscriptionSummary> => {
+    const res = await fetch(`${API_BASE}/billing/upgrade`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update subscription');
     return res.json();
   },
 };

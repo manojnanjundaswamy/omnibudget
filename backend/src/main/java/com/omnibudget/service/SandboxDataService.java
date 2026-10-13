@@ -27,6 +27,7 @@ public class SandboxDataService {
     private final SubscriptionRepository subscriptionRepository;
     private final UserRepository userRepository;
     private final GoalRepository goalRepository;
+    private final TransactionRuleRepository ruleRepository;
 
     @PostConstruct
     public void initOnStartup() {
@@ -38,6 +39,7 @@ public class SandboxDataService {
 
     @Transactional
     public void resetToDemoData() {
+        ruleRepository.deleteAll();
         splitRepository.deleteAll();
         peerDebtRepository.deleteAll();
         transactionRepository.deleteAll();
@@ -461,6 +463,64 @@ public class SandboxDataService {
                 .build();
 
         goalRepository.saveAll(List.of(g1, g2, g3));
+
+        // Seed Transaction Categorization Rules (Monarch style)
+        TransactionRule r1 = TransactionRule.builder()
+                .userId("demo-user-id")
+                .name("Auto-categorize Uber to Rideshare & Transit")
+                .matchField("DESCRIPTION")
+                .matchType("CONTAINS")
+                .matchValue("Uber")
+                .applyCategory("Transportation")
+                .applyMerchant("Uber Technologies")
+                .isActive(true)
+                .build();
+
+        TransactionRule r2 = TransactionRule.builder()
+                .userId("demo-user-id")
+                .name("Auto-categorize Whole Foods to Groceries")
+                .matchField("DESCRIPTION")
+                .matchType("CONTAINS")
+                .matchValue("Whole Foods")
+                .applyCategory("Groceries")
+                .applyMerchant("Whole Foods Market")
+                .isActive(true)
+                .build();
+
+        TransactionRule r3 = TransactionRule.builder()
+                .userId("demo-user-id")
+                .name("Auto-categorize Netflix to Streaming & Media")
+                .matchField("DESCRIPTION")
+                .matchType("CONTAINS")
+                .matchValue("Netflix")
+                .applyCategory("Entertainment")
+                .applyMerchant("Netflix Inc")
+                .isActive(true)
+                .build();
+
+        TransactionRule r4 = TransactionRule.builder()
+                .userId("demo-user-id")
+                .name("Auto-categorize Equinox to Health & Fitness")
+                .matchField("DESCRIPTION")
+                .matchType("CONTAINS")
+                .matchValue("Equinox")
+                .applyCategory("Fitness")
+                .applyMerchant("Equinox Fitness")
+                .isActive(true)
+                .build();
+
+        TransactionRule r5 = TransactionRule.builder()
+                .userId("demo-user-id")
+                .name("Auto-categorize Blue Bottle to Coffee")
+                .matchField("DESCRIPTION")
+                .matchType("CONTAINS")
+                .matchValue("Blue Bottle")
+                .applyCategory("Dining Out")
+                .applyMerchant("Blue Bottle Coffee")
+                .isActive(true)
+                .build();
+
+        ruleRepository.saveAll(List.of(r1, r2, r3, r4, r5));
 
         log.info("Sandbox demo dataset initialized successfully!");
     }

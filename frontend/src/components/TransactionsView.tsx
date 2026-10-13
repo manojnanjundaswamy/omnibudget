@@ -15,10 +15,13 @@ import {
   Tag,
   DollarSign,
   ChevronDown,
+  Upload,
+  Download,
 } from 'lucide-react';
 import { Transaction, Account, BudgetEnvelope, TransactionType, TransactionFilter } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
 import { api } from '../services/api';
+import { CsvImportModal } from './CsvImportModal';
 
 interface TransactionsViewProps {
   transactions: Transaction[];
@@ -46,6 +49,23 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
   const [selectedCategory, setSelectedCategory] = useState(initialFilter?.category || '');
   const [selectedType, setSelectedType] = useState<TransactionType | ''>(initialFilter?.type || '');
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+
+  const handleExportCsv = async () => {
+    try {
+      const csvData = await api.exportTransactionsCsv();
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'omnibudget-transactions.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error('Failed to export CSV:', err);
+    }
+  };
 
   // Extract unique categories
   const categories = useMemo(() => {
@@ -110,13 +130,35 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
           </p>
         </div>
 
-        <button
-          onClick={onOpenAddModal}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition shadow-sm"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>Add Transaction</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleExportCsv}
+            title="Download full transaction ledger as CSV"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[#1a1a1a] hover:bg-[#262626] text-neutral-300 border border-[#2a2a2a] transition shadow-sm"
+          >
+            <Download className="w-3.5 h-3.5 text-neutral-400" />
+            <span>Export CSV</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsImportModalOpen(true)}
+            title="Upload CSV from Monarch, Mint, or bank"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[#1a1a1a] hover:bg-[#262626] text-indigo-300 border border-indigo-500/30 transition shadow-sm"
+          >
+            <Upload className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Import CSV</span>
+          </button>
+
+          <button
+            onClick={onOpenAddModal}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition shadow-sm"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Transaction</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter Toolbar */}
@@ -338,6 +380,15 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
           </div>
         )}
       </div>
+
+      <CsvImportModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        onImportSuccess={() => {
+          onRefresh();
+          setIsImportModalOpen(false);
+        }}
+      />
     </div>
   );
 };

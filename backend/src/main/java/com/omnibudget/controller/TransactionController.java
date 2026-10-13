@@ -16,6 +16,7 @@ import java.util.UUID;
 public class TransactionController {
 
     private final LedgerService ledgerService;
+    private final com.omnibudget.service.CsvService csvService;
 
     @GetMapping
     public ResponseEntity<List<Transaction>> getAllTransactions(
@@ -26,6 +27,23 @@ public class TransactionController {
             @RequestParam(required = false) com.omnibudget.domain.TransactionType type,
             @RequestParam(required = false) String search) {
         return ResponseEntity.ok(ledgerService.getFilteredTransactions(userId, accountId, category, envelopeId, type, search));
+    }
+
+    @GetMapping(value = "/export-csv", produces = "text/csv")
+    public ResponseEntity<String> exportCsv(
+            @RequestHeader(value = "X-User-Id", required = false) String userId) {
+        String csvData = csvService.exportTransactionsToCsv(userId);
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "attachment; filename=\"omnibudget-transactions.csv\"")
+                .body(csvData);
+    }
+
+    @PostMapping("/import-csv")
+    public ResponseEntity<java.util.Map<String, Object>> importCsv(
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestBody String csvContent) {
+        java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(csvContent.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        return ResponseEntity.ok(csvService.importTransactionsCsv(userId, bais));
     }
 
     @PostMapping

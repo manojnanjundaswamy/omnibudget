@@ -19,6 +19,8 @@ import {
   ChevronDown,
   RotateCcw,
   Sparkles,
+  Wand2,
+  CreditCard,
 } from 'lucide-react';
 import { NavTab } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -48,7 +50,9 @@ const DEFAULT_NAV_ITEMS: NavItemDef[] = [
   { id: 'cashflow', label: 'Cash Flow', icon: TrendingUp },
   { id: 'recurring', label: 'Recurring Bills', icon: CalendarClock },
   { id: 'goals', label: 'Goals', icon: Trophy },
+  { id: 'rules', label: 'Rules', icon: Wand2, badge: 'Auto' },
   { id: 'household', label: 'Household', icon: Users2 },
+  { id: 'plans', label: 'Plans & Pricing', icon: CreditCard, badge: 'Pro' },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -69,16 +73,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // Rearrangeable order state (persisted)
   const [navOrder, setNavOrder] = useState<NavTab[]>(() => {
+    const allDefaultIds = DEFAULT_NAV_ITEMS.map((item) => item.id);
     try {
       const saved = localStorage.getItem('omnibudget_nav_order');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const merged = [...parsed.filter((id: any) => allDefaultIds.includes(id))];
+          allDefaultIds.forEach((id) => {
+            if (!merged.includes(id)) merged.push(id);
+          });
+          return merged;
+        }
       }
     } catch (e) {
       // fallback
     }
-    return DEFAULT_NAV_ITEMS.map((item) => item.id);
+    return allDefaultIds;
   });
 
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -303,9 +314,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </div>
                   {!isCollapsed && (
                     <div className="truncate">
-                      <span className="text-xs font-medium text-[#f4f4f5] block truncate">
-                        {currentUser?.name || currentUser?.email.split('@')[0]}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-medium text-[#f4f4f5] block truncate">
+                          {currentUser?.name || currentUser?.email.split('@')[0]}
+                        </span>
+                        <span className="px-1.5 py-0.2 rounded bg-indigo-500/20 border border-indigo-500/30 text-indigo-400 text-[9px] font-bold uppercase">
+                          {currentUser?.plan || 'PRO'}
+                        </span>
+                      </div>
                       <span className="text-[10px] text-[#71717a] block truncate">
                         {currentUser?.email}
                       </span>
