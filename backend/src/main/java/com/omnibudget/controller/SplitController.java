@@ -25,6 +25,10 @@ public class SplitController {
     private final PeerDebtRepository peerDebtRepository;
     private final DebtSimplificationService debtSimplificationService;
     private final LedgerService ledgerService;
+    private final com.omnibudget.service.NotificationService notificationService;
+    private final com.omnibudget.service.EmailService emailService;
+    private final com.omnibudget.service.AuditService auditService;
+    private final com.omnibudget.repository.UserRepository userRepository;
 
     @GetMapping("/groups")
     public ResponseEntity<List<SplitGroup>> getAllGroups(
@@ -42,7 +46,45 @@ public class SplitController {
             @RequestBody SplitGroup group) {
         String effectiveUserId = (userId != null && !userId.isBlank()) ? userId : "demo-user-id";
         group.setUserId(effectiveUserId);
-        return ResponseEntity.ok(groupRepository.save(group));
+        SplitGroup saved = groupRepository.save(group);
+
+        // Retrieve user info for audit & alert
+        UUID uid = null;
+        String userEmail = "user@omnibudget.app";
+        String userName = "OmniUser";
+        try {
+            uid = UUID.fromString(effectiveUserId);
+            var u = userRepository.findById(uid);
+            if (u.isPresent()) {
+                userEmail = u.get().getEmail();
+                userName = u.get().getName();
+            }
+        } catch (Exception ignored) {}
+
+        int memberCount = (saved.getMembers() != null && !saved.getMembers().isBlank()) ? saved.getMembers().split(",").length : 1;
+        notificationService.createNotification(
+                uid,
+                "New Group Created: " + saved.getName(),
+                "Split group \"" + saved.getName() + "\" is ready with " + memberCount + " members.",
+                com.omnibudget.domain.NotificationType.SYSTEM,
+                com.omnibudget.domain.NotificationSeverity.INFO,
+                "splits",
+                saved.getId().toString()
+        );
+        emailService.sendGroupCreationAlertEmail(userEmail, userName, saved.getName(), memberCount);
+        auditService.logEvent(
+                uid,
+                userEmail,
+                userName,
+                "SPLIT_GROUP_CREATED",
+                "LEDGER",
+                "User created split group: " + saved.getName() + " with " + memberCount + " member(s)",
+                "INFO",
+                "{\"groupId\":\"" + saved.getId() + "\"}",
+                "127.0.0.1"
+        );
+
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/groups/{id}")

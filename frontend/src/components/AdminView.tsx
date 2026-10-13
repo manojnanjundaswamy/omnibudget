@@ -20,8 +20,19 @@ import {
   UserX,
   Layers,
   ArrowUpRight,
+  ShieldAlert,
+  Key,
+  Globe,
+  FileText,
+  Lock,
 } from 'lucide-react';
-import { AdminMetrics, AdminUserDetail, CreateAdminUserPayload, UpdateAdminUserPayload } from '../types';
+import {
+  AdminMetrics,
+  AdminUserDetail,
+  CreateAdminUserPayload,
+  UpdateAdminUserPayload,
+  AuditLog,
+} from '../types';
 import { api } from '../services/api';
 import { useCurrency } from '../context/CurrencyContext';
 
@@ -30,10 +41,16 @@ export const AdminView: React.FC = () => {
   const [metrics, setMetrics] = useState<AdminMetrics | null>(null);
   const [users, setUsers] = useState<AdminUserDetail[]>([]);
   const [settings, setSettings] = useState<Record<string, any>>({});
+  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+  const [isAuditLoading, setIsAuditLoading] = useState(false);
+  const [auditCategoryFilter, setAuditCategoryFilter] = useState('ALL');
+  const [auditSearch, setAuditSearch] = useState('');
+  const [selectedAuditDetail, setSelectedAuditDetail] = useState<AuditLog | null>(null);
+
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedPlanFilter, setSelectedPlanFilter] = useState('ALL');
-  const [activeTab, setActiveTab] = useState<'users' | 'settings'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'settings' | 'audit'>('users');
 
   // Modals
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -50,17 +67,31 @@ export const AdminView: React.FC = () => {
     loadAllAdminData();
   }, []);
 
+  const loadAuditLogs = async (cat?: string) => {
+    setIsAuditLoading(true);
+    try {
+      const logs = await api.getAuditLogs(100, cat || auditCategoryFilter);
+      setAuditLogs(logs);
+    } catch (err) {
+      console.error('Failed to load audit trail:', err);
+    } finally {
+      setIsAuditLoading(false);
+    }
+  };
+
   const loadAllAdminData = async () => {
     setIsLoading(true);
     try {
-      const [m, u, s] = await Promise.all([
+      const [m, u, s, logs] = await Promise.all([
         api.getAdminMetrics(),
         api.getAdminUsers(),
         api.getAdminSettings(),
+        api.getAuditLogs(100),
       ]);
       setMetrics(m);
       setUsers(u);
       setSettings(s);
+      setAuditLogs(logs);
     } catch (err) {
       console.error('Failed to load admin telemetry:', err);
     } finally {
@@ -272,6 +303,21 @@ export const AdminView: React.FC = () => {
         >
           <Users className="w-3.5 h-3.5" />
           <span>Users ({users.length})</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab('audit');
+            loadAuditLogs();
+          }}
+          className={`pb-3 px-3 text-xs font-bold transition-colors border-b-2 flex items-center gap-2 ${
+            activeTab === 'audit'
+              ? 'border-[var(--accent)] text-[var(--fg)]'
+              : 'border-transparent text-[var(--fg-muted)] hover:text-[var(--fg)]'
+          }`}
+        >
+          <ShieldAlert className="w-3.5 h-3.5 text-purple-400" />
+          <span>Security & Audit Trail ({auditLogs.length})</span>
         </button>
         <button
           type="button"
@@ -534,6 +580,185 @@ export const AdminView: React.FC = () => {
         </div>
       )}
 
+      {/* TAB 3: Security & Audit Trail */}
+      {activeTab === 'audit' && (
+        <div className="space-y-4">
+          {/* Audit Controls & Filter Toolbar */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2 flex-1 max-w-md">
+              <div className="relative w-full">
+                <Search className="w-3.5 h-3.5 text-[var(--fg-muted)] absolute left-3 top-3" />
+                <input
+                  type="text"
+                  value={auditSearch}
+                  onChange={e => setAuditSearch(e.target.value)}
+                  placeholder="Filter by user, action, description, or IP..."
+                  className="w-full pl-9 pr-3 py-2 bg-[var(--surface-2)] border border-[var(--border)] rounded-xl text-xs text-[var(--fg)] placeholder-[var(--fg-muted)] focus:outline-none focus:border-[var(--accent)]"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <select
+                value={auditCategoryFilter}
+                onChange={e => {
+                  setAuditCategoryFilter(e.target.value);
+                  loadAuditLogs(e.target.value);
+                }}
+                className="bg-[var(--surface-2)] border border-[var(--border)] rounded-xl px-3 py-2 text-xs text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
+              >
+                <option value="ALL">All Categories</option>
+                <option value="AUTH">Authentication & Logins</option>
+                <option value="TRANSACTION">Transactions</option>
+                <option value="LEDGER">Ledger & Settlements</option>
+                <option value="ADMIN">Admin Actions</option>
+                <option value="SECURITY">Security Events</option>
+              </select>
+
+              <button
+                type="button"
+                onClick={() => loadAuditLogs()}
+                disabled={isAuditLoading}
+                className="interactive-btn px-3 py-2 bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] rounded-xl text-xs font-semibold text-[var(--fg)] flex items-center gap-1.5 transition"
+                title="Refresh audit stream"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isAuditLoading ? 'animate-spin text-emerald-400' : ''}`} />
+                <span>Refresh</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Metrics summary banner for audits */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="p-3.5 rounded-xl bg-[var(--surface)] border border-[var(--border)]">
+              <span className="text-[10px] font-bold text-[var(--fg-muted)] uppercase tracking-wider block">Total Audit Trail</span>
+              <span className="text-lg font-bold text-[var(--fg)] mt-0.5 block">{auditLogs.length} Events</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-[var(--surface)] border border-[var(--border)]">
+              <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wider block">Auth Sessions</span>
+              <span className="text-lg font-bold text-[var(--fg)] mt-0.5 block">
+                {auditLogs.filter(l => l.category === 'AUTH').length}
+              </span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-[var(--surface)] border border-[var(--border)]">
+              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">Transactions</span>
+              <span className="text-lg font-bold text-[var(--fg)] mt-0.5 block">
+                {auditLogs.filter(l => l.category === 'TRANSACTION').length}
+              </span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-[var(--surface)] border border-[var(--border)]">
+              <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block">Settlements & Groups</span>
+              <span className="text-lg font-bold text-[var(--fg)] mt-0.5 block">
+                {auditLogs.filter(l => l.category === 'LEDGER').length}
+              </span>
+            </div>
+          </div>
+
+          {/* Audit Logs Table */}
+          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl overflow-hidden shadow-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs text-[var(--fg)]">
+                <thead className="bg-[var(--surface-2)] border-b border-[var(--border)] text-[11px] text-[var(--fg-muted)] uppercase tracking-wider">
+                  <tr>
+                    <th className="py-3 px-4 font-semibold">Timestamp</th>
+                    <th className="py-3 px-4 font-semibold">User</th>
+                    <th className="py-3 px-4 font-semibold">Action & Category</th>
+                    <th className="py-3 px-4 font-semibold">Description</th>
+                    <th className="py-3 px-4 font-semibold">Severity</th>
+                    <th className="py-3 px-4 font-semibold">IP Address</th>
+                    <th className="py-3 px-4 font-semibold text-right">Details</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[var(--border)]">
+                  {auditLogs
+                    .filter(l => {
+                      const q = auditSearch.toLowerCase();
+                      const matchSearch =
+                        !q ||
+                        l.description.toLowerCase().includes(q) ||
+                        l.action.toLowerCase().includes(q) ||
+                        l.userEmail.toLowerCase().includes(q) ||
+                        (l.userName && l.userName.toLowerCase().includes(q)) ||
+                        (l.ipAddress && l.ipAddress.includes(q));
+                      return matchSearch;
+                    })
+                    .map(log => {
+                      const categoryColors: Record<string, string> = {
+                        AUTH: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+                        TRANSACTION: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                        LEDGER: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+                        ADMIN: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+                        SECURITY: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+                      };
+                      const catClass = categoryColors[log.category] || 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20';
+
+                      return (
+                        <tr key={log.id} className="hover:bg-[var(--surface-2)]/60 transition-colors">
+                          <td className="py-3 px-4 whitespace-nowrap font-mono text-[11px] text-[var(--fg-muted)]">
+                            {new Date(log.createdAt).toLocaleString()}
+                          </td>
+                          <td className="py-3 px-4">
+                            <div>
+                              <span className="font-semibold text-[var(--fg)] block">{log.userName || 'OmniUser'}</span>
+                              <span className="text-[11px] text-[var(--fg-muted)] font-mono block">{log.userEmail}</span>
+                            </div>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex flex-col gap-1 items-start">
+                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${catClass}`}>
+                                {log.category}
+                              </span>
+                              <span className="text-[10px] font-mono text-[var(--fg-muted)]">
+                                {log.action}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-3 px-4 max-w-md">
+                            <p className="text-xs text-[var(--fg)] leading-relaxed line-clamp-2">
+                              {log.description}
+                            </p>
+                          </td>
+                          <td className="py-3 px-4">
+                            <span
+                              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                                log.severity === 'WARNING'
+                                  ? 'bg-amber-500/10 text-amber-400'
+                                  : log.severity === 'CRITICAL' || log.severity === 'SECURITY'
+                                  ? 'bg-rose-500/10 text-rose-400'
+                                  : 'bg-emerald-500/10 text-emerald-400'
+                              }`}
+                            >
+                              {log.severity}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 whitespace-nowrap font-mono text-[11px] text-[var(--fg-muted)]">
+                            {log.ipAddress || '127.0.0.1'}
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedAuditDetail(log)}
+                              className="px-2.5 py-1 rounded-lg bg-[var(--surface-2)] hover:bg-[var(--surface-3)] text-xs font-medium text-[var(--fg)] border border-[var(--border)] transition"
+                            >
+                              Inspect
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+
+              {auditLogs.length === 0 && (
+                <div className="p-12 text-center text-xs text-[var(--fg-muted)]">
+                  No audit logs recorded yet. Security logins and financial activities will stream here live.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Add User Modal */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
@@ -720,6 +945,92 @@ export const AdminView: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Audit Detail Inspector Modal */}
+      {selectedAuditDetail && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fade-in"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setSelectedAuditDetail(null);
+          }}
+        >
+          <div className="modal-card-luxury w-full max-w-lg rounded-3xl p-6 border border-[var(--border)] shadow-[0_25px_60px_rgba(0,0,0,0.8)] backdrop-blur-2xl bg-[var(--surface-modal)] space-y-4">
+            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400">
+                  <ShieldAlert className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-[var(--fg)]">Security Audit Record</h3>
+                  <span className="text-[10px] font-mono text-[var(--fg-muted)]">ID: {selectedAuditDetail.id}</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedAuditDetail(null)}
+                className="p-1 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)]">
+                <span className="text-[10px] text-[var(--fg-muted)] uppercase tracking-wider block font-bold">Category & Action</span>
+                <span className="font-bold text-[var(--fg)] mt-0.5 block">{selectedAuditDetail.category}</span>
+                <span className="text-[11px] font-mono text-purple-400 block">{selectedAuditDetail.action}</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)]">
+                <span className="text-[10px] text-[var(--fg-muted)] uppercase tracking-wider block font-bold">Severity & Client</span>
+                <span className="font-bold text-emerald-400 mt-0.5 block">{selectedAuditDetail.severity}</span>
+                <span className="text-[11px] font-mono text-[var(--fg-muted)] block">IP: {selectedAuditDetail.ipAddress || '127.0.0.1'}</span>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] space-y-1 text-xs">
+              <span className="text-[10px] text-[var(--fg-muted)] uppercase tracking-wider block font-bold">User Identity</span>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[var(--fg)]">{selectedAuditDetail.userName || 'OmniUser'}</span>
+                <span className="font-mono text-[11px] text-[var(--fg-muted)]">{selectedAuditDetail.userEmail}</span>
+              </div>
+              {selectedAuditDetail.userId && (
+                <span className="text-[10px] font-mono text-[var(--fg-muted)] block truncate">
+                  User ID: {selectedAuditDetail.userId}
+                </span>
+              )}
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] space-y-1 text-xs">
+              <span className="text-[10px] text-[var(--fg-muted)] uppercase tracking-wider block font-bold">Event Description</span>
+              <p className="text-xs text-[var(--fg)] leading-relaxed">
+                {selectedAuditDetail.description}
+              </p>
+            </div>
+
+            {selectedAuditDetail.metadataJson && (
+              <div className="p-3.5 rounded-xl bg-black/40 border border-[var(--border)] space-y-1">
+                <span className="text-[10px] text-[var(--fg-muted)] uppercase tracking-wider block font-bold font-mono">Metadata Payload</span>
+                <pre className="text-[11px] font-mono text-emerald-400 overflow-x-auto whitespace-pre-wrap max-h-32">
+                  {selectedAuditDetail.metadataJson}
+                </pre>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between pt-2 border-t border-[var(--border)]">
+              <span className="text-[10px] font-mono text-[var(--fg-muted)]">
+                Recorded: {new Date(selectedAuditDetail.createdAt).toISOString()}
+              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedAuditDetail(null)}
+                className="px-4 py-1.5 rounded-xl bg-[var(--fg)] text-[var(--bg)] font-bold text-xs hover:opacity-90 transition"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

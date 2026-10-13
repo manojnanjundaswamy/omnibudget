@@ -43,6 +43,7 @@ import {
   CreateAssetPayload,
   TrendPoint,
   AppNotification,
+  AuditLog,
   FinancialHealth,
   CashFlowForecast,
   AnomalyDetection,
@@ -662,6 +663,19 @@ export const api = {
       body: JSON.stringify(settings),
     });
     if (!res.ok) throw new Error('Failed to update platform settings');
+    return res.json();
+  },
+
+  getAuditLogs: async (limit: number = 100, category?: string): Promise<AuditLog[]> => {
+    const url = new URL(`${API_BASE}/admin/audit-logs`, window.location.origin);
+    url.searchParams.set('limit', String(limit));
+    if (category && category !== 'ALL') {
+      url.searchParams.set('category', category);
+    }
+    const res = await fetch(url.toString(), {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch audit logs');
     return res.json();
   },
 

@@ -54,4 +54,14 @@ public class AdminController {
     public ResponseEntity<Map<String, Object>> updateSettings(@RequestBody Map<String, Object> updates) {
         return ResponseEntity.ok(adminService.updateSettings(updates));
     }
+
+    @GetMapping("/audit-logs")
+    public ResponseEntity<List<com.omnibudget.domain.AuditLog>> getAuditLogs(
+            @RequestParam(defaultValue = "100") int limit,
+            @RequestParam(required = false) String category) {
+        if (category != null && !category.isBlank()) {
+            return ResponseEntity.ok(adminService.getAuditLogsByCategory(category, limit));
+        }
+        return ResponseEntity.ok(adminService.getAuditLogs(limit));
+    }
 }

@@ -19,6 +19,8 @@ public class AuthService {
     private final AccountRepository accountRepository;
     private final BudgetEnvelopeRepository envelopeRepository;
     private final EmailService emailService;
+    private final NotificationService notificationService;
+    private final AuditService auditService;
 
     public static final String DEMO_USER_ID = "demo-user-id";
     public static final String DEMO_USER_EMAIL = "demo@omnibudget.app";
@@ -48,6 +50,31 @@ public class AuthService {
                     .build();
             user = userRepository.save(user);
         }
+        user.setLastLoginAt(java.time.Instant.now());
+        user = userRepository.save(user);
+
+        // Security Audit & Active Communication
+        auditService.logEvent(
+                user.getId(),
+                user.getEmail(),
+                user.getName(),
+                "USER_LOGIN",
+                "AUTH",
+                "User signed in successfully via Google OAuth.",
+                "INFO",
+                "{\"provider\":\"GOOGLE\"}",
+                "127.0.0.1"
+        );
+        notificationService.createNotification(
+                user.getId(),
+                "Active Session Started",
+                "Signed in via Google OAuth. Session secured.",
+                NotificationType.SYSTEM,
+                NotificationSeverity.INFO,
+                "dashboard",
+                null
+        );
+        emailService.sendLoginNoticeEmail(user.getEmail(), user.getName(), "127.0.0.1", java.time.Instant.now().toString());
 
         return AuthResponse.builder()
                 .token("jwt-session-" + user.getId().toString())
@@ -77,8 +104,33 @@ public class AuthService {
                     .currency("USD")
                     .hasCompletedOnboarding(false)
                     .build();
-            user = userRepository.save(user);
         }
+
+        user.setLastLoginAt(java.time.Instant.now());
+        user = userRepository.save(user);
+
+        // Security Audit & Active Communication
+        auditService.logEvent(
+                user.getId(),
+                user.getEmail(),
+                user.getName(),
+                "USER_LOGIN",
+                "AUTH",
+                "User signed in successfully via Email.",
+                "INFO",
+                "{\"provider\":\"EMAIL\"}",
+                "127.0.0.1"
+        );
+        notificationService.createNotification(
+                user.getId(),
+                "Active Session Started",
+                "Signed in via Email Credentials. Welcome back to OmniBudget.",
+                NotificationType.SYSTEM,
+                NotificationSeverity.INFO,
+                "dashboard",
+                null
+        );
+        emailService.sendLoginNoticeEmail(user.getEmail(), user.getName(), "127.0.0.1", java.time.Instant.now().toString());
 
         return AuthResponse.builder()
                 .token("jwt-session-" + user.getId().toString())
@@ -142,6 +194,29 @@ public class AuthService {
         user.setOtpExpiresAt(null);
         user.setLastLoginAt(java.time.Instant.now());
         user = userRepository.save(user);
+
+        // Security Audit & Active Communication
+        auditService.logEvent(
+                user.getId(),
+                user.getEmail(),
+                user.getName(),
+                "USER_LOGIN",
+                "AUTH",
+                "User signed in successfully via 6-digit Email OTP.",
+                "INFO",
+                "{\"method\":\"EMAIL_OTP\"}",
+                "127.0.0.1"
+        );
+        notificationService.createNotification(
+                user.getId(),
+                "Active Session Started",
+                "Verified and signed in via 6-digit OTP code.",
+                NotificationType.SYSTEM,
+                NotificationSeverity.INFO,
+                "dashboard",
+                null
+        );
+        emailService.sendLoginNoticeEmail(user.getEmail(), user.getName(), "127.0.0.1", java.time.Instant.now().toString());
 
         return AuthResponse.builder()
                 .token("jwt-session-" + user.getId().toString())

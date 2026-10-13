@@ -347,6 +347,16 @@ async function run() {
   const anomaliesRes = await request('/analytics/anomalies');
   assert(anomaliesRes.ok && typeof anomaliesRes.data.totalAnomalies === 'number', `Audited transactions for price spikes & duplicate charges (${anomaliesRes.data.totalAnomalies} detected)`);
 
+  // 16. Security Audit Trail & Admin Observability
+  console.log('\n[16/16] Testing Security Audit Logging & Admin Observability...');
+  const auditRes = await request('/admin/audit-logs?limit=50');
+  assert(auditRes.ok && Array.isArray(auditRes.data), 'Fetch security audit logs');
+  assert(auditRes.data.length > 0, `Captured ${auditRes.data.length} audit trail events in PostgreSQL`);
+  const hasAuthLog = auditRes.data.some(l => l.category === 'AUTH' && l.action === 'USER_LOGIN');
+  assert(hasAuthLog, 'Verified presence of USER_LOGIN authentication security audit event');
+  const hasTxLog = auditRes.data.some(l => l.category === 'TRANSACTION');
+  assert(hasTxLog, 'Verified presence of TRANSACTION_RECORDED audit log event');
+
   // Summary
   console.log('\n======================================================');
   console.log(`   REGRESSION RESULTS: ${passed} PASSED, ${failed} FAILED`);

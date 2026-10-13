@@ -543,10 +543,26 @@ export type NotificationType =
   | 'LOW_BUFFER'
   | 'GOAL_MILESTONE'
   | 'LARGE_TRANSACTION'
+  | 'TRANSACTION_ALERT'
+  | 'PEER_DEBT_UPDATE'
   | 'SECURITY'
   | 'SYSTEM';
 
 export type NotificationSeverity = 'INFO' | 'WARNING' | 'ALERT' | 'SUCCESS';
+
+export interface AuditLog {
+  id: string;
+  userId?: string;
+  userEmail: string;
+  userName: string;
+  action: string;
+  category: 'AUTH' | 'TRANSACTION' | 'LEDGER' | 'SECURITY' | 'ADMIN' | string;
+  description: string;
+  metadataJson?: string;
+  ipAddress?: string;
+  severity: 'INFO' | 'WARNING' | 'CRITICAL' | 'SECURITY' | string;
+  createdAt: string;
+}
 
 export interface AppNotification {
   id: string;

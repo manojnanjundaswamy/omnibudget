@@ -7,6 +7,8 @@ public enum NotificationType {
     LOW_BUFFER,
     GOAL_MILESTONE,
     LARGE_TRANSACTION,
+    TRANSACTION_ALERT,
+    PEER_DEBT_UPDATE,
     SECURITY,
     SYSTEM
 }

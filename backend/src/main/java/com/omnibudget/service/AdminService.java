@@ -25,6 +25,7 @@ public class AdminService {
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
+    private final AuditService auditService;
 
     private final Map<String, Object> systemSettings = new ConcurrentHashMap<>(Map.of(
             "aiStatementIngestEnabled", true,
@@ -164,6 +165,18 @@ public class AdminService {
                 .build();
         accountRepository.save(checking);
 
+        auditService.logEvent(
+                user.getId(),
+                user.getEmail(),
+                user.getName(),
+                "ADMIN_USER_CREATE",
+                "ADMIN",
+                "Admin provisioned new user account: " + user.getEmail() + " (" + user.getPlan() + ")",
+                "INFO",
+                "{\"plan\":\"" + user.getPlan() + "\"}",
+                "127.0.0.1"
+        );
+
         return AdminUserDetailDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -194,6 +207,18 @@ public class AdminService {
 
         user = userRepository.save(user);
 
+        auditService.logEvent(
+                user.getId(),
+                user.getEmail(),
+                user.getName(),
+                "ADMIN_USER_UPDATE",
+                "ADMIN",
+                "Admin updated user profile: " + user.getEmail(),
+                "INFO",
+                null,
+                "127.0.0.1"
+        );
+
         String uidStr = user.getId().toString();
         List<Account> accs = accountRepository.findByUserIdAndIsActiveTrueOrderByCreatedAtAsc(uidStr);
         BigDecimal bal = BigDecimal.ZERO;
@@ -220,7 +245,21 @@ public class AdminService {
 
     @Transactional
     public void deleteUser(UUID id) {
+        User user = userRepository.findById(id).orElse(null);
+        String email = user != null ? user.getEmail() : id.toString();
         userRepository.deleteById(id);
+
+        auditService.logEvent(
+                id,
+                email,
+                "Admin",
+                "ADMIN_USER_DELETE",
+                "ADMIN",
+                "Admin removed user account: " + email,
+                "WARNING",
+                null,
+                "127.0.0.1"
+        );
     }
 
     public Map<String, Object> getSettings() {
@@ -229,6 +268,25 @@ public class AdminService {
 
     public Map<String, Object> updateSettings(Map<String, Object> updates) {
         systemSettings.putAll(updates);
+        auditService.logEvent(
+                null,
+                "admin@omnibudget.app",
+                "Admin System",
+                "SYSTEM_CONFIG_UPDATED",
+                "ADMIN",
+                "Platform runtime configuration settings modified: " + updates.keySet(),
+                "INFO",
+                updates.toString(),
+                "127.0.0.1"
+        );
         return new HashMap<>(systemSettings);
+    }
+
+    public List<com.omnibudget.domain.AuditLog> getAuditLogs(int limit) {
+        return auditService.getRecentLogs(limit);
+    }
+
+    public List<com.omnibudget.domain.AuditLog> getAuditLogsByCategory(String category, int limit) {
+        return auditService.getLogsByCategory(category, limit);
     }
 }

@@ -25,6 +25,10 @@ public class LedgerService {
     private final SplitGroupRepository groupRepository;
     private final PeerDebtRepository peerDebtRepository;
     private final AssetRepository assetRepository;
+    private final NotificationService notificationService;
+    private final EmailService emailService;
+    private final AuditService auditService;
+    private final UserRepository userRepository;
 
     public List<Account> getAllAccounts() {
         return accountRepository.findByIsActiveTrueOrderByCreatedAtAsc();
@@ -297,6 +301,68 @@ public class LedgerService {
             }
         }
 
+        // 6. Security Audit, Real-Time Notification & Email Alerts
+        try {
+            UUID uid = null;
+            String userEmail = "alex.chen@omnibudget.app";
+            String userName = "Alex Chen";
+            if (effectiveUserId != null && !effectiveUserId.isBlank() && !"demo-user-id".equals(effectiveUserId)) {
+                try {
+                    uid = UUID.fromString(effectiveUserId);
+                    var uOpt = userRepository.findById(uid);
+                    if (uOpt.isPresent()) {
+                        userEmail = uOpt.get().getEmail();
+                        userName = uOpt.get().getName();
+                    }
+                } catch (Exception ignored) {}
+            }
+
+            boolean isIncome = savedTx.getType() == TransactionType.INCOME;
+            String title = isIncome
+                    ? "Income Recorded: +$" + totalGross
+                    : "Expense Recorded: -$" + totalGross;
+            String message = String.format("%s of $%s (%s) recorded in %s.",
+                    savedTx.getType(), totalGross,
+                    savedTx.getDescription() != null ? savedTx.getDescription() : savedTx.getCategory(),
+                    account.getName());
+
+            notificationService.createNotification(
+                    uid,
+                    title,
+                    message,
+                    NotificationType.TRANSACTION_ALERT,
+                    isIncome ? NotificationSeverity.SUCCESS : NotificationSeverity.INFO,
+                    "transactions",
+                    savedTx.getId().toString()
+            );
+
+            emailService.sendTransactionAlertEmail(
+                    userEmail,
+                    userName,
+                    savedTx.getType().name(),
+                    totalGross,
+                    savedTx.getDescription() != null ? savedTx.getDescription() : savedTx.getCategory(),
+                    account.getName(),
+                    savedTx.getCategory()
+            );
+
+            auditService.logEvent(
+                    uid,
+                    userEmail,
+                    userName,
+                    "TRANSACTION_RECORDED",
+                    "TRANSACTION",
+                    String.format("Recorded %s transaction of $%s in %s (%s)",
+                            savedTx.getType(), totalGross, account.getName(),
+                            savedTx.getDescription() != null ? savedTx.getDescription() : savedTx.getCategory()),
+                    "INFO",
+                    "{\"txId\":\"" + savedTx.getId() + "\",\"gross\":\"" + totalGross + "\"}",
+                    "127.0.0.1"
+            );
+        } catch (Exception e) {
+            // Non-blocking notification/audit failure
+        }
+
         return savedTx;
     }
 
@@ -466,6 +532,39 @@ public class LedgerService {
                 peerDebtRepository.save(debt);
             }
         }
+
+        // Notification, email & audit logging
+        try {
+            notificationService.createNotification(
+                    null,
+                    "Debt Settlement Cleared: $" + amount,
+                    req.getFromUser() + " settled debt balance with " + req.getToUser() + " ($" + amount + ").",
+                    NotificationType.PEER_DEBT_UPDATE,
+                    NotificationSeverity.SUCCESS,
+                    "splits",
+                    req.getSplitGroupId() != null ? req.getSplitGroupId().toString() : null
+            );
+
+            emailService.sendSettlementAlertEmail(
+                    "alex.chen@omnibudget.app",
+                    "Alex Chen",
+                    req.getFromUser(),
+                    amount,
+                    "You".equalsIgnoreCase(req.getFromUser())
+            );
+
+            auditService.logEvent(
+                    null,
+                    "alex.chen@omnibudget.app",
+                    "Alex Chen",
+                    "PEER_DEBT_SETTLED",
+                    "LEDGER",
+                    String.format("Peer settlement cleared: %s paid %s $%s", req.getFromUser(), req.getToUser(), amount),
+                    "INFO",
+                    "{\"amount\":\"" + amount + "\"}",
+                    "127.0.0.1"
+            );
+        } catch (Exception ignored) {}
     }
 
     /**

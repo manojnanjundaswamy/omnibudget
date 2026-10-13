@@ -119,4 +119,137 @@ public class EmailService {
 
         return sendHtmlEmail(toEmail, subject, html);
     }
+
+    public boolean sendLoginNoticeEmail(String toEmail, String userName, String ipAddress, String loginTime) {
+        String subject = "Security Notice: New Sign-in to your OmniBudget Account";
+        String html = """
+            <!DOCTYPE html>
+            <html>
+            <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0c0d0e; color: #f4f4f5; margin: 0; padding: 40px 20px;">
+              <div style="max-width: 480px; margin: 0 auto; background-color: #18181b; border: 1px solid #27272a; border-radius: 16px; padding: 32px;">
+                <div style="margin-bottom: 20px;">
+                  <span style="font-size: 20px; font-weight: 700; color: #10b981;">OmniBudget Security</span>
+                </div>
+                <h2 style="font-size: 18px; font-weight: 600; color: #ffffff;">Hi %s,</h2>
+                <p style="font-size: 14px; color: #a1a1aa; line-height: 1.5;">
+                  A successful login to your OmniBudget workspace was detected on <strong style="color: #ffffff;">%s</strong> from IP <strong style="color: #38bdf8;">%s</strong>.
+                </p>
+                <div style="background-color: #27272a; border-radius: 12px; padding: 16px; margin: 20px 0; font-size: 13px; color: #d4d4d8;">
+                  <div>&#x1F6E1; <strong>Status:</strong> Authenticated Active Session</div>
+                  <div style="margin-top: 6px;">&#x1F4CD; <strong>Client:</strong> Web Dashboard Session</div>
+                </div>
+                <p style="font-size: 12px; color: #71717a;">If this was you, no action is needed. If you did not authorize this access, review your workspace security immediately.</p>
+                <div style="border-top: 1px solid #27272a; margin-top: 28px; padding-top: 20px; font-size: 11px; color: #52525b; text-align: center;">
+                  &copy; 2026 OmniBudget Inc.
+                </div>
+              </div>
+            </body>
+            </html>
+            """.formatted(userName != null ? userName : "User", loginTime, ipAddress != null ? ipAddress : "127.0.0.1");
+
+        return sendHtmlEmail(toEmail, subject, html);
+    }
+
+    public boolean sendTransactionAlertEmail(
+            String toEmail,
+            String userName,
+            String txType,
+            BigDecimal amount,
+            String description,
+            String accountName,
+            String category) {
+
+        boolean isExpense = "EXPENSE".equalsIgnoreCase(txType);
+        String color = isExpense ? "#ef4444" : "#10b981";
+        String prefix = isExpense ? "-$" : "+$";
+        String subject = String.format("Activity Alert: %s of %s%s (%s)", txType, prefix, amount, description);
+
+        String html = """
+            <!DOCTYPE html>
+            <html>
+            <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0c0d0e; color: #f4f4f5; margin: 0; padding: 40px 20px;">
+              <div style="max-width: 480px; margin: 0 auto; background-color: #18181b; border: 1px solid #27272a; border-radius: 16px; padding: 32px;">
+                <h2 style="font-size: 18px; font-weight: 600; color: #ffffff;">Transaction Recorded</h2>
+                <p style="font-size: 14px; color: #a1a1aa; line-height: 1.5;">
+                  Hi %s, a new <strong style="color: %s;">%s</strong> transaction was recorded in your ledger.
+                </p>
+                <div style="padding: 20px; background-color: #27272a; border-radius: 12px; margin: 20px 0; text-align: center;">
+                  <span style="font-size: 28px; font-weight: 800; color: %s;">%s%s</span>
+                  <div style="font-size: 14px; font-weight: 500; color: #ffffff; margin-top: 6px;">%s</div>
+                  <div style="font-size: 12px; color: #a1a1aa; margin-top: 4px;">%s &bull; %s</div>
+                </div>
+                <p style="font-size: 12px; color: #71717a;">View real-time cash flow and category breakdown in your OmniBudget dashboard.</p>
+              </div>
+            </body>
+            </html>
+            """.formatted(
+                userName != null ? userName : "there",
+                color,
+                txType,
+                color,
+                prefix,
+                amount.toString(),
+                description != null ? description : "Transaction",
+                accountName != null ? accountName : "Account",
+                category != null ? category : "General"
+        );
+
+        return sendHtmlEmail(toEmail, subject, html);
+    }
+
+    public boolean sendSettlementAlertEmail(
+            String toEmail,
+            String userName,
+            String counterpartyName,
+            BigDecimal amount,
+            boolean isPayer) {
+
+        String actionText = isPayer ? "You paid " + counterpartyName : counterpartyName + " paid you";
+        String subject = "Debt Settlement: " + actionText + " $" + amount;
+
+        String html = """
+            <!DOCTYPE html>
+            <html>
+            <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0c0d0e; color: #f4f4f5; margin: 0; padding: 40px 20px;">
+              <div style="max-width: 480px; margin: 0 auto; background-color: #18181b; border: 1px solid #27272a; border-radius: 16px; padding: 32px;">
+                <h2 style="font-size: 18px; font-weight: 600; color: #10b981;">Peer Settlement Cleared</h2>
+                <p style="font-size: 14px; color: #a1a1aa; line-height: 1.5;">
+                  Hi %s, your peer balance has been settled:
+                </p>
+                <div style="padding: 20px; background-color: #27272a; border-radius: 12px; margin: 20px 0; text-align: center;">
+                  <span style="font-size: 28px; font-weight: 800; color: #10b981;">$%s</span>
+                  <div style="font-size: 14px; font-weight: 500; color: #ffffff; margin-top: 6px;">%s</div>
+                </div>
+                <p style="font-size: 12px; color: #71717a;">Both peer accounts and ledger tallies have been synchronized automatically.</p>
+              </div>
+            </body>
+            </html>
+            """.formatted(
+                userName != null ? userName : "there",
+                amount.toString(),
+                actionText
+        );
+
+        return sendHtmlEmail(toEmail, subject, html);
+    }
+
+    public boolean sendGroupCreationAlertEmail(String toEmail, String userName, String groupName, int memberCount) {
+        String subject = "New Split Group Created: " + groupName;
+        String html = """
+            <!DOCTYPE html>
+            <html>
+            <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0c0d0e; color: #f4f4f5; margin: 0; padding: 40px 20px;">
+              <div style="max-width: 480px; margin: 0 auto; background-color: #18181b; border: 1px solid #27272a; border-radius: 16px; padding: 32px;">
+                <h2 style="font-size: 18px; font-weight: 600; color: #6366f1;">New Split Group: %s</h2>
+                <p style="font-size: 14px; color: #a1a1aa; line-height: 1.5;">
+                  Hi %s, group <strong style="color: #ffffff;">%s</strong> is ready with %d member(s). You can now split joint expenses seamlessly.
+                </p>
+              </div>
+            </body>
+            </html>
+            """.formatted(groupName, userName != null ? userName : "there", groupName, memberCount);
+
+        return sendHtmlEmail(toEmail, subject, html);
+    }
 }
+
