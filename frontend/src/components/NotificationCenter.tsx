@@ -149,7 +149,8 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
       handleMarkAsRead(notif.id);
     }
     if (notif.targetTab && onNavigateTab) {
-      onNavigateTab(notif.targetTab);
+      const destination: NavTab = ((notif.targetTab as string) === 'splits' ? 'household' : notif.targetTab) as NavTab;
+      onNavigateTab(destination);
       setIsOpen(false);
     }
   };
@@ -416,7 +417,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
 
                         {notif.targetTab && (
                           <div className="mt-2.5 flex items-center gap-1.5 text-xs font-semibold text-[var(--accent)] group-hover:underline">
-                            <span>Open in {notif.targetTab}</span>
+                            <span>Open in {(notif.targetTab as string) === 'splits' ? 'Splits & Household' : notif.targetTab}</span>
                             <ExternalLink className="w-3 h-3" />
                           </div>
                         )}
