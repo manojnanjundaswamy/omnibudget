@@ -27,6 +27,7 @@ import { AccountModal } from './components/AccountModal';
 import { EnvelopeModal } from './components/EnvelopeModal';
 import { SubscriptionModal } from './components/SubscriptionModal';
 import { GoalModal } from './components/GoalModal';
+import { FinanceUtilitiesSystem, UtilityTab } from './components/FinanceUtilitiesSystem';
 import { api } from './services/api';
 import {
   DashboardSummary,
@@ -87,9 +88,19 @@ const AppContent: React.FC = () => {
 
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
   const [subscriptionToEdit, setSubscriptionToEdit] = useState<Subscription | null>(null);
+  const [subscriptionInitialDate, setSubscriptionInitialDate] = useState<string | undefined>();
 
   const [isGoalModalOpen, setIsGoalModalOpen] = useState(false);
   const [goalToEdit, setGoalToEdit] = useState<Goal | null>(null);
+
+  // Floating Finance Utilities State
+  const [isUtilitiesOpen, setIsUtilitiesOpen] = useState(false);
+  const [utilitiesTab, setUtilitiesTab] = useState<UtilityTab>('calculator');
+
+  const handleOpenUtilities = (tab?: UtilityTab) => {
+    if (tab) setUtilitiesTab(tab);
+    setIsUtilitiesOpen(true);
+  };
 
   // Core Data States
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
@@ -189,13 +200,15 @@ const AppContent: React.FC = () => {
   };
 
   // Subscription CRUD handlers
-  const handleOpenAddSubscription = () => {
+  const handleOpenAddSubscription = (initialDate?: string) => {
     setSubscriptionToEdit(null);
+    setSubscriptionInitialDate(initialDate);
     setIsSubscriptionModalOpen(true);
   };
 
   const handleEditSubscription = (sub: Subscription) => {
     setSubscriptionToEdit(sub);
+    setSubscriptionInitialDate(undefined);
     setIsSubscriptionModalOpen(true);
   };
 
@@ -250,6 +263,7 @@ const AppContent: React.FC = () => {
           setCurrentTab(tab);
         }}
         onOpenAddTransaction={handleOpenAddTransaction}
+        onOpenUtilities={() => handleOpenUtilities('calculator')}
         onResetDemoData={handleResetDemoData}
         isMobileOpen={isMobileSidebarOpen}
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
@@ -264,6 +278,7 @@ const AppContent: React.FC = () => {
           onOpenQuickCapture={() => setIsQuickCaptureOpen(true)}
           onOpenAddTransaction={handleOpenAddTransaction}
           onOpenSmartIngest={() => setIsSmartIngestOpen(true)}
+          onOpenUtilities={() => handleOpenUtilities('calculator')}
           activeFilter={activeFilter}
           onClearFilter={() => setActiveFilter(undefined)}
         />
@@ -466,6 +481,7 @@ const AppContent: React.FC = () => {
         onClose={() => setIsSubscriptionModalOpen(false)}
         accounts={accounts}
         subscriptionToEdit={subscriptionToEdit}
+        initialDate={subscriptionInitialDate}
         onSuccess={refreshAllData}
       />
 
@@ -475,6 +491,17 @@ const AppContent: React.FC = () => {
         onClose={() => setIsGoalModalOpen(false)}
         goalToEdit={goalToEdit}
         onSuccess={refreshAllData}
+      />
+
+      {/* Floating Finance Utilities System & Samsung Edge Panel */}
+      <FinanceUtilitiesSystem
+        isOpen={isUtilitiesOpen}
+        onOpen={(tab) => {
+          setIsUtilitiesOpen(true);
+          if (tab) setUtilitiesTab(tab);
+        }}
+        onClose={() => setIsUtilitiesOpen(false)}
+        defaultTab={utilitiesTab}
       />
     </div>
   );

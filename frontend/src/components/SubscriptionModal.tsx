@@ -9,6 +9,7 @@ interface SubscriptionModalProps {
   onClose: () => void;
   accounts: Account[];
   subscriptionToEdit?: Subscription | null;
+  initialDate?: string;
   onSuccess: () => void;
 }
 
@@ -17,6 +18,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   onClose,
   accounts,
   subscriptionToEdit,
+  initialDate,
   onSuccess,
 }) => {
   const { currentCurrency } = useCurrency();
@@ -24,7 +26,7 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const [amount, setAmount] = useState('');
   const [cadence, setCadence] = useState('MONTHLY');
   const [category, setCategory] = useState('Subscriptions');
-  const [nextBillingDate, setNextBillingDate] = useState(new Date().toISOString().split('T')[0]);
+  const [nextBillingDate, setNextBillingDate] = useState(initialDate || new Date().toISOString().split('T')[0]);
   const [accountId, setAccountId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -44,10 +46,10 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
       setAmount('');
       setCadence('MONTHLY');
       setCategory('Subscriptions');
-      setNextBillingDate(new Date().toISOString().split('T')[0]);
+      setNextBillingDate(initialDate || new Date().toISOString().split('T')[0]);
       setAccountId(accounts[0]?.id || '');
     }
-  }, [subscriptionToEdit, accounts, isOpen]);
+  }, [subscriptionToEdit, accounts, isOpen, initialDate]);
 
   if (!isOpen) return null;
 

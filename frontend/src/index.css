@@ -111,6 +111,15 @@
   }
 }
 
+/* Cross-browser scrollbar hiding */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .privacy-blur {
   filter: blur(8px);
   user-select: none;

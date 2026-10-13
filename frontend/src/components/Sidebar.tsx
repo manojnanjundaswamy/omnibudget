@@ -19,6 +19,7 @@ import {
   ChevronDown,
   RotateCcw,
   TrendingUp,
+  Calculator,
 } from 'lucide-react';
 import { NavTab } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -28,6 +29,7 @@ interface SidebarProps {
   currentTab: NavTab;
   onSelectTab: (tab: NavTab) => void;
   onOpenAddTransaction: () => void;
+  onOpenUtilities?: () => void;
   onResetDemoData?: () => void;
   isMobileOpen?: boolean;
   onCloseMobile?: () => void;
@@ -63,6 +65,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   currentTab,
   onSelectTab,
   onOpenAddTransaction,
+  onOpenUtilities,
   onResetDemoData,
   isMobileOpen,
   onCloseMobile,
@@ -103,9 +106,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Sidebar Aside */}
       <aside
-        className={`fixed lg:sticky top-0 left-0 z-50 h-screen flex flex-col bg-[var(--surface)] border-r border-[var(--border)] transition-all duration-200 select-none ${
+        className={`fixed lg:sticky top-0 left-0 z-50 h-screen flex flex-col bg-[var(--surface)] border-r border-[var(--border)] transition-all duration-200 select-none overflow-x-hidden ${
           isCollapsed ? 'w-[72px]' : 'w-60'
-        } ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+        } ${isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}`}
       >
         {/* Top Brand Header */}
         <div className="flex items-center justify-between px-4 h-16 border-b border-[var(--border)] shrink-0">
@@ -155,7 +158,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Navigation Sections */}
-        <div className="flex-1 overflow-y-auto px-2 space-y-4 py-2 no-scrollbar">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-2 space-y-4 py-2 no-scrollbar">
           {sections.map((sec) => {
             const items = visibleItems.filter((i) => i.section === sec.key);
             if (items.length === 0) return null;
@@ -205,6 +208,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
             );
           })}
         </div>
+
+        {/* Quick Tools Launcher */}
+        {onOpenUtilities && (
+          <div className="px-3 pt-2 pb-1 border-t border-[var(--border)] shrink-0">
+            <button
+              type="button"
+              onClick={onOpenUtilities}
+              title="Finance Utilities & Floating Calculator"
+              className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl text-xs font-medium text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition interactive-row ${
+                isCollapsed ? 'justify-center px-0' : ''
+              }`}
+            >
+              <Calculator className="w-4 h-4 text-indigo-400 shrink-0" />
+              {!isCollapsed && <span className="truncate">Finance Tools</span>}
+            </button>
+          </div>
+        )}
 
         {/* Footer: Currency, Privacy, Profile */}
         <div className="p-3 border-t border-[var(--border)] shrink-0 space-y-2 bg-[var(--surface)]">

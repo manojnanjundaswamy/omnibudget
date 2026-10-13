@@ -13,6 +13,8 @@ import {
   AlertCircle,
   CheckCircle2,
   CalendarDays,
+  X,
+  Edit3,
 } from 'lucide-react';
 import { Subscription } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
@@ -20,7 +22,7 @@ import { AnimatedAmount } from './AnimatedAmount';
 
 interface SubscriptionsViewProps {
   subscriptions: Subscription[];
-  onOpenAddSubscription: () => void;
+  onOpenAddSubscription: (initialDate?: string) => void;
   onEditSubscription: (sub: Subscription) => void;
 }
 
@@ -32,6 +34,12 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
   const { formatAmount } = useCurrency();
   const [viewMode, setViewMode] = useState<'list' | 'calendar'>('calendar');
   const [currentDate, setCurrentDate] = useState(() => new Date());
+  const [selectedDateSchedule, setSelectedDateSchedule] = useState<{
+    dateStr: string;
+    day: number;
+    formattedDate: string;
+    bills: Subscription[];
+  } | null>(null);
 
   const totalMonthly = subscriptions.reduce((sum, s) => {
     return sum + (s.cadence === 'ANNUAL' ? s.amount / 12 : s.amount);
@@ -100,6 +108,24 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
     return diffDays >= 0 && diffDays <= 7;
   }).reduce((sum, s) => sum + s.amount, 0);
 
+  const handleDayClick = (day: number) => {
+    const clickedDate = new Date(year, month, day);
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const formattedDate = clickedDate.toLocaleDateString('default', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+    const dayBills = billsByDay[day] || [];
+    setSelectedDateSchedule({
+      dateStr,
+      day,
+      formattedDate,
+      bills: dayBills,
+    });
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Header */}
@@ -148,7 +174,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
           </div>
 
           <button
-            onClick={onOpenAddSubscription}
+            onClick={() => onOpenAddSubscription()}
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] transition shadow-sm interactive-btn shrink-0"
           >
             <Plus className="w-3.5 h-3.5" />
@@ -270,7 +296,8 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
               return (
                 <div
                   key={`day-${day}`}
-                  className={`min-h-[75px] sm:min-h-[95px] p-1.5 sm:p-2 rounded-xl border transition flex flex-col justify-between ${
+                  onClick={() => handleDayClick(day)}
+                  className={`min-h-[75px] sm:min-h-[95px] p-1.5 sm:p-2 rounded-xl border transition flex flex-col justify-between cursor-pointer group hover:shadow-sm ${
                     isToday
                       ? 'border-emerald-500 bg-emerald-500/5 shadow-sm'
                       : hasBills
@@ -304,7 +331,10 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
                       return (
                         <div
                           key={bill.id}
-                          onClick={() => onEditSubscription(bill)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onEditSubscription(bill);
+                          }}
                           title={`${bill.name} • ${formatAmount(bill.amount)} (${bill.cadence})`}
                           className={`px-1.5 py-1 rounded-md text-[10px] cursor-pointer transition truncate flex items-center justify-between gap-1 interactive-card ${
                             isPast
@@ -337,7 +367,7 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
               <p className="text-sm font-semibold text-[var(--fg)]">No recurring bills tracked</p>
               <p className="text-xs text-[var(--fg-muted)]">Add your streaming services, gym, rent, or utilities to keep track of renewals.</p>
               <button
-                onClick={onOpenAddSubscription}
+                onClick={() => onOpenAddSubscription()}
                 className="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition interactive-btn"
               >
                 + Add Your First Bill
@@ -394,6 +424,113 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
             </div>
           )}
         </>
+      )}
+
+      {/* Confluence-style Calendar Date Action Modal */}
+      {selectedDateSchedule && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm modal-backdrop">
+          <div className="w-full max-w-md p-6 rounded-2xl bg-[var(--surface)] border border-[var(--border)] shadow-2xl modal-content space-y-4">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400">
+                  <CalendarDays className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-sm text-[var(--fg)]">
+                    {selectedDateSchedule.formattedDate}
+                  </h3>
+                  <span className="text-[11px] text-[var(--fg-muted)] block">
+                    {selectedDateSchedule.bills.length > 0
+                      ? `${selectedDateSchedule.bills.length} recurring bill${selectedDateSchedule.bills.length > 1 ? 's' : ''} scheduled`
+                      : 'No bills scheduled on this date'}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelectedDateSchedule(null)}
+                className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Existing Bills List */}
+            {selectedDateSchedule.bills.length > 0 ? (
+              <div className="space-y-2 max-h-60 overflow-y-auto no-scrollbar">
+                <span className="text-[10px] uppercase font-bold text-[var(--fg-subtle)] tracking-wider block">
+                  Scheduled Bills
+                </span>
+                {selectedDateSchedule.bills.map((bill) => (
+                  <div
+                    key={bill.id}
+                    onClick={() => {
+                      onEditSubscription(bill);
+                      setSelectedDateSchedule(null);
+                    }}
+                    className="flex items-center justify-between p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition interactive-card group"
+                  >
+                    <div className="flex items-center gap-2.5 truncate">
+                      <div className="w-7 h-7 rounded-lg bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center text-[var(--fg)] shrink-0">
+                        {getSubIcon(bill.name)}
+                      </div>
+                      <div className="truncate">
+                        <span className="font-semibold text-xs text-[var(--fg)] block truncate">
+                          {bill.name}
+                        </span>
+                        <span className="text-[10px] text-[var(--fg-muted)] block">
+                          {bill.category || 'Subscription'} • {bill.cadence}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="font-bold text-xs tabular text-[var(--fg)]">
+                        {formatAmount(bill.amount)}
+                      </span>
+                      <span className="text-[10px] text-emerald-400 group-hover:underline">
+                        Edit →
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-6 text-center space-y-2">
+                <Clock className="w-8 h-8 text-[var(--fg-subtle)] mx-auto opacity-50" />
+                <p className="text-xs text-[var(--fg-muted)]">
+                  Keep your bills radar accurate by scheduling your rent, utilities, or recurring subscriptions.
+                </p>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={() => setSelectedDateSchedule(null)}
+                className="px-3.5 py-2 rounded-xl text-xs font-semibold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const targetDate = selectedDateSchedule.dateStr;
+                  setSelectedDateSchedule(null);
+                  onOpenAddSubscription(targetDate);
+                }}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition shadow-sm interactive-btn"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Add Bill for {monthName} {selectedDateSchedule.day}</span>
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

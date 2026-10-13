@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Search, Plus, Sparkles, Filter, X, Sun, Moon } from 'lucide-react';
+import { Menu, Search, Plus, Sparkles, Filter, X, Sun, Moon, Calculator } from 'lucide-react';
 import { NavTab, TransactionFilter } from '../types';
 import { useTheme } from '../context/ThemeContext';
 
@@ -9,6 +9,7 @@ interface TopBarProps {
   onOpenQuickCapture: () => void;
   onOpenAddTransaction: () => void;
   onOpenSmartIngest?: () => void;
+  onOpenUtilities?: () => void;
   activeFilter?: TransactionFilter;
   onClearFilter?: () => void;
 }
@@ -74,6 +75,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onOpenQuickCapture,
   onOpenAddTransaction,
   onOpenSmartIngest,
+  onOpenUtilities,
   activeFilter,
   onClearFilter,
 }) => {
@@ -139,6 +141,18 @@ export const TopBar: React.FC<TopBarProps> = ({
               Ctrl K
             </kbd>
           </button>
+
+          {/* Finance Utilities & Calculator Floating System */}
+          {onOpenUtilities && (
+            <button
+              type="button"
+              onClick={onOpenUtilities}
+              className="interactive-btn p-2 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)] group"
+              title="Finance Utilities & Floating Calculator"
+            >
+              <Calculator className="w-3.5 h-3.5 text-indigo-400 transition-transform duration-300 group-hover:scale-110" />
+            </button>
+          )}
 
           {/* Theme Quick Toggle (Light / Dark) */}
           <button
