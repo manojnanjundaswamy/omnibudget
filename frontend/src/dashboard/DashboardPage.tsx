@@ -226,11 +226,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Greeting & Action Controls */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-2 border-b border-[#1c1c1c]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-2 border-b border-[var(--border)]">
         <div>
-          <p className="text-xs text-[#9e9e98]">{dateStr}</p>
+          <p className="text-xs text-[var(--fg-muted)]">{dateStr}</p>
           <div className="flex items-center gap-3 mt-0.5">
-            <h2 className="text-2xl font-bold tracking-tight text-[#f5f5f4]">
+            <h2 className="text-2xl font-bold tracking-tight text-[var(--fg)]">
               {greeting()}, Alex
             </h2>
             {summary && (
@@ -246,10 +246,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     onNavigateToTransactions?.();
                   }
                 }}
-                className="text-xs px-2.5 py-0.5 rounded-full bg-[#181818] border border-[#262626] hover:border-emerald-500/50 text-[#9e9e98] font-mono cursor-pointer transition group"
+                className="text-xs px-2.5 py-0.5 rounded-full bg-[var(--surface-2)] border border-[var(--border)] hover:border-emerald-500/50 text-[var(--fg-muted)] font-mono cursor-pointer transition group"
                 title="Click to drill down into entire ledger activity"
               >
-                Net Worth: <strong className="text-[#f5f5f4] group-hover:text-emerald-400 transition">{formatAmount(summary.netWorth)}</strong>
+                Net Worth: <strong className="text-[var(--fg)] group-hover:text-emerald-400 transition">{formatAmount(summary.netWorth)}</strong>
               </span>
             )}
           </div>
@@ -261,7 +261,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               <button
                 type="button"
                 onClick={() => setIsLibraryOpen(true)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#333333] bg-[#181818] hover:bg-[#222222] text-[#f5f5f4] text-xs font-medium transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] hover:bg-[var(--surface)] text-[var(--fg)] text-xs font-medium transition"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add widget</span>
@@ -269,7 +269,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               <button
                 type="button"
                 onClick={handleResetLayout}
-                className="p-1.5 rounded-lg border border-[#262626] text-[#9e9e98] hover:text-[#f5f5f4] hover:bg-[#181818] transition text-xs"
+                className="p-1.5 rounded-lg border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition text-xs"
                 title="Reset layout to default"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -282,8 +282,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             onClick={() => setEditing((prev) => !prev)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
               editing
-                ? 'bg-white text-black shadow-sm'
-                : 'bg-[#181818] hover:bg-[#222222] text-[#f5f5f4] border border-[#262626]'
+                ? 'bg-[var(--accent)] text-[var(--accent-fg)] shadow-sm'
+                : 'bg-[var(--surface-2)] hover:bg-[var(--surface)] text-[var(--fg)] border border-[var(--border)]'
             }`}
           >
             {editing ? (
@@ -293,7 +293,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               </>
             ) : (
               <>
-                <LayoutGrid className="w-3.5 h-3.5 text-[#9e9e98]" />
+                <LayoutGrid className="w-3.5 h-3.5 text-[var(--fg-muted)]" />
                 <span>Customize</span>
               </>
             )}
@@ -303,10 +303,10 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
       {/* Editing Mode Banner */}
       {editing && (
-        <div className="flex items-center gap-2 p-3 rounded-xl border border-dashed border-[#333333] bg-[#141414] text-xs text-[#9e9e98]">
+        <div className="flex items-center gap-2 p-3 rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--fg-muted)]">
           <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>
-            Drag widgets by their handle to rearrange. Use <strong className="text-[#f5f5f4]">S / M / L / XL</strong> to resize, or remove what you don't need.
+            Drag widgets by their handle to rearrange. Use <strong className="text-[var(--fg)]">S / M / L / XL</strong> to resize, or remove what you don't need.
           </span>
         </div>
       )}
@@ -336,8 +336,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
         <DragOverlay>
           {activeWidget ? (
-            <div className="rounded-2xl border border-white/20 bg-[#121212] p-5 shadow-2xl opacity-90">
-              <span className="font-semibold text-xs text-white">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-2xl opacity-90">
+              <span className="font-semibold text-xs text-[var(--fg)]">
                 {WIDGET_CATALOG[activeWidget.type]?.name}
               </span>
             </div>
@@ -347,17 +347,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
       {/* Widget Library Modal */}
       {isLibraryOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="bg-[#121212] border border-[#2a2a2a] rounded-2xl w-full max-w-lg p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-[#242424] pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-lg p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
               <div>
-                <h3 className="font-bold text-sm text-[#f5f5f4]">Widget Library</h3>
-                <p className="text-xs text-[#9e9e98]">Add cards to customize your dashboard</p>
+                <h3 className="font-bold text-sm text-[var(--fg)]">Widget Library</h3>
+                <p className="text-xs text-[var(--fg-muted)]">Add cards to customize your dashboard</p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsLibraryOpen(false)}
-                className="text-[#9e9e98] hover:text-[#f5f5f4]"
+                className="text-[var(--fg-muted)] hover:text-[var(--fg)]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -371,17 +371,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 return (
                   <div
                     key={type}
-                    className="flex items-center justify-between p-3 rounded-xl bg-[#181818] border border-[#242424] text-xs hover:border-[#333333] transition"
+                    className="flex items-center justify-between p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs hover:border-[var(--border-strong)] transition"
                   >
                     <div>
-                      <span className="font-semibold text-[#f5f5f4] block">{item.name}</span>
-                      <span className="text-[11px] text-[#9e9e98] block">{item.description}</span>
+                      <span className="font-semibold text-[var(--fg)] block">{item.name}</span>
+                      <span className="text-[11px] text-[var(--fg-muted)] block">{item.description}</span>
                     </div>
 
                     <button
                       type="button"
                       onClick={() => handleAddWidget(type)}
-                      className="px-3 py-1.5 rounded-lg bg-[#242424] hover:bg-[#303030] text-[#f5f5f4] font-medium transition text-xs shrink-0"
+                      className="px-3 py-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-2)] text-[var(--fg)] font-medium transition text-xs shrink-0 border border-[var(--border)]"
                     >
                       {isAlreadyPresent ? '+ Add Another' : '+ Add'}
                     </button>

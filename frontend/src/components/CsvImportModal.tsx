@@ -68,36 +68,34 @@ export const CsvImportModal: React.FC<CsvImportModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-xl p-6 space-y-5 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-xl p-6 space-y-5 shadow-2xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-indigo-400" />
-            <h3 className="text-base font-bold text-white">Import Transactions CSV</h3>
+            <FileSpreadsheet className="w-5 h-5 text-[var(--accent)]" />
+            <h3 className="text-base font-bold text-[var(--fg)]">Import Transactions CSV</h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="text-zinc-400 hover:text-white"
+            className="text-[var(--fg-muted)] hover:text-[var(--fg)]"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <p className="text-xs text-zinc-400">
-          Compatible with CSV exports from <span className="text-white font-medium">Monarch Money</span>,{' '}
-          <span className="text-white font-medium">Mint</span>, <span className="text-white font-medium">Chase</span>, and standard banks.
-          Matching automated categorization rules will execute instantly on import.
+        <p className="text-xs text-[var(--fg-muted)]">
+          Upload any CSV from your bank or export from Monarch, Mint, etc. Matching rules will apply automatically.
         </p>
 
         {/* Upload or Drop */}
         <div className="space-y-3">
-          <label className="border-2 border-dashed border-zinc-700 hover:border-indigo-500/60 rounded-xl p-5 flex flex-col items-center justify-center cursor-pointer transition-colors bg-zinc-800/40">
-            <Upload className="w-8 h-8 text-indigo-400 mb-2" />
-            <span className="text-xs font-semibold text-white">
+          <label className="border-2 border-dashed border-[var(--border)] hover:border-[var(--accent)] rounded-xl p-5 flex flex-col items-center justify-center cursor-pointer transition-colors bg-[var(--surface-2)]">
+            <Upload className="w-8 h-8 text-[var(--accent)] mb-2" />
+            <span className="text-xs font-semibold text-[var(--fg)]">
               {fileName ? fileName : 'Choose CSV file from computer'}
             </span>
-            <span className="text-[11px] text-zinc-500 mt-1">.csv format supported</span>
+            <span className="text-[11px] text-[var(--fg-muted)] mt-1">.csv format supported</span>
             <input
               type="file"
               accept=".csv,text/csv"
@@ -107,11 +105,11 @@ export const CsvImportModal: React.FC<CsvImportModalProps> = ({
           </label>
 
           <div className="flex items-center justify-between">
-            <span className="text-xs text-zinc-500">Or paste raw CSV text below:</span>
+            <span className="text-xs text-[var(--fg-muted)]">Or paste CSV text below:</span>
             <button
               type="button"
               onClick={handlePasteSample}
-              className="text-xs text-indigo-400 hover:text-indigo-300 font-medium flex items-center gap-1"
+              className="text-xs text-[var(--fg)] hover:opacity-80 font-medium flex items-center gap-1"
             >
               <Download className="w-3.5 h-3.5" />
               Load Sample Template
@@ -123,7 +121,7 @@ export const CsvImportModal: React.FC<CsvImportModalProps> = ({
             value={csvContent}
             onChange={e => setCsvContent(e.target.value)}
             placeholder={`Date,Description,Merchant,Category,Amount\n2026-10-10,Whole Foods,Whole Foods,Groceries,-54.20...`}
-            className="w-full p-3 rounded-xl bg-zinc-800 border border-zinc-700 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500"
+            className="w-full p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs font-mono text-[var(--fg)] placeholder:[var(--fg-muted)] focus:outline-none focus:border-[var(--accent)]"
           />
         </div>
 
@@ -132,8 +130,8 @@ export const CsvImportModal: React.FC<CsvImportModalProps> = ({
           <div
             className={`p-3.5 rounded-xl border text-xs font-medium space-y-1 animate-fadeIn ${
               result.importedCount > 0
-                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
-                : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'
+                : 'bg-rose-500/10 border-rose-500/20 text-rose-500'
             }`}
           >
             <div className="flex items-center gap-2 font-bold">
@@ -149,12 +147,12 @@ export const CsvImportModal: React.FC<CsvImportModalProps> = ({
               </span>
             </div>
             {result.skippedCount > 0 && (
-              <p className="text-zinc-400 text-[11px]">
+              <p className="text-[var(--fg-muted)] text-[11px]">
                 {result.skippedCount} rows skipped due to invalid format or empty amounts.
               </p>
             )}
             {result.errors.length > 0 && (
-              <div className="text-[11px] text-rose-400 font-normal">
+              <div className="text-[11px] text-rose-500 font-normal">
                 {result.errors.slice(0, 3).map((err, i) => (
                   <p key={i}>• {err}</p>
                 ))}
@@ -167,7 +165,7 @@ export const CsvImportModal: React.FC<CsvImportModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-zinc-800 text-zinc-300 hover:text-white text-xs font-medium"
+            className="px-4 py-2 rounded-xl bg-[var(--surface-2)] text-[var(--fg-muted)] hover:text-[var(--fg)] border border-[var(--border)] text-xs font-medium"
           >
             Close
           </button>
@@ -175,9 +173,9 @@ export const CsvImportModal: React.FC<CsvImportModalProps> = ({
             type="button"
             disabled={isImporting || !csvContent.trim()}
             onClick={handleImport}
-            className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/30 transition-all disabled:opacity-50"
+            className="px-5 py-2 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-bold transition-all disabled:opacity-50"
           >
-            {isImporting ? 'Importing Ledger...' : 'Import Transactions'}
+            {isImporting ? 'Importing...' : 'Import Transactions'}
           </button>
         </div>
       </div>

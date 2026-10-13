@@ -35,18 +35,18 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Top Banner & Summary Cards */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-[#1e1e24]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-[var(--border)]">
         <div>
-          <h2 className="text-xl font-bold tracking-tight text-[#f4f4f5]">Financial Milestones</h2>
-          <p className="text-xs text-[#71717a] mt-0.5">
-            Dedicated capital reserves for emergency protection, real estate, and major life goals
+          <h2 className="text-xl font-bold tracking-tight text-[var(--fg)]">Savings Goals</h2>
+          <p className="text-xs text-[var(--fg-muted)] mt-0.5">
+            Track what you're saving for, from emergency funds to trips and major purchases.
           </p>
         </div>
 
         <button
           type="button"
           onClick={onOpenAddGoal}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#f4f4f5] hover:bg-white text-[#09090b] text-xs font-semibold transition active:scale-[0.98] shadow-sm shrink-0"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-semibold transition active:scale-[0.98] shadow-sm shrink-0"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>New Goal</span>
@@ -55,78 +55,78 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
 
       {/* KPI Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
-          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
-            Total Capital Saved
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+          <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
+            Total Saved
           </span>
-          <span className="text-2xl font-bold tracking-tight text-emerald-400 tabular block">
+          <span className="text-2xl font-bold tracking-tight text-emerald-500 tabular block">
             {formatAmount(totalSaved)}
           </span>
-          <span className="text-[11px] text-[#71717a]">
-            Across {goals.length} active milestone targets
+          <span className="text-[11px] text-[var(--fg-muted)]">
+            Across {goals.length} active goals
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
-          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
-            Cumulative Target
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+          <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
+            Target Total
           </span>
-          <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
+          <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block">
             {formatAmount(totalTarget)}
           </span>
-          <span className="text-[11px] text-[#71717a]">
-            {formatAmount(Math.max(0, totalTarget - totalSaved))} remaining to fund
+          <span className="text-[11px] text-[var(--fg-muted)]">
+            {formatAmount(Math.max(0, totalTarget - totalSaved))} remaining to reach target
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
-          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
-            Overall Completion
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+          <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
+            Overall Progress
           </span>
-          <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
+          <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block">
             {overallProgress}%
           </span>
-          <div className="w-full h-1.5 rounded-full bg-[#1e1e24] overflow-hidden mt-1">
+          <div className="w-full h-1.5 rounded-full bg-[var(--surface-2)] overflow-hidden mt-1">
             <div
-              className="h-full bg-emerald-400 rounded-full transition-all duration-500"
+              className="h-full bg-emerald-500 rounded-full transition-all duration-500"
               style={{ width: `${overallProgress}%` }}
             />
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
-          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
-            Milestones Achieved
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+          <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
+            Goals Reached
           </span>
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
+            <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block">
               {completedCount} / {goals.length}
             </span>
-            {completedCount > 0 && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
+            {completedCount > 0 && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />}
           </div>
-          <span className="text-[11px] text-[#71717a]">Fully funded milestones</span>
+          <span className="text-[11px] text-[var(--fg-muted)]">Fully funded goals</span>
         </div>
       </div>
 
       {/* Goals Cards Grid */}
       {goals.length === 0 ? (
-        <div className="p-12 rounded-2xl bg-[#121215] border border-[#27272a] text-center space-y-3">
-          <div className="w-12 h-12 mx-auto rounded-2xl bg-[#18181c] border border-[#2c2c34] flex items-center justify-center text-[#a1a1aa]">
+        <div className="p-12 rounded-2xl bg-[var(--surface)] border border-[var(--border)] text-center space-y-3">
+          <div className="w-12 h-12 mx-auto rounded-2xl bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center text-[var(--fg-muted)]">
             <Trophy className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="font-semibold text-[#f4f4f5] text-sm">No Financial Goals Set Yet</h3>
-            <p className="text-xs text-[#71717a] mt-1 max-w-sm mx-auto">
-              Create your first savings milestone, such as an emergency fund, home down payment, or vacation fund.
+            <h3 className="font-semibold text-[var(--fg)] text-sm">No Savings Goals Set Yet</h3>
+            <p className="text-xs text-[var(--fg-muted)] mt-1 max-w-sm mx-auto">
+              Create your first savings goal, such as an emergency fund, home down payment, or vacation fund.
             </p>
           </div>
           <button
             type="button"
             onClick={onOpenAddGoal}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#f4f4f5] text-[#09090b] text-xs font-semibold hover:bg-white transition"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[var(--fg)] text-[var(--bg)] text-xs font-semibold hover:opacity-90 transition"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>Create First Milestone</span>
+            <span>Add Your First Goal</span>
           </button>
         </div>
       ) : (
@@ -142,7 +142,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
             return (
               <div
                 key={goal.id}
-                className="p-5 rounded-2xl bg-[#121215] border border-[#27272a] hover:border-[#383842] transition-all flex flex-col justify-between space-y-4 shadow-sm group"
+                className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-strong)] transition-all flex flex-col justify-between space-y-4 shadow-sm group"
               >
                 {/* Top Card Header */}
                 <div className="flex items-start justify-between gap-3">
@@ -158,10 +158,10 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                       <Icon className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-[#f4f4f5] text-sm tracking-tight line-clamp-1">
+                      <h4 className="font-semibold text-[var(--fg)] text-sm tracking-tight line-clamp-1">
                         {goal.name}
                       </h4>
-                      <span className="text-[10px] text-[#71717a] uppercase tracking-wider block font-medium">
+                      <span className="text-[10px] text-[var(--fg-muted)] uppercase tracking-wider block font-medium">
                         {goal.category || 'SAVINGS'}
                       </span>
                     </div>
@@ -170,7 +170,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                   <button
                     type="button"
                     onClick={() => onEditGoal(goal)}
-                    className="p-1.5 rounded-lg text-[#71717a] hover:text-[#f4f4f5] hover:bg-[#1a1a1f] transition text-xs font-medium"
+                    className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition text-xs font-medium"
                   >
                     Edit
                   </button>
@@ -179,15 +179,15 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                 {/* Progress Visual */}
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between text-xs">
-                    <span className="font-bold text-lg text-[#f4f4f5] tabular">
+                    <span className="font-bold text-lg text-[var(--fg)] tabular">
                       {formatAmount(goal.currentAmount)}
                     </span>
-                    <span className="text-xs text-[#71717a] tabular">
+                    <span className="text-xs text-[var(--fg-muted)] tabular">
                       of {formatAmount(goal.targetAmount)}
                     </span>
                   </div>
 
-                  <div className="w-full h-2 rounded-full bg-[#18181c] overflow-hidden">
+                  <div className="w-full h-2 rounded-full bg-[var(--surface-2)] overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all duration-500"
                       style={{
@@ -197,17 +197,17 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                     />
                   </div>
 
-                  <div className="flex items-center justify-between text-[11px] text-[#71717a]">
-                    <span className="font-semibold text-[#f4f4f5]">{progress}% Funded</span>
+                  <div className="flex items-center justify-between text-[11px] text-[var(--fg-muted)]">
+                    <span className="font-semibold text-[var(--fg)]">{progress}% Funded</span>
                     <span>{formatAmount(remaining)} remaining</span>
                   </div>
                 </div>
 
                 {/* Card Footer: Target Date */}
-                <div className="pt-2 border-t border-[#1c1c22] flex items-center justify-between text-[11px] text-[#71717a]">
+                <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between text-[11px] text-[var(--fg-muted)]">
                   {goal.targetDate ? (
                     <div className="flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-[#71717a]" />
+                      <Calendar className="w-3.5 h-3.5 text-[var(--fg-muted)]" />
                       <span>Target: {goal.targetDate}</span>
                     </div>
                   ) : (
@@ -215,7 +215,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                   )}
 
                   {isCompleted ? (
-                    <span className="inline-flex items-center gap-1 text-emerald-400 font-semibold">
+                    <span className="inline-flex items-center gap-1 text-emerald-500 font-semibold">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       Completed
                     </span>
@@ -223,7 +223,7 @@ export const GoalsView: React.FC<GoalsViewProps> = ({
                     <button
                       type="button"
                       onClick={() => onEditGoal(goal)}
-                      className="text-[#a1a1aa] hover:text-[#f4f4f5] transition flex items-center gap-0.5"
+                      className="text-[var(--fg-muted)] hover:text-[var(--fg)] transition flex items-center gap-0.5"
                     >
                       <span>Update</span>
                       <ArrowUpRight className="w-3 h-3" />

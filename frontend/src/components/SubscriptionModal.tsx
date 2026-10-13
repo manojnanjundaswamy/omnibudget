@@ -113,24 +113,24 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="bg-[#121212] border border-[#242424] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#242424] bg-[#171717]/60">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-2)]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-neutral-800 text-neutral-200 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--fg)] flex items-center justify-center">
               <Clock className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-semibold text-[#f5f5f4] text-sm">
-                {isEditing ? 'Edit Subscription' : 'Add Recurring Bill / Subscription'}
+              <h3 className="font-semibold text-[var(--fg)] text-sm">
+                {isEditing ? 'Edit Bill / Subscription' : 'Add Recurring Bill'}
               </h3>
-              <p className="text-xs text-[#9e9e98]">Auto-debit radar & renewal tracker</p>
+              <p className="text-xs text-[var(--fg-muted)]">Track renewal dates and monthly expenses</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#9e9e98] hover:text-[#f5f5f4] hover:bg-[#1f1f1f] transition"
+            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface)] transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -139,27 +139,27 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs">
           {error && (
-            <div className="p-2.5 rounded-lg bg-red-950/30 border border-red-800/40 text-red-300">
+            <div className="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400">
               {error}
             </div>
           )}
 
           <div>
-            <label className="block text-[#9e9e98] mb-1 font-medium">Service Name</label>
+            <label className="block text-[var(--fg-muted)] mb-1 font-medium">Service or Bill Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Netflix, Spotify, GitHub, AWS, Gym..."
+              placeholder="Netflix, Spotify, Internet, Rent..."
               required
               autoFocus
-              className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+              className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">
                 Recurring Amount ({currentCurrency.code})
               </label>
               <input
@@ -169,16 +169,16 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="14.99"
                 required
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] font-semibold focus:outline-none focus:border-neutral-500 tabular-nums"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] font-semibold focus:outline-none focus:border-[var(--accent)] tabular-nums"
               />
             </div>
 
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">Cadence</label>
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">Cadence</label>
               <select
                 value={cadence}
                 onChange={(e) => setCadence(e.target.value)}
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               >
                 <option value="MONTHLY">Monthly</option>
                 <option value="ANNUAL">Annual</option>
@@ -189,21 +189,21 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">Next Billing Date</label>
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">Next Billing Date</label>
               <input
                 type="date"
                 value={nextBillingDate}
                 onChange={(e) => setNextBillingDate(e.target.value)}
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               />
             </div>
 
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">Auto-Debit Account</label>
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">Payment Account</label>
               <select
                 value={accountId}
                 onChange={(e) => setAccountId(e.target.value)}
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               >
                 <option value="">None (Unspecified)</option>
                 {accounts.map((acc) => (
@@ -216,16 +216,16 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           </div>
 
           {/* Footer actions */}
-          <div className="flex items-center justify-between pt-3 border-t border-[#242424]">
+          <div className="flex items-center justify-between pt-3 border-t border-[var(--border)]">
             {isEditing ? (
               <button
                 type="button"
                 onClick={handleDelete}
                 disabled={isSubmitting}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-950/20 transition font-medium"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition font-medium"
               >
                 <Trash2 className="w-3.5 h-3.5" />
-                <span>Cancel Service</span>
+                <span>Delete</span>
               </button>
             ) : (
               <div></div>
@@ -235,16 +235,16 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-3.5 py-2 rounded-lg text-xs font-medium text-[#9e9e98] hover:text-[#f5f5f4] hover:bg-[#1a1a1a] transition"
+                className="px-3.5 py-2 rounded-lg text-xs font-medium text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition disabled:opacity-40"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] transition disabled:opacity-40 shadow-sm"
               >
-                <span>{isSubmitting ? 'Saving...' : isEditing ? 'Save Changes' : 'Track Subscription'}</span>
+                <span>{isSubmitting ? 'Saving...' : isEditing ? 'Save Changes' : 'Track Bill'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>

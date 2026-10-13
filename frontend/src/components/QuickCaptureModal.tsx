@@ -191,22 +191,22 @@ export const QuickCaptureModal: React.FC<QuickCaptureModalProps> = ({
   const iouShare = parsedAmount && myShare ? parsedAmount - myShare : 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="bg-[#121212] border border-[#242424] rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#242424] bg-[#171717]/60">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-2)]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-neutral-800 text-neutral-200 flex items-center justify-center">
-              <Sparkles className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--fg)] flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-[var(--accent)]" />
             </div>
             <div>
-              <h3 className="font-medium text-[#f5f5f4] text-sm">Smart Quick Capture</h3>
-              <p className="text-xs text-[#9e9e98]">Natural language personal & split transaction ingestion</p>
+              <h3 className="font-semibold text-[var(--fg)] text-sm">Quick Add</h3>
+              <p className="text-xs text-[var(--fg-muted)]">Type naturally to log a transaction or split bill</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#9e9e98] hover:text-[#f5f5f4] hover:bg-[#1f1f1f] transition"
+            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -215,7 +215,7 @@ export const QuickCaptureModal: React.FC<QuickCaptureModalProps> = ({
         {/* Input area */}
         <form onSubmit={handleQuickSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block text-[11px] font-medium text-[#9e9e98] uppercase tracking-wider mb-2">
+            <label className="block text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider mb-2">
               Type naturally (e.g. "Dinner $120 at Nobu split 3 ways with Liam and Emma")
             </label>
             <div className="relative">
@@ -225,44 +225,44 @@ export const QuickCaptureModal: React.FC<QuickCaptureModalProps> = ({
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Spent $45 on groceries at Trader Joe's..."
                 autoFocus
-                className="w-full bg-[#171717] border border-[#2a2a2a] focus:border-neutral-500 rounded-xl px-4 py-3 text-sm text-[#f5f5f4] placeholder-neutral-600 focus:outline-none focus:ring-1 focus:ring-neutral-700 transition"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl px-4 py-3 text-sm text-[var(--fg)] placeholder-[var(--fg-muted)] focus:outline-none transition"
               />
             </div>
           </div>
 
           {/* Real-time Parsed Preview Badge */}
           {parsedAmount !== null && (
-            <div className="p-4 rounded-xl bg-[#171717] border border-[#242424] space-y-3">
-              <div className="flex items-center justify-between text-xs text-[#9e9e98]">
-                <span className="font-medium text-[#f5f5f4] flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  Engine Parsed Extraction
+            <div className="p-4 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] space-y-3">
+              <div className="flex items-center justify-between text-xs text-[var(--fg-muted)]">
+                <span className="font-medium text-[var(--fg)] flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                  Detected Details
                 </span>
-                <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-neutral-800 text-neutral-300 uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[var(--surface)] border border-[var(--border)] text-[var(--fg-muted)] uppercase tracking-wider">
                   {parsedType}
                 </span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                <div className="bg-[#1c1c1c] p-2.5 rounded-lg border border-[#262626]">
-                  <span className="text-[#9e9e98] text-[11px] block">Gross Total</span>
-                  <span className="font-semibold text-[#f5f5f4] text-sm tabular-nums">
+                <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
+                  <span className="text-[var(--fg-muted)] text-[11px] block">Total Amount</span>
+                  <span className="font-semibold text-[var(--fg)] text-sm tabular-nums">
                     {formatAmount(parsedAmount)}
                   </span>
                 </div>
-                <div className="bg-[#1c1c1c] p-2.5 rounded-lg border border-[#262626]">
-                  <span className="text-[#9e9e98] text-[11px] block">Merchant</span>
-                  <span className="font-medium text-[#e5e5e5] truncate block">
+                <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
+                  <span className="text-[var(--fg-muted)] text-[11px] block">Merchant</span>
+                  <span className="font-medium text-[var(--fg)] truncate block">
                     {parsedMerchant || 'Unspecified'}
                   </span>
                 </div>
-                <div className="bg-[#1c1c1c] p-2.5 rounded-lg border border-[#262626]">
-                  <span className="text-[#9e9e98] text-[11px] block">Category</span>
-                  <span className="font-medium text-[#e5e5e5] block">{parsedCategory}</span>
+                <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
+                  <span className="text-[var(--fg-muted)] text-[11px] block">Category</span>
+                  <span className="font-medium text-[var(--fg)] block">{parsedCategory}</span>
                 </div>
-                <div className="bg-[#1c1c1c] p-2.5 rounded-lg border border-[#262626]">
-                  <span className="text-[#9e9e98] text-[11px] block">Personal Impact</span>
-                  <span className="font-semibold text-emerald-400 text-sm tabular-nums">
+                <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
+                  <span className="text-[var(--fg-muted)] text-[11px] block">Your Share</span>
+                  <span className="font-semibold text-emerald-500 text-sm tabular-nums">
                     {formatAmount(myShare)}
                   </span>
                 </div>
@@ -270,13 +270,13 @@ export const QuickCaptureModal: React.FC<QuickCaptureModalProps> = ({
 
               {/* Split Invariant Highlight */}
               {parsedSplitMembers.length > 1 && (
-                <div className="p-3 rounded-lg bg-emerald-950/20 border border-emerald-900/40 flex items-start gap-2.5 text-xs text-emerald-300">
-                  <Users className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-start gap-2.5 text-xs text-emerald-600 dark:text-emerald-400">
+                  <Users className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-medium text-emerald-300">Split-to-Budget Double-Entry Protected:</span>
-                    <p className="text-[11px] text-emerald-400/90 mt-0.5 leading-relaxed">
-                      Your budget is charged only your personal share ({formatAmount(myShare)}). The remaining{' '}
-                      <strong className="text-emerald-200">{formatAmount(iouShare)}</strong> is automatically booked as a Receivable IOU asset owed by{' '}
+                    <span className="font-medium">Split with friends:</span>
+                    <p className="text-[11px] mt-0.5 leading-relaxed">
+                      Only your personal share ({formatAmount(myShare)}) is counted as an expense. The remaining{' '}
+                      <strong>{formatAmount(iouShare)}</strong> is tracked as an IOU owed by{' '}
                       {parsedSplitMembers.filter((m) => m !== 'You').join(', ')}.
                     </p>
                   </div>
@@ -285,16 +285,16 @@ export const QuickCaptureModal: React.FC<QuickCaptureModalProps> = ({
             </div>
           )}
 
-          {/* Account & Envelope Selectors */}
+          {/* Account & Category Selectors */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium flex items-center gap-1.5">
-                <Building2 className="w-3.5 h-3.5 text-neutral-500" /> Paying Account
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium flex items-center gap-1.5">
+                <Building2 className="w-3.5 h-3.5 text-[var(--fg-muted)]" /> Paying Account
               </label>
               <select
                 value={selectedAccountId}
                 onChange={(e) => setSelectedAccountId(e.target.value)}
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-xs text-[#f5f5f4] focus:outline-none focus:border-neutral-500 transition"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--fg)] focus:outline-none focus:border-[var(--accent)] transition"
               >
                 {accounts.map((acc) => (
                   <option key={acc.id} value={acc.id}>
@@ -305,15 +305,15 @@ export const QuickCaptureModal: React.FC<QuickCaptureModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-neutral-500" /> Budget Envelope
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-[var(--fg-muted)]" /> Budget Category
               </label>
               <select
                 value={selectedEnvelopeId}
                 onChange={(e) => setSelectedEnvelopeId(e.target.value)}
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-xs text-[#f5f5f4] focus:outline-none focus:border-neutral-500 transition"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--fg)] focus:outline-none focus:border-[var(--accent)] transition"
               >
-                <option value="">No envelope (Unbudgeted)</option>
+                <option value="">No category (Unbudgeted)</option>
                 {envelopes.map((env) => (
                   <option key={env.id} value={env.id}>
                     {env.name} ({formatAmount(env.monthlyBudget - env.spentAmount)} remaining)
@@ -324,20 +324,20 @@ export const QuickCaptureModal: React.FC<QuickCaptureModalProps> = ({
           </div>
 
           {/* Footer Submit */}
-          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#242424]">
+          <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[var(--border)]">
             <button
               type="button"
               onClick={onClose}
-              className="px-3.5 py-2 rounded-lg text-xs font-medium text-[#9e9e98] hover:text-[#f5f5f4] hover:bg-[#1a1a1a] transition"
+              className="px-3.5 py-2 rounded-lg text-xs font-medium text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!parsedAmount || !selectedAccountId || isSubmitting}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] disabled:opacity-40 disabled:cursor-not-allowed transition"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] disabled:opacity-40 disabled:cursor-not-allowed transition"
             >
-              <span>{isSubmitting ? 'Recording...' : 'Ingest Transaction'}</span>
+              <span>{isSubmitting ? 'Recording...' : 'Save Transaction'}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

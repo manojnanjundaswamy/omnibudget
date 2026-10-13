@@ -121,19 +121,19 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="bg-[#121212] border border-[#242424] rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#242424] bg-[#171717]/60">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-2)]">
           <div>
-            <h3 className="font-semibold text-[#f5f5f4] text-sm">
-              {isEditing ? 'Edit Transaction' : 'Record New Transaction'}
+            <h3 className="font-semibold text-[var(--fg)] text-sm">
+              {isEditing ? 'Edit Transaction' : 'Add Transaction'}
             </h3>
-            <p className="text-xs text-[#9e9e98]">Double-entry ledger entry</p>
+            <p className="text-xs text-[var(--fg-muted)]">Record an expense, income, or transfer</p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#9e9e98] hover:text-[#f5f5f4] hover:bg-[#1f1f1f] transition"
+            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface)] transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -142,13 +142,13 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs">
           {error && (
-            <div className="p-2.5 rounded-lg bg-red-950/30 border border-red-800/40 text-red-300">
+            <div className="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400">
               {error}
             </div>
           )}
 
           {/* Type Selector Tabs */}
-          <div className="grid grid-cols-3 gap-1 p-1 bg-[#171717] rounded-xl border border-[#262626]">
+          <div className="grid grid-cols-3 gap-1 p-1 bg-[var(--surface-2)] rounded-xl border border-[var(--border)]">
             {(['EXPENSE', 'INCOME', 'TRANSFER'] as TransactionType[]).map((t) => (
               <button
                 key={t}
@@ -156,8 +156,8 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 onClick={() => setType(t)}
                 className={`py-1.5 rounded-lg font-medium text-center transition ${
                   type === t
-                    ? 'bg-[#242424] text-[#f5f5f4] shadow-sm'
-                    : 'text-[#9e9e98] hover:text-[#f5f5f4]'
+                    ? 'bg-[var(--surface)] text-[var(--fg)] shadow-sm'
+                    : 'text-[var(--fg-muted)] hover:text-[var(--fg)]'
                 }`}
               >
                 {t}
@@ -168,7 +168,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           {/* Amount & Date */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">Amount ({currentCurrency.code})</label>
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">Amount ({currentCurrency.code})</label>
               <input
                 type="number"
                 step="0.01"
@@ -177,17 +177,17 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                 placeholder="0.00"
                 required
                 autoFocus
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] font-semibold text-sm focus:outline-none focus:border-neutral-500 tabular-nums"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] font-semibold text-sm focus:outline-none focus:border-[var(--accent)] tabular-nums"
               />
             </div>
 
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">Date</label>
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">Date</label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               />
             </div>
           </div>
@@ -195,24 +195,24 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           {/* Merchant / Description */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">Merchant / Payee</label>
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">Merchant / Payee</label>
               <input
                 type="text"
                 value={merchant}
                 onChange={(e) => setMerchant(e.target.value)}
-                placeholder="Trader Joe's, Uber, Employer..."
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                placeholder="Store, cafe, employer..."
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               />
             </div>
 
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">Category</label>
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">Category</label>
               <input
                 type="text"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 placeholder="Dining, Groceries, Housing..."
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               />
             </div>
           </div>
@@ -220,11 +220,11 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           {/* Account & Envelope */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">Paying Account</label>
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">Paying Account</label>
               <select
                 value={accountId}
                 onChange={(e) => setAccountId(e.target.value)}
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               >
                 {accounts.map((acc) => (
                   <option key={acc.id} value={acc.id}>
@@ -235,11 +235,11 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-[#9e9e98] mb-1 font-medium">Budget Envelope</label>
+              <label className="block text-[var(--fg-muted)] mb-1 font-medium">Budget Category</label>
               <select
                 value={envelopeId}
                 onChange={(e) => setEnvelopeId(e.target.value)}
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               >
                 <option value="">None (Unbudgeted)</option>
                 {envelopes.map((env) => (
@@ -252,24 +252,24 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-[#9e9e98] mb-1 font-medium">Memo / Notes</label>
+            <label className="block text-[var(--fg-muted)] mb-1 font-medium">Notes</label>
             <input
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Optional notes or context"
-              className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+              placeholder="Optional notes"
+              className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
             />
           </div>
 
           {/* Footer actions */}
-          <div className="flex items-center justify-between pt-3 border-t border-[#242424]">
+          <div className="flex items-center justify-between pt-3 border-t border-[var(--border)]">
             {isEditing ? (
               <button
                 type="button"
                 onClick={handleDelete}
                 disabled={isSubmitting}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-950/20 transition font-medium text-xs"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition font-medium text-xs"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Delete</span>
@@ -282,16 +282,16 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-3.5 py-2 rounded-lg text-xs font-medium text-[#9e9e98] hover:text-[#f5f5f4] hover:bg-[#1a1a1a] transition"
+                className="px-3.5 py-2 rounded-lg text-xs font-medium text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition disabled:opacity-40"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] transition disabled:opacity-40 shadow-sm"
               >
-                <span>{isSubmitting ? 'Saving...' : isEditing ? 'Update Transaction' : 'Record Transaction'}</span>
+                <span>{isSubmitting ? 'Saving...' : isEditing ? 'Save Changes' : 'Add Transaction'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>

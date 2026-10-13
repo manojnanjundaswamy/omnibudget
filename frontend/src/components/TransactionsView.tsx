@@ -122,11 +122,11 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-2 border-b border-[#1c1c1c]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-2 border-b border-[var(--border)]">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-[#f5f5f4]">Ledger & Transactions</h2>
-          <p className="text-xs text-[#9e9e98] mt-0.5">
-            Real-time double-entry transaction audit stream • Drill down and filter by account or category
+          <h2 className="text-2xl font-bold tracking-tight text-[var(--fg)]">Transactions</h2>
+          <p className="text-xs text-[var(--fg-muted)] mt-0.5">
+            Every expense, income, and transfer, newest first · Click any row to view details
           </p>
         </div>
 
@@ -135,25 +135,25 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
             type="button"
             onClick={handleExportCsv}
             title="Download full transaction ledger as CSV"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[#1a1a1a] hover:bg-[#262626] text-neutral-300 border border-[#2a2a2a] transition shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--surface-2)] hover:bg-[var(--surface)] text-[var(--fg)] border border-[var(--border)] transition shadow-sm"
           >
-            <Download className="w-3.5 h-3.5 text-neutral-400" />
+            <Download className="w-3.5 h-3.5 text-[var(--fg-muted)]" />
             <span>Export CSV</span>
           </button>
 
           <button
             type="button"
             onClick={() => setIsImportModalOpen(true)}
-            title="Upload CSV from Monarch, Mint, or bank"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[#1a1a1a] hover:bg-[#262626] text-indigo-300 border border-indigo-500/30 transition shadow-sm"
+            title="Upload CSV from bank or spreadsheet"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--surface-2)] hover:bg-[var(--surface)] text-[var(--fg)] border border-[var(--border)] transition shadow-sm"
           >
-            <Upload className="w-3.5 h-3.5 text-indigo-400" />
+            <Upload className="w-3.5 h-3.5 text-[var(--fg-muted)]" />
             <span>Import CSV</span>
           </button>
 
           <button
             onClick={onOpenAddModal}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition shadow-sm"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] transition shadow-sm"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Transaction</span>
@@ -162,17 +162,17 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
       </div>
 
       {/* Filter Toolbar */}
-      <div className="p-4 rounded-2xl bg-[#121212] border border-[#242424] space-y-3">
+      <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
           {/* Search */}
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-neutral-500 absolute left-3 top-3" />
+            <Search className="w-3.5 h-3.5 text-[var(--fg-muted)] absolute left-3 top-3" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search merchant, notes..."
-              className="w-full bg-[#171717] border border-[#2a2a2a] rounded-xl pl-9 pr-3 py-2 text-[#f5f5f4] placeholder-neutral-600 focus:outline-none focus:border-neutral-500"
+              className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-xl pl-9 pr-3 py-2 text-[var(--fg)] placeholder-[var(--fg-subtle)] focus:outline-none focus:border-[var(--accent)]"
             />
           </div>
 
@@ -181,7 +181,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
             <select
               value={selectedAccountId}
               onChange={(e) => setSelectedAccountId(e.target.value)}
-              className="w-full bg-[#171717] border border-[#2a2a2a] rounded-xl px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+              className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-xl px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
             >
               <option value="">All Accounts</option>
               {accounts.map((acc) => (
@@ -197,7 +197,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full bg-[#171717] border border-[#2a2a2a] rounded-xl px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+              className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-xl px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
             >
               <option value="">All Categories</option>
               {categories.map((cat) => (
@@ -213,7 +213,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value as TransactionType | '')}
-              className="w-full bg-[#171717] border border-[#2a2a2a] rounded-xl px-3 py-2 text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+              className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-xl px-3 py-2 text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
             >
               <option value="">All Types</option>
               <option value="EXPENSE">Expense</option>
@@ -227,13 +227,13 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
 
         {/* Filter Indicator / Reset */}
         {hasActiveFilters && (
-          <div className="flex items-center justify-between pt-2 border-t border-[#1c1c1c] text-xs">
-            <span className="text-[#9e9e98] text-[11px]">
+          <div className="flex items-center justify-between pt-2 border-t border-[var(--border)] text-xs">
+            <span className="text-[var(--fg-muted)] text-[11px]">
               Showing {filteredTransactions.length} of {transactions.length} transactions
             </span>
             <button
               onClick={clearFilters}
-              className="flex items-center gap-1 text-[11px] text-[#9e9e98] hover:text-[#f5f5f4] transition"
+              className="flex items-center gap-1 text-[11px] text-[var(--fg-muted)] hover:text-[var(--fg)] transition"
             >
               <X className="w-3 h-3" />
               <span>Clear filters</span>
@@ -243,17 +243,17 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
       </div>
 
       {/* Transactions Table */}
-      <div className="rounded-2xl bg-[#121212] border border-[#242424] overflow-hidden shadow-sm">
+      <div className="rounded-2xl bg-[var(--surface)] border border-[var(--border)] overflow-hidden shadow-sm">
         {filteredTransactions.length === 0 ? (
-          <div className="p-12 text-center text-[#9e9e98] space-y-2">
-            <p className="text-sm font-medium text-[#f5f5f4]">No transactions found</p>
+          <div className="p-12 text-center text-[var(--fg-muted)] space-y-2">
+            <p className="text-sm font-medium text-[var(--fg)]">No transactions found</p>
             <p className="text-xs">Try adjusting your filters or record a new transaction.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-[#202020] bg-[#161616]/70 text-[#9e9e98] text-[11px] uppercase tracking-wider font-medium">
+                <tr className="border-b border-[var(--border)] bg-[var(--surface-2)] text-[var(--fg-muted)] text-[11px] uppercase tracking-wider font-medium">
                   <th className="py-3 px-4">Date</th>
                   <th className="py-3 px-4">Merchant / Description</th>
                   <th className="py-3 px-4">Category</th>
@@ -262,7 +262,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1a1a1a]">
+              <tbody className="divide-y divide-[var(--border)]">
                 {filteredTransactions.map((tx) => {
                   const isIncome = tx.type === 'INCOME';
                   const isTransfer = tx.type === 'TRANSFER';
@@ -272,10 +272,10 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
                     <tr
                       key={tx.id}
                       onClick={() => onEditTransaction(tx)}
-                      className="hover:bg-[#181818] transition cursor-pointer group"
+                      className="hover:bg-[var(--surface-2)] transition cursor-pointer group"
                     >
                       {/* Date */}
-                      <td className="py-3 px-4 text-[#9e9e98] whitespace-nowrap">
+                      <td className="py-3 px-4 text-[var(--fg-muted)] whitespace-nowrap">
                         {tx.date}
                       </td>
 
@@ -285,10 +285,10 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
                           <div
                             className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 ${
                               isIncome
-                                ? 'bg-emerald-950/40 text-emerald-400'
+                                ? 'bg-emerald-500/10 text-emerald-400'
                                 : isTransfer
-                                ? 'bg-blue-950/40 text-blue-400'
-                                : 'bg-[#1e1e1e] text-[#9e9e98]'
+                                ? 'bg-blue-500/10 text-blue-400'
+                                : 'bg-[var(--surface-2)] text-[var(--fg-muted)]'
                             }`}
                           >
                             {isIncome ? (
@@ -300,11 +300,11 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
                             )}
                           </div>
                           <div>
-                            <span className="font-medium text-[#f5f5f4] block">
+                            <span className="font-medium text-[var(--fg)] block">
                               {tx.merchant || tx.description || 'Transaction'}
                             </span>
                             {tx.description && tx.merchant && tx.description !== tx.merchant && (
-                              <span className="text-[10px] text-[#737373] block truncate max-w-xs">
+                              <span className="text-[10px] text-[var(--fg-subtle)] block truncate max-w-xs">
                                 {tx.description}
                               </span>
                             )}
@@ -314,18 +314,18 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
 
                       {/* Category */}
                       <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#1c1c1c] text-[#d4d4d4] border border-[#282828]">
+                        <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-[var(--surface-2)] text-[var(--fg)] border border-[var(--border)]">
                           {tx.category || 'General'}
                         </span>
                         {tx.envelopeName && (
-                          <span className="text-[10px] text-[#737373] block mt-0.5">
+                          <span className="text-[10px] text-[var(--fg-subtle)] block mt-0.5">
                             {tx.envelopeName}
                           </span>
                         )}
                       </td>
 
                       {/* Account */}
-                      <td className="py-3 px-4 text-[#9e9e98] whitespace-nowrap">
+                      <td className="py-3 px-4 text-[var(--fg-muted)] whitespace-nowrap">
                         {tx.accountName || 'Account'}
                       </td>
 
@@ -333,7 +333,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
                       <td className="py-3 px-4 text-right whitespace-nowrap">
                         <span
                           className={`font-semibold tabular-nums text-xs ${
-                            isIncome ? 'text-emerald-400' : 'text-[#f5f5f4]'
+                            isIncome ? 'text-emerald-400' : 'text-[var(--fg)]'
                           }`}
                         >
                           {isIncome ? '+' : ''}
@@ -356,7 +356,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
                               e.stopPropagation();
                               onEditTransaction(tx);
                             }}
-                            className="p-1.5 rounded-lg text-[#9e9e98] hover:text-[#f5f5f4] hover:bg-[#252525] transition"
+                            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
                             title="Edit Transaction"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
@@ -365,7 +365,7 @@ export const TransactionsView: React.FC<TransactionsViewProps> = ({
                             type="button"
                             onClick={(e) => handleDelete(tx.id, e)}
                             disabled={deletingId === tx.id}
-                            className="p-1.5 rounded-lg text-[#9e9e98] hover:text-red-400 hover:bg-red-950/30 transition"
+                            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-red-400 hover:bg-red-500/10 transition"
                             title="Delete Transaction"
                           >
                             <Trash2 className="w-3.5 h-3.5" />

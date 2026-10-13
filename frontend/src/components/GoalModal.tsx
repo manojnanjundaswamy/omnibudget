@@ -123,25 +123,25 @@ export const GoalModal: React.FC<GoalModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="bg-[#121215] border border-[#27272a] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#222228] bg-[#16161a]/60">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-2)]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
               <Trophy className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-semibold text-[#f4f4f5] text-sm">
-                {isEditing ? 'Edit Financial Goal' : 'Create Financial Milestone'}
+              <h3 className="font-semibold text-[var(--fg)] text-sm">
+                {isEditing ? 'Edit Savings Goal' : 'Add Savings Goal'}
               </h3>
-              <p className="text-xs text-[#71717a]">Long-term wealth building & target tracking</p>
+              <p className="text-xs text-[var(--fg-muted)]">Set a target to keep track of your progress</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#71717a] hover:text-[#f4f4f5] hover:bg-[#1e1e24] transition"
+            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -150,27 +150,27 @@ export const GoalModal: React.FC<GoalModalProps> = ({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="p-3 rounded-lg bg-red-950/30 border border-red-800/40 text-xs text-red-300">
+            <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-xs text-rose-500">
               {error}
             </div>
           )}
 
           {/* Goal Name */}
           <div>
-            <label className="block text-xs font-medium text-[#a1a1aa] mb-1.5">Goal Name</label>
+            <label className="block text-xs font-medium text-[var(--fg-muted)] mb-1.5">Goal Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. 6-Month Emergency Reserve, Home Down Payment"
+              placeholder="e.g. Emergency Fund, Vacation, New Laptop"
               required
-              className="w-full bg-[#16161a] border border-[#27272a] focus:border-neutral-500 rounded-xl px-3.5 py-2.5 text-xs text-[#f4f4f5] focus:outline-none transition"
+              className="w-full bg-[var(--surface-2)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl px-3.5 py-2.5 text-xs text-[var(--fg)] focus:outline-none transition"
             />
           </div>
 
           {/* Category Selector */}
           <div>
-            <label className="block text-xs font-medium text-[#a1a1aa] mb-1.5">Goal Category</label>
+            <label className="block text-xs font-medium text-[var(--fg-muted)] mb-1.5">Category</label>
             <div className="grid grid-cols-2 gap-2">
               {GOAL_CATEGORIES.map((cat) => {
                 const Icon = cat.icon;
@@ -185,8 +185,8 @@ export const GoalModal: React.FC<GoalModalProps> = ({
                     }}
                     className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition ${
                       isSelected
-                        ? 'border-[#f4f4f5] bg-[#1e1e24] text-[#f4f4f5]'
-                        : 'border-[#222228] bg-[#16161a] text-[#71717a] hover:border-[#383842]'
+                        ? 'border-[var(--accent)] bg-[var(--surface)] text-[var(--fg)] font-semibold shadow-sm'
+                        : 'border-[var(--border)] bg-[var(--surface-2)] text-[var(--fg-muted)] hover:border-[var(--border-strong)]'
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5 shrink-0" style={{ color: cat.color }} />
@@ -200,7 +200,7 @@ export const GoalModal: React.FC<GoalModalProps> = ({
           {/* Amounts Grid */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-[#a1a1aa] mb-1.5">Target Amount</label>
+              <label className="block text-xs font-medium text-[var(--fg-muted)] mb-1.5">Target Amount</label>
               <input
                 type="number"
                 step="0.01"
@@ -208,42 +208,42 @@ export const GoalModal: React.FC<GoalModalProps> = ({
                 onChange={(e) => setTargetAmount(e.target.value)}
                 placeholder="20000.00"
                 required
-                className="w-full bg-[#16161a] border border-[#27272a] focus:border-neutral-500 rounded-xl px-3.5 py-2.5 text-xs text-[#f4f4f5] focus:outline-none transition tabular"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl px-3.5 py-2.5 text-xs text-[var(--fg)] focus:outline-none transition tabular"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-[#a1a1aa] mb-1.5">Current Saved</label>
+              <label className="block text-xs font-medium text-[var(--fg-muted)] mb-1.5">Current Saved</label>
               <input
                 type="number"
                 step="0.01"
                 value={currentAmount}
                 onChange={(e) => setCurrentAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full bg-[#16161a] border border-[#27272a] focus:border-neutral-500 rounded-xl px-3.5 py-2.5 text-xs text-[#f4f4f5] focus:outline-none transition tabular"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl px-3.5 py-2.5 text-xs text-[var(--fg)] focus:outline-none transition tabular"
               />
             </div>
           </div>
 
           {/* Target Date */}
           <div>
-            <label className="block text-xs font-medium text-[#a1a1aa] mb-1.5">Target Date (Optional)</label>
+            <label className="block text-xs font-medium text-[var(--fg-muted)] mb-1.5">Target Date (Optional)</label>
             <input
               type="date"
               value={targetDate}
               onChange={(e) => setTargetDate(e.target.value)}
-              className="w-full bg-[#16161a] border border-[#27272a] focus:border-neutral-500 rounded-xl px-3.5 py-2.5 text-xs text-[#f4f4f5] focus:outline-none transition"
+              className="w-full bg-[var(--surface-2)] border border-[var(--border)] focus:border-[var(--accent)] rounded-xl px-3.5 py-2.5 text-xs text-[var(--fg)] focus:outline-none transition"
             />
           </div>
 
           {/* Buttons Footer */}
-          <div className="flex items-center justify-between pt-3 border-t border-[#222228]">
+          <div className="flex items-center justify-between pt-3 border-t border-[var(--border)]">
             {isEditing ? (
               <button
                 type="button"
                 onClick={handleDelete}
                 disabled={isSubmitting}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs text-red-400 hover:text-red-300 hover:bg-red-950/20 transition"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs text-rose-500 hover:text-rose-600 hover:bg-rose-500/10 transition"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Delete</span>
@@ -256,16 +256,16 @@ export const GoalModal: React.FC<GoalModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 rounded-xl text-xs text-[#a1a1aa] hover:text-[#f4f4f5] hover:bg-[#1e1e24] transition"
+                className="px-4 py-2 rounded-xl text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#f4f4f5] hover:bg-white text-[#09090b] transition disabled:opacity-50"
+                className="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] transition disabled:opacity-50"
               >
-                {isSubmitting ? 'Saving...' : isEditing ? 'Update Goal' : 'Create Goal'}
+                {isSubmitting ? 'Saving...' : isEditing ? 'Save Changes' : 'Add Goal'}
               </button>
             </div>
           </div>

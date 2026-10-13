@@ -44,28 +44,28 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-2 border-b border-[#1c1c1c]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-2 border-b border-[var(--border)]">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-[#f5f5f4]">Recurring Bills & Radar</h2>
-          <p className="text-xs text-[#9e9e98] mt-0.5">
-            Ghost subscription audit • Upcoming auto-debit calendar • Outflow forecasting
+          <h2 className="text-2xl font-bold tracking-tight text-[var(--fg)]">Upcoming Bills</h2>
+          <p className="text-xs text-[var(--fg-muted)] mt-0.5">
+            Subscriptions, utilities, and auto-debits in one place
           </p>
         </div>
 
         <div className="flex items-center gap-4">
           <div className="text-right">
-            <span className="text-[#9e9e98] text-[11px] block">Monthly Recurring Drain</span>
-            <span className="text-2xl font-bold text-[#f5f5f4] tabular-nums">
+            <span className="text-[var(--fg-muted)] text-[11px] block">Monthly bills total</span>
+            <span className="text-2xl font-bold text-[var(--fg)] tabular-nums">
               {formatAmount(totalMonthly)}/mo
             </span>
-            <span className="text-[10px] text-[#6b6b66] block">
-              Annual run-rate: {formatAmount(totalMonthly * 12)}/yr
+            <span className="text-[10px] text-[var(--fg-subtle)] block">
+              Annual total: {formatAmount(totalMonthly * 12)}/yr
             </span>
           </div>
 
           <button
             onClick={onOpenAddSubscription}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] transition shadow-sm"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Bill</span>
@@ -75,14 +75,14 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
 
       {/* Subscriptions Grid */}
       {subscriptions.length === 0 ? (
-        <div className="p-12 text-center rounded-2xl bg-[#121212] border border-[#242424] space-y-3">
-          <p className="text-sm font-semibold text-[#f5f5f4]">No recurring subscriptions tracked</p>
-          <p className="text-xs text-[#9e9e98]">Add your Netflix, Spotify, gym, or SaaS subscriptions to monitor monthly renewal drain.</p>
+        <div className="p-12 text-center rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-3">
+          <p className="text-sm font-semibold text-[var(--fg)]">No recurring bills tracked</p>
+          <p className="text-xs text-[var(--fg-muted)]">Add your streaming services, gym, rent, or utilities to keep track of renewals.</p>
           <button
             onClick={onOpenAddSubscription}
-            className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#f5f5f4] text-[#0a0a0a] hover:bg-white transition"
+            className="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition"
           >
-            + Track Your First Subscription
+            + Add Your First Bill
           </button>
         </div>
       ) : (
@@ -92,21 +92,21 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
               <div
                 key={sub.id}
                 onClick={() => onEditSubscription(sub)}
-                className="p-5 rounded-2xl bg-[#121212] border border-[#242424] hover:border-[#383838] transition space-y-4 cursor-pointer group"
+                className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-strong)] transition space-y-4 cursor-pointer group"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center text-[var(--fg)]">
                       {getSubIcon(sub.name)}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-[#f5f5f4] text-xs">{sub.name}</h3>
-                      <span className="text-[11px] text-[#9e9e98]">{sub.category || 'Subscription'}</span>
+                      <h3 className="font-semibold text-[var(--fg)] text-xs">{sub.name}</h3>
+                      <span className="text-[11px] text-[var(--fg-muted)]">{sub.category || 'Subscription'}</span>
                     </div>
                   </div>
 
                   <div className="text-right">
-                    <span className="text-sm font-bold text-[#f5f5f4] tabular-nums block">
+                    <span className="text-sm font-bold text-[var(--fg)] tabular-nums block">
                       {formatAmount(sub.amount)}
                     </span>
                     <button
@@ -115,18 +115,18 @@ export const SubscriptionsView: React.FC<SubscriptionsViewProps> = ({
                         e.stopPropagation();
                         onEditSubscription(sub);
                       }}
-                      className="text-[10px] text-[#737373] hover:text-[#f5f5f4] transition opacity-0 group-hover:opacity-100"
+                      className="text-[10px] text-[var(--fg-muted)] hover:text-[var(--fg)] transition opacity-0 group-hover:opacity-100"
                     >
                       Edit
                     </button>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-[#1e1e1e] flex items-center justify-between text-xs text-[#9e9e98]">
+                <div className="pt-3 border-t border-[var(--border)] flex items-center justify-between text-xs text-[var(--fg-muted)]">
                   <span className="flex items-center gap-1.5 text-[11px]">
-                    <Clock className="w-3.5 h-3.5 text-[#6b6b66]" /> Next: {sub.nextBillingDate}
+                    <Clock className="w-3.5 h-3.5 text-[var(--fg-subtle)]" /> Next: {sub.nextBillingDate}
                   </span>
-                  <span className="text-[10px] uppercase font-bold text-[#6b6b66] px-2 py-0.5 rounded bg-[#181818]">
+                  <span className="text-[10px] uppercase font-bold text-[var(--fg-muted)] px-2 py-0.5 rounded bg-[var(--surface-2)]">
                     {sub.cadence}
                   </span>
                 </div>

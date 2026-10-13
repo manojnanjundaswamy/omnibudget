@@ -43,21 +43,21 @@ export const SafeToSpendWidget: React.FC<WidgetContextProps> = ({ summary }) => 
   return (
     <div className="flex h-full flex-col justify-between gap-4">
       <div>
-        <div className="text-3xl font-bold tracking-tight text-[#f5f5f4] tabular">
+        <div className="text-3xl font-bold tracking-tight text-[var(--fg)] tabular">
           {formatAmount(summary.safeToSpend)}
         </div>
-        <p className="text-xs text-[#9e9e98] mt-1.5">
-          about <strong className="text-[#f5f5f4] font-medium">{formatAmount(dailyPace)}</strong> a day for the next {daysLeft} days
+        <p className="text-xs text-[var(--fg-muted)] mt-1.5">
+          about <strong className="text-[var(--fg)] font-medium">{formatAmount(dailyPace)}</strong> a day for the next {daysLeft} days
         </p>
       </div>
 
       <div className="space-y-2">
-        <div className="flex justify-between text-[11px] text-[#9e9e98]">
+        <div className="flex justify-between text-[11px] text-[var(--fg-muted)]">
           <span>Spent {Math.round(spentRatio * 100)}% of income</span>
           <span>{Math.round(monthElapsedRatio * 100)}% of month gone</span>
         </div>
         <Progress value={spentRatio} color={spentRatio > 0.85 ? '#f59e0b' : '#10b981'} />
-        <p className="text-[10px] text-[#6b6b66]">
+        <p className="text-[10px] text-[var(--fg-subtle)]">
           After committed envelopes and upcoming bills
         </p>
       </div>
@@ -123,9 +123,9 @@ export const CashFlowWidget: React.FC<WidgetContextProps> = ({ summary, transact
               onNavigateToTransactions?.();
             }
           }}
-          className="p-3 rounded-xl bg-[#181818] border border-[#242424] hover:border-emerald-500/40 cursor-pointer transition group"
+          className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition group"
         >
-          <span className="text-[11px] text-[#9e9e98] block">Income</span>
+          <span className="text-[11px] text-[var(--fg-muted)] block">Income</span>
           <span className="text-base font-bold text-emerald-400 tabular block mt-0.5">
             +{formatAmount(summary.totalIncomeThisMonth)}
           </span>
@@ -139,17 +139,17 @@ export const CashFlowWidget: React.FC<WidgetContextProps> = ({ summary, transact
               onNavigateToTransactions?.();
             }
           }}
-          className="p-3 rounded-xl bg-[#181818] border border-[#242424] hover:border-rose-500/40 cursor-pointer transition group"
+          className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] hover:border-rose-500/40 cursor-pointer transition group"
         >
-          <span className="text-[11px] text-[#9e9e98] block">Outlays</span>
-          <span className="text-base font-bold text-[#f5f5f4] tabular block mt-0.5">
+          <span className="text-[11px] text-[var(--fg-muted)] block">Outlays</span>
+          <span className="text-base font-bold text-[var(--fg)] tabular block mt-0.5">
             -{formatAmount(summary.totalExpensesThisMonth)}
           </span>
         </div>
       </div>
 
-      <div className="p-3 rounded-xl bg-[#181818] border border-[#242424] flex items-center justify-between text-xs">
-        <span className="text-[#9e9e98]">Net Cash Flow:</span>
+      <div className="p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-between text-xs">
+        <span className="text-[var(--fg-muted)]">Net Cash Flow:</span>
         <span className={`font-bold tabular ${isSurplus ? 'text-emerald-400' : 'text-rose-400'}`}>
           {isSurplus ? '+' : ''}
           {formatAmount(netSavings)}
@@ -187,12 +187,12 @@ export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes, transac
             className="space-y-1 cursor-pointer hover:opacity-85 transition group"
           >
             <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-[#f5f5f4] truncate max-w-[140px] group-hover:text-white transition">
+              <span className="font-medium text-[var(--fg)] truncate max-w-[140px] transition">
                 {env.name}
               </span>
               <div className="flex items-center gap-2">
-                <span className="tabular text-[#9e9e98] text-[11px]">
-                  {formatAmount(env.spentAmount)} <span className="text-[#6b6b66]">/ {formatAmount(env.monthlyBudget)}</span>
+                <span className="tabular text-[var(--fg-muted)] text-[11px]">
+                  {formatAmount(env.spentAmount)} <span className="text-[var(--fg-subtle)]">/ {formatAmount(env.monthlyBudget)}</span>
                 </span>
                 {isOver ? (
                   <Badge tone="critical">Over</Badge>
@@ -230,15 +230,15 @@ export const AccountsWidget: React.FC<WidgetContextProps> = ({ accounts, transac
               onNavigateToTransactions?.({ accountId: acc.id });
             }
           }}
-          className="flex items-center justify-between p-2.5 rounded-xl bg-[#181818] border border-[#242424] text-xs cursor-pointer hover:border-[#383838] transition group"
+          className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs cursor-pointer hover:border-[var(--border-strong)] transition group"
         >
           <div className="truncate pr-2">
-            <span className="text-[#f5f5f4] font-medium block truncate group-hover:text-white transition">{acc.name}</span>
-            <span className="text-[10px] text-[#6b6b66] font-mono">•••• {acc.accountNumberLast4 || '0000'}</span>
+            <span className="text-[var(--fg)] font-medium block truncate transition">{acc.name}</span>
+            <span className="text-[10px] text-[var(--fg-subtle)] font-mono">•••• {acc.accountNumberLast4 || '0000'}</span>
           </div>
           <span
             className={`font-semibold tabular shrink-0 ${
-              acc.type === 'CREDIT_CARD' ? 'text-amber-400' : 'text-[#f5f5f4]'
+              acc.type === 'CREDIT_CARD' ? 'text-amber-400' : 'text-[var(--fg)]'
             }`}
           >
             {formatAmount(acc.balance)}
@@ -254,8 +254,8 @@ export const PeerDebtsWidget: React.FC<WidgetContextProps> = ({ simplifiedDebts,
 
   return (
     <div className="space-y-3">
-      <div className="flex justify-between items-center text-xs pb-1 border-b border-[#242424]">
-        <span className="text-[#9e9e98]">Owed to you:</span>
+      <div className="flex justify-between items-center text-xs pb-1 border-b border-[var(--border)]">
+        <span className="text-[var(--fg-muted)]">Owed to you:</span>
         <span className="text-emerald-400 font-bold tabular">
           {formatAmount(summary?.totalReceivablesIOU || 0)}
         </span>
@@ -265,12 +265,12 @@ export const PeerDebtsWidget: React.FC<WidgetContextProps> = ({ simplifiedDebts,
         {simplifiedDebts.slice(0, 3).map((debt, i) => (
           <li
             key={i}
-            className="flex items-center justify-between p-2 rounded-lg bg-[#181818] text-xs"
+            className="flex items-center justify-between p-2 rounded-lg bg-[var(--surface-2)] text-xs"
           >
-            <div className="flex items-center gap-1.5 text-[11px] truncate text-[#9e9e98]">
-              <span className="font-semibold text-[#f5f5f4]">{debt.fromUser}</span>
+            <div className="flex items-center gap-1.5 text-[11px] truncate text-[var(--fg-muted)]">
+              <span className="font-semibold text-[var(--fg)]">{debt.fromUser}</span>
               <span>→</span>
-              <span className="font-semibold text-[#f5f5f4]">{debt.toUser}</span>
+              <span className="font-semibold text-[var(--fg)]">{debt.toUser}</span>
             </div>
             <span className="font-bold text-emerald-400 tabular text-xs">
               {formatAmount(debt.amount)}
@@ -289,20 +289,20 @@ export const HouseholdWidget: React.FC<WidgetContextProps> = ({ household }) => 
   return (
     <div className="space-y-3 text-xs">
       <div className="flex justify-between items-center">
-        <span className="text-[#9e9e98]">Joint Pool Reserve:</span>
+        <span className="text-[var(--fg-muted)]">Joint Pool Reserve:</span>
         <span className="text-base font-bold text-emerald-400 tabular">
           {formatAmount(household.jointPoolBalance)}
         </span>
       </div>
 
-      <div className="p-2.5 rounded-xl bg-[#181818] border border-[#242424] space-y-1.5">
+      <div className="p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] space-y-1.5">
         <div className="flex justify-between text-[11px]">
-          <span className="text-[#9e9e98]">{household.partnerAName}:</span>
-          <span className="font-medium text-[#f5f5f4]">{(household.partnerARatio * 100).toFixed(0)}%</span>
+          <span className="text-[var(--fg-muted)]">{household.partnerAName}:</span>
+          <span className="font-medium text-[var(--fg)]">{(household.partnerARatio * 100).toFixed(0)}%</span>
         </div>
         <div className="flex justify-between text-[11px]">
-          <span className="text-[#9e9e98]">{household.partnerBName}:</span>
-          <span className="font-medium text-[#f5f5f4]">{(household.partnerBRatio * 100).toFixed(0)}%</span>
+          <span className="text-[var(--fg-muted)]">{household.partnerBName}:</span>
+          <span className="font-medium text-[var(--fg)]">{(household.partnerBRatio * 100).toFixed(0)}%</span>
         </div>
       </div>
     </div>
@@ -317,15 +317,15 @@ export const BillsRadarWidget: React.FC<WidgetContextProps> = ({ subscriptions }
       {subscriptions.slice(0, 3).map((sub) => (
         <li
           key={sub.id}
-          className="flex items-center justify-between p-2.5 rounded-xl bg-[#181818] border border-[#242424] text-xs"
+          className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs"
         >
           <div className="truncate pr-2">
-            <span className="text-[#f5f5f4] font-medium block truncate">{sub.name}</span>
-            <span className="text-[10px] text-[#6b6b66] flex items-center gap-1">
+            <span className="text-[var(--fg)] font-medium block truncate">{sub.name}</span>
+            <span className="text-[10px] text-[var(--fg-subtle)] flex items-center gap-1">
               <Clock className="w-3 h-3" /> Due {sub.nextBillingDate}
             </span>
           </div>
-          <span className="font-semibold tabular text-[#f5f5f4] shrink-0">
+          <span className="font-semibold tabular text-[var(--fg)] shrink-0">
             {formatAmount(sub.amount)}
           </span>
         </li>
@@ -338,7 +338,7 @@ export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transac
   const { formatAmount } = useCurrency();
 
   return (
-    <div className="divide-y divide-[#1e1e1e]">
+    <div className="divide-y divide-[var(--border)]">
       {transactions.slice(0, 6).map((tx) => {
         const isIncome = tx.amount > 0;
         const isSplit = tx.receivableAmount > 0;
@@ -347,7 +347,7 @@ export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transac
           <div
             key={tx.id}
             onClick={() => onEditTransaction?.(tx)}
-            className="py-2.5 flex items-center justify-between text-xs gap-3 cursor-pointer hover:bg-[#181818] -mx-2 px-2 rounded-lg transition group"
+            className="py-2.5 flex items-center justify-between text-xs gap-3 cursor-pointer hover:bg-[var(--surface-2)] -mx-2 px-2 rounded-lg transition group"
           >
             <div className="flex items-center gap-3 truncate">
               <div
@@ -356,7 +356,7 @@ export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transac
                     ? 'bg-emerald-500/10 text-emerald-400'
                     : isSplit
                     ? 'bg-indigo-500/10 text-indigo-400'
-                    : 'bg-[#1c1c1c] text-[#9e9e98]'
+                    : 'bg-[var(--surface-2)] text-[var(--fg-muted)]'
                 }`}
               >
                 {isIncome ? (
@@ -369,7 +369,7 @@ export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transac
               </div>
               <div className="truncate">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium text-[#f5f5f4] truncate">
+                  <span className="font-medium text-[var(--fg)] truncate">
                     {tx.merchant || tx.description || 'Transaction'}
                   </span>
                   {isSplit && (
@@ -378,14 +378,14 @@ export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transac
                     </span>
                   )}
                 </div>
-                <span className="text-[10px] text-[#6b6b66] block">{tx.category} • {tx.date}</span>
+                <span className="text-[10px] text-[var(--fg-subtle)] block">{tx.category} • {tx.date}</span>
               </div>
             </div>
 
             <div className="text-right shrink-0">
               <span
                 className={`font-semibold tabular text-xs ${
-                  isIncome ? 'text-emerald-400' : 'text-[#f5f5f4]'
+                  isIncome ? 'text-emerald-400' : 'text-[var(--fg)]'
                 }`}
               >
                 {isIncome ? '+' : ''}
@@ -409,7 +409,7 @@ export const GoalsWidget: React.FC<WidgetContextProps> = ({ goals = [] }) => {
 
   if (goals.length === 0) {
     return (
-      <div className="flex h-full items-center justify-center text-xs text-[#71717a]">
+      <div className="flex h-full items-center justify-center text-xs text-[var(--fg-muted)]">
         No active financial milestones
       </div>
     );
@@ -424,18 +424,18 @@ export const GoalsWidget: React.FC<WidgetContextProps> = ({ goals = [] }) => {
             : 0;
 
         return (
-          <div key={goal.id} className="space-y-1.5 p-2 rounded-xl bg-[#16161a] border border-[#222228]">
+          <div key={goal.id} className="space-y-1.5 p-2 rounded-xl bg-[var(--surface-2)] border border-[var(--border)]">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-semibold text-[#f4f4f5] truncate">{goal.name}</span>
+              <span className="font-semibold text-[var(--fg)] truncate">{goal.name}</span>
               <span className="font-bold tabular text-emerald-400">{progress}%</span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-[#18181c] overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-[var(--surface)] overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300"
                 style={{ width: `${progress}%`, backgroundColor: goal.color || '#10b981' }}
               />
             </div>
-            <div className="flex items-center justify-between text-[10px] text-[#71717a]">
+            <div className="flex items-center justify-between text-[10px] text-[var(--fg-muted)]">
               <span>{formatAmount(goal.currentAmount)} saved</span>
               <span>Target: {formatAmount(goal.targetAmount)}</span>
             </div>

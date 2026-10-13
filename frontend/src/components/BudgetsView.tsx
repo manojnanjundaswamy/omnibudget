@@ -59,18 +59,18 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-[#1e1e24]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-[var(--border)]">
         <div>
-          <h2 className="text-xl font-bold tracking-tight text-[#f4f4f5]">Category Budgets</h2>
-          <p className="text-xs text-[#71717a] mt-0.5">
-            Monarch-grade monthly category spending targets and real-time tracking
+          <h2 className="text-xl font-bold tracking-tight text-[var(--fg)]">Category Budgets</h2>
+          <p className="text-xs text-[var(--fg-muted)] mt-0.5">
+            Set spending targets for each category and see what's left this month
           </p>
         </div>
 
         <button
           type="button"
           onClick={onOpenAddEnvelope}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#f4f4f5] hover:bg-white text-[#09090b] text-xs font-semibold transition active:scale-[0.98] shadow-sm shrink-0"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--accent)] hover:opacity-90 text-[var(--accent-fg)] text-xs font-semibold transition active:scale-[0.98] shadow-sm shrink-0"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Add Budget Category</span>
@@ -79,14 +79,14 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
 
       {/* KPI Overview Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
-          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+          <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Total Monthly Budget
           </span>
-          <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
+          <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block">
             {formatAmount(totalBudget)}
           </span>
-          <span className="text-[11px] text-[#71717a]">
+          <span className="text-[11px] text-[var(--fg-muted)]">
             Across {envelopes.length} budgeted categories
           </span>
         </div>
@@ -100,27 +100,27 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
               onNavigateToTransactions();
             }
           }}
-          className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] hover:border-emerald-500/40 cursor-pointer transition space-y-1 group"
+          className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition space-y-1 group"
           title="Click to drill down into all spent transactions"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
+            <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
               Actual Spent So Far
             </span>
             <span className="text-[10px] text-emerald-400 opacity-0 group-hover:opacity-100 transition">
               Drill down →
             </span>
           </div>
-          <span className="text-2xl font-bold tracking-tight text-neutral-200 tabular block group-hover:text-white transition">
+          <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block group-hover:text-emerald-400 transition">
             {formatAmount(totalSpent)}
           </span>
-          <span className="text-[11px] text-[#71717a]">
+          <span className="text-[11px] text-[var(--fg-muted)]">
             {overallUsed}% of target cap consumed
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
-          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+          <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Remaining to Spend
           </span>
           <span
@@ -130,17 +130,17 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
           >
             {formatAmount(totalRemaining)}
           </span>
-          <span className="text-[11px] text-[#71717a]">
+          <span className="text-[11px] text-[var(--fg-muted)]">
             {totalSpent > totalBudget ? 'Over budget limit' : 'Available headroom'}
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
-          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
+        <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+          <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider block">
             Budget Health
           </span>
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
+            <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block">
               {overallUsed}%
             </span>
             {overallUsed > 100 ? (
@@ -149,7 +149,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
             )}
           </div>
-          <div className="w-full h-1.5 rounded-full bg-[#1e1e24] overflow-hidden mt-1">
+          <div className="w-full h-1.5 rounded-full bg-[var(--surface-2)] overflow-hidden mt-1">
             <div
               className={`h-full rounded-full transition-all duration-500 ${
                 overallUsed > 100
@@ -178,11 +178,11 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
               {/* Group Header */}
               <div className="flex items-center justify-between px-1">
                 <div>
-                  <h3 className="font-semibold text-sm text-[#f4f4f5] tracking-tight">{grp.title}</h3>
-                  <p className="text-[11px] text-[#71717a]">{grp.subtitle}</p>
+                  <h3 className="font-semibold text-sm text-[var(--fg)] tracking-tight">{grp.title}</h3>
+                  <p className="text-[11px] text-[var(--fg-muted)]">{grp.subtitle}</p>
                 </div>
                 <div className="text-right text-xs">
-                  <span className="text-[#a1a1aa] font-medium tabular">
+                  <span className="text-[var(--fg-muted)] font-medium tabular">
                     {formatAmount(grpSpent)} / {formatAmount(grpBudget)}
                   </span>
                 </div>
@@ -201,7 +201,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                   return (
                     <div
                       key={env.id}
-                      className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] hover:border-[#383842] transition-all flex flex-col justify-between space-y-3 shadow-sm group"
+                      className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--border-strong)] transition-all flex flex-col justify-between space-y-3 shadow-sm group"
                     >
                       {/* Top Row */}
                       <div className="flex items-start justify-between gap-2">
@@ -217,10 +217,10 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                             <Tag className="w-4 h-4" />
                           </div>
                           <div>
-                            <h4 className="font-semibold text-xs text-[#f4f4f5] line-clamp-1">
+                            <h4 className="font-semibold text-xs text-[var(--fg)] line-clamp-1">
                               {env.name}
                             </h4>
-                            <span className="text-[10px] text-[#71717a] block">
+                            <span className="text-[10px] text-[var(--fg-muted)] block">
                               Monthly Target: {formatAmount(env.monthlyBudget)}
                             </span>
                           </div>
@@ -229,7 +229,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                         <button
                           type="button"
                           onClick={() => onEditEnvelope(env)}
-                          className="p-1 rounded-md text-[#71717a] hover:text-[#f4f4f5] hover:bg-[#1a1a1f] transition text-xs font-medium"
+                          className="p-1 rounded-md text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition text-xs font-medium"
                         >
                           Edit
                         </button>
@@ -238,19 +238,19 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                       {/* Progress Bar */}
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between text-xs">
-                          <span className="font-bold text-[#f4f4f5] tabular">
+                          <span className="font-bold text-[var(--fg)] tabular">
                             {formatAmount(env.spentAmount)} spent
                           </span>
                           <span
                             className={`font-semibold tabular ${
-                              isOver ? 'text-rose-400' : 'text-[#71717a]'
+                              isOver ? 'text-rose-400' : 'text-[var(--fg-muted)]'
                             }`}
                           >
                             {isOver ? `+${formatAmount(env.spentAmount - env.monthlyBudget)} over` : `${formatAmount(remaining)} left`}
                           </span>
                         </div>
 
-                        <div className="w-full h-2 rounded-full bg-[#18181c] overflow-hidden">
+                        <div className="w-full h-2 rounded-full bg-[var(--surface-2)] overflow-hidden">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${
                               isOver
@@ -263,14 +263,14 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                           />
                         </div>
 
-                        <div className="flex items-center justify-between text-[11px] text-[#71717a]">
+                        <div className="flex items-center justify-between text-[11px] text-[var(--fg-muted)]">
                           <span>{usedPercent}% used</span>
                           {isOver && <span className="text-rose-400 font-semibold">Exceeded Cap</span>}
                         </div>
                       </div>
 
                       {/* Card Footer: Drilldown & Ledger Link */}
-                      <div className="pt-2 border-t border-[#1c1c22] flex items-center justify-between text-[11px]">
+                      <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between text-[11px]">
                         <button
                           type="button"
                           onClick={() => {
@@ -306,7 +306,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                               category: env.name,
                             })
                           }
-                          className="text-[#71717a] hover:text-[#f4f4f5] transition text-[10px]"
+                          className="text-[var(--fg-muted)] hover:text-[var(--fg)] transition text-[10px]"
                         >
                           Ledger →
                         </button>

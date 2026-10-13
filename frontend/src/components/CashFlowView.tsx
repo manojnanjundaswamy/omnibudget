@@ -65,17 +65,17 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-[#1e1e24]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-[var(--border)]">
         <div>
-          <h2 className="text-xl font-bold tracking-tight text-[#f4f4f5]">Cash Flow & Financial Velocity</h2>
-          <p className="text-xs text-[#71717a] mt-0.5">
-            Monarch-style cash velocity engine • Income vs expenses • Savings rate KPI
+          <h2 className="text-xl font-bold tracking-tight text-[var(--fg)]">Income & Spending</h2>
+          <p className="text-xs text-[var(--fg-muted)] mt-0.5">
+            Money coming in, money going out, and what you keep this month
           </p>
         </div>
 
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#141417] border border-[#222228] text-xs text-[#a1a1aa]">
-          <Calendar className="w-3.5 h-3.5 text-neutral-400" />
-          <span>Current Billing Cycle (Day {currentDay} of {daysInMonth})</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs text-[var(--fg-muted)]">
+          <Calendar className="w-3.5 h-3.5 text-[var(--fg-muted)]" />
+          <span>This month (Day {currentDay} of {daysInMonth})</span>
         </div>
       </div>
 
@@ -95,12 +95,12 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
               onNavigateToTransactions({ type: 'INCOME' });
             }
           }}
-          className="p-5 rounded-2xl bg-[#121215] border border-[#27272a] hover:border-emerald-500/40 cursor-pointer transition space-y-2 group"
+          className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-emerald-500/40 cursor-pointer transition space-y-2 group"
           title="Click to drill down into income transactions"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider">
-              Total Inflow (Income)
+            <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider">
+              Total Income
             </span>
             <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:scale-105 transition-transform">
               <ArrowDownRight className="w-4 h-4" />
@@ -109,8 +109,8 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
           <span className="text-2xl font-bold tracking-tight text-emerald-400 tabular block">
             +{formatAmount(income)}
           </span>
-          <span className="text-[11px] text-[#71717a] block flex items-center justify-between">
-            <span>{sortedIncomes.length} recorded income sources</span>
+          <span className="text-[11px] text-[var(--fg-muted)] block flex items-center justify-between">
+            <span>{sortedIncomes.length} income deposits</span>
             <span className="text-[10px] text-emerald-400 opacity-0 group-hover:opacity-100 transition">Drilldown →</span>
           </span>
         </div>
@@ -129,31 +129,31 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
               onNavigateToTransactions({ type: 'EXPENSE' });
             }
           }}
-          className="p-5 rounded-2xl bg-[#121215] border border-[#27272a] hover:border-rose-500/40 cursor-pointer transition space-y-2 group"
+          className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] hover:border-rose-500/40 cursor-pointer transition space-y-2 group"
           title="Click to drill down into expense transactions"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider">
-              Total Outflow (Expenses)
+            <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider">
+              Total Spending
             </span>
             <div className="w-7 h-7 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center group-hover:scale-105 transition-transform">
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
-          <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
+          <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block">
             -{formatAmount(expenses)}
           </span>
-          <span className="text-[11px] text-[#71717a] block flex items-center justify-between">
-            <span>Average {formatAmount(avgDailySpend)} / day</span>
+          <span className="text-[11px] text-[var(--fg-muted)] block flex items-center justify-between">
+            <span>About {formatAmount(avgDailySpend)} / day</span>
             <span className="text-[10px] text-rose-400 opacity-0 group-hover:opacity-100 transition">Drilldown →</span>
           </span>
         </div>
 
         {/* Net Savings Card */}
-        <div className="p-5 rounded-2xl bg-[#121215] border border-[#27272a] space-y-2">
+        <div className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider">
-              Net Capital Retained
+            <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider">
+              Net Saved
             </span>
             <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center">
               <TrendingUp className="w-4 h-4" />
@@ -167,25 +167,25 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
             {netSaved >= 0 ? '+' : ''}
             {formatAmount(netSaved)}
           </span>
-          <span className="text-[11px] text-[#71717a] block">
-            {netSaved >= 0 ? 'Positive cash flow trajectory' : 'Negative burn warning'}
+          <span className="text-[11px] text-[var(--fg-muted)] block">
+            {netSaved >= 0 ? 'You are saving money this month' : 'Spending more than earned'}
           </span>
         </div>
 
-        {/* Savings Rate Card (Monarch Signature Metric) */}
-        <div className="p-5 rounded-2xl bg-[#121215] border border-[#27272a] space-y-2">
+        {/* Savings Rate Card */}
+        <div className="p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider">
-              Monthly Savings Rate
+            <span className="text-[11px] font-medium text-[var(--fg-muted)] uppercase tracking-wider">
+              Savings Rate
             </span>
             <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
               <Percent className="w-4 h-4" />
             </div>
           </div>
-          <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
+          <span className="text-2xl font-bold tracking-tight text-[var(--fg)] tabular block">
             {savingsRate}%
           </span>
-          <div className="w-full h-1.5 rounded-full bg-[#18181c] overflow-hidden mt-1">
+          <div className="w-full h-1.5 rounded-full bg-[var(--surface-2)] overflow-hidden mt-1">
             <div
               className="h-full bg-emerald-400 rounded-full transition-all duration-500"
               style={{ width: `${Math.min(100, savingsRate)}%` }}
@@ -197,21 +197,21 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
       {/* Main Cash Flow Breakdown Columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Expense Category Breakdown */}
-        <div className="p-6 rounded-2xl bg-[#121215] border border-[#27272a] space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#1c1c22]">
+        <div className="p-6 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
             <div>
-              <h3 className="font-semibold text-sm text-[#f4f4f5]">Where Did Your Money Go?</h3>
-              <p className="text-[11px] text-[#71717a] mt-0.5">
+              <h3 className="font-semibold text-sm text-[var(--fg)]">Where Your Money Went</h3>
+              <p className="text-[11px] text-[var(--fg-muted)] mt-0.5">
                 Click any category bar to inspect transactions
               </p>
             </div>
-            <span className="text-xs font-semibold tabular text-[#f4f4f5]">
+            <span className="text-xs font-semibold tabular text-[var(--fg)]">
               Total: {formatAmount(expenses)}
             </span>
           </div>
 
           {sortedCategories.length === 0 ? (
-            <div className="py-8 text-center text-xs text-[#71717a]">
+            <div className="py-8 text-center text-xs text-[var(--fg-muted)]">
               No expenses recorded yet in this cycle.
             </div>
           ) : (
@@ -234,21 +234,21 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                         onNavigateToTransactions({ category });
                       }
                     }}
-                    className="w-full text-left group p-2 -mx-2 rounded-xl hover:bg-[#18181c] transition"
+                    className="w-full text-left group p-2 -mx-2 rounded-xl hover:bg-[var(--surface-2)] transition"
                   >
                     <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="font-medium text-[#f4f4f5] group-hover:text-emerald-400 transition flex items-center gap-1.5">
+                      <span className="font-medium text-[var(--fg)] group-hover:text-emerald-400 transition flex items-center gap-1.5">
                         <span>{category}</span>
-                        <ChevronRight className="w-3 h-3 text-[#71717a] opacity-0 group-hover:opacity-100 transition" />
+                        <ChevronRight className="w-3 h-3 text-[var(--fg-muted)] opacity-0 group-hover:opacity-100 transition" />
                       </span>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-[#71717a]">{percent}%</span>
-                        <span className="font-bold text-[#f4f4f5] tabular">{formatAmount(amount)}</span>
+                        <span className="text-xs text-[var(--fg-muted)]">{percent}%</span>
+                        <span className="font-bold text-[var(--fg)] tabular">{formatAmount(amount)}</span>
                       </div>
                     </div>
-                    <div className="w-full h-1.5 rounded-full bg-[#18181c] overflow-hidden">
+                    <div className="w-full h-1.5 rounded-full bg-[var(--surface-2)] overflow-hidden">
                       <div
-                        className="h-full bg-neutral-200 group-hover:bg-emerald-400 rounded-full transition-all duration-300"
+                        className="h-full bg-neutral-400 group-hover:bg-emerald-400 rounded-full transition-all duration-300"
                         style={{ width: `${percent}%` }}
                       />
                     </div>
@@ -259,13 +259,13 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
           )}
         </div>
 
-        {/* Income Sources & Cash Trajectory */}
-        <div className="p-6 rounded-2xl bg-[#121215] border border-[#27272a] space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#1c1c22]">
+        {/* Income Sources */}
+        <div className="p-6 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
             <div>
-              <h3 className="font-semibold text-sm text-[#f4f4f5]">Inflow Sources & Velocity</h3>
-              <p className="text-[11px] text-[#71717a] mt-0.5">
-                Active deposits, payroll, and dividend inflows
+              <h3 className="font-semibold text-sm text-[var(--fg)]">Income Sources</h3>
+              <p className="text-[11px] text-[var(--fg-muted)] mt-0.5">
+                Active deposits, salary, and earnings
               </p>
             </div>
             <span className="text-xs font-semibold tabular text-emerald-400">
@@ -274,7 +274,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
           </div>
 
           {sortedIncomes.length === 0 ? (
-            <div className="py-8 text-center text-xs text-[#71717a]">
+            <div className="py-8 text-center text-xs text-[var(--fg-muted)]">
               No income recorded yet in this cycle.
             </div>
           ) : (
@@ -303,13 +303,13 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                         onNavigateToTransactions({ type: 'INCOME' });
                       }
                     }}
-                    className="w-full text-left p-2 -mx-2 rounded-xl bg-[#16161a] hover:bg-[#1c1c22] border border-[#222228] transition group cursor-pointer"
+                    className="w-full text-left p-2 -mx-2 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface)] border border-[var(--border)] transition group cursor-pointer"
                   >
                     <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="font-medium text-[#f4f4f5] group-hover:text-emerald-400 transition">{source}</span>
+                      <span className="font-medium text-[var(--fg)] group-hover:text-emerald-400 transition">{source}</span>
                       <span className="font-bold text-emerald-400 tabular">+{formatAmount(amount)}</span>
                     </div>
-                    <div className="w-full h-1.5 rounded-full bg-[#18181c] overflow-hidden">
+                    <div className="w-full h-1.5 rounded-full bg-[var(--surface)] overflow-hidden">
                       <div
                         className="h-full bg-emerald-500/80 rounded-full transition-all duration-300"
                         style={{ width: `${percent}%` }}
@@ -321,15 +321,15 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
             </div>
           )}
 
-          {/* Financial Velocity Summary Box */}
-          <div className="mt-4 p-4 rounded-xl bg-[#18181c] border border-[#26262e] space-y-2">
-            <span className="text-xs font-semibold text-[#f4f4f5] block">
-              30-Day Velocity Runway
+          {/* Month Outlook Summary Box */}
+          <div className="mt-4 p-4 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] space-y-2">
+            <span className="text-xs font-semibold text-[var(--fg)] block">
+              Month Outlook
             </span>
-            <p className="text-[11px] text-[#a1a1aa] leading-relaxed">
-              Based on your current burn rate of <strong className="text-[#f4f4f5]">{formatAmount(avgDailySpend)}/day</strong>,
-              you are projected to spend <strong className="text-[#f4f4f5]">{formatAmount(avgDailySpend * daysRemaining)}</strong> over
-              the remaining {daysRemaining} days.
+            <p className="text-[11px] text-[var(--fg-muted)] leading-relaxed">
+              At your current spending pace of <strong className="text-[var(--fg)]">{formatAmount(avgDailySpend)}/day</strong>,
+              you are on track to spend <strong className="text-[var(--fg)]">{formatAmount(avgDailySpend * daysRemaining)}</strong> over
+              the remaining {daysRemaining} days of this month.
             </p>
           </div>
         </div>

@@ -460,15 +460,16 @@ export interface SmartClipPayload {
 
 export type NavTab =
   | 'dashboard'
-  | 'accounts'
   | 'transactions'
   | 'budgets'
-  | 'cashflow'
+  | 'accounts'
   | 'recurring'
+  | 'cashflow'
+  | 'household'
   | 'goals'
   | 'rules'
-  | 'household'
   | 'plans'
+  | 'settings'
   | 'admin';
 
 

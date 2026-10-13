@@ -45,24 +45,24 @@ export const AuthModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="bg-[#121212] border border-[#242424] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#242424] bg-[#171717]/60">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-2)]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-neutral-800 text-neutral-200 flex items-center justify-center">
-              <LogIn className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--fg)] flex items-center justify-center">
+              <LogIn className="w-4 h-4 text-[var(--accent)]" />
             </div>
             <div>
-              <h3 className="font-medium text-[#f5f5f4] text-sm">
-                {isRegister ? 'Create Your Account' : 'Sign in to OmniBudget'}
+              <h3 className="font-semibold text-[var(--fg)] text-sm">
+                {isRegister ? 'Create Account' : 'Sign In'}
               </h3>
-              <p className="text-xs text-[#9e9e98]">SaaS multi-tenant financial workspace</p>
+              <p className="text-xs text-[var(--fg-muted)]">Welcome to your personal budget</p>
             </div>
           </div>
           <button
             onClick={() => setIsAuthModalOpen(false)}
-            className="p-1.5 rounded-lg text-[#9e9e98] hover:text-[#f5f5f4] hover:bg-[#1f1f1f] transition"
+            className="p-1.5 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -71,7 +71,7 @@ export const AuthModal: React.FC = () => {
         {/* Content */}
         <div className="p-6 space-y-5">
           {error && (
-            <div className="p-3 rounded-lg bg-red-950/30 border border-red-800/40 text-xs text-red-300">
+            <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-xs text-rose-500">
               {error}
             </div>
           )}
@@ -82,7 +82,7 @@ export const AuthModal: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleGoogleSubmit()}
-                className="w-full flex items-center justify-center gap-3 py-2.5 px-4 rounded-xl border border-[#2e2e2e] bg-[#181818] hover:bg-[#202020] text-[#f5f5f4] text-xs font-medium transition shadow-sm"
+                className="w-full flex items-center justify-center gap-3 py-2.5 px-4 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] hover:bg-[var(--surface)] text-[var(--fg)] text-xs font-medium transition shadow-sm"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path
@@ -112,12 +112,12 @@ export const AuthModal: React.FC = () => {
                   onChange={(e) => setGoogleEmail(e.target.value)}
                   placeholder="Enter your Gmail (e.g. alex@gmail.com)"
                   autoFocus
-                  className="w-full bg-[#171717] border border-[#2a2a2a] focus:border-neutral-500 rounded-lg px-3 py-2 text-xs text-[#f5f5f4] focus:outline-none"
+                  className="w-full bg-[var(--surface-2)] border border-[var(--border)] focus:border-[var(--accent)] rounded-lg px-3 py-2 text-xs text-[var(--fg)] focus:outline-none"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-2 bg-[#f5f5f4] text-[#0a0a0a] rounded-lg text-xs font-semibold hover:bg-white transition"
+                  className="w-full py-2 bg-[var(--fg)] text-[var(--bg)] rounded-lg text-xs font-semibold hover:opacity-90 transition"
                 >
                   Sign in with this Gmail
                 </button>
@@ -127,15 +127,15 @@ export const AuthModal: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowGoogleInput(!showGoogleInput)}
-              className="w-full text-center text-[10px] text-[#737373] hover:text-[#a3a3a3] transition"
+              className="w-full text-center text-[10px] text-[var(--fg-muted)] hover:text-[var(--fg)] transition"
             >
               {showGoogleInput ? 'Use default 1-click Google test account' : 'Sign in with a specific Gmail address'}
             </button>
           </div>
 
           <div className="relative flex items-center justify-center">
-            <div className="border-t border-[#242424] w-full"></div>
-            <span className="bg-[#121212] px-3 text-[10px] text-[#737373] uppercase tracking-wider absolute">
+            <div className="border-t border-[var(--border)] w-full"></div>
+            <span className="bg-[var(--surface)] px-3 text-[10px] text-[var(--fg-muted)] uppercase tracking-wider absolute">
               or with email
             </span>
           </div>
@@ -144,56 +144,56 @@ export const AuthModal: React.FC = () => {
           <form onSubmit={handleEmailSubmit} className="space-y-3">
             {isRegister && (
               <div>
-                <label className="block text-[11px] font-medium text-[#9e9e98] mb-1">Full Name</label>
+                <label className="block text-[11px] font-medium text-[var(--fg-muted)] mb-1">Full Name</label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Alex Rivera"
-                  className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-xs text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                  className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
                 />
               </div>
             )}
 
             <div>
-              <label className="block text-[11px] font-medium text-[#9e9e98] mb-1">Email Address</label>
+              <label className="block text-[11px] font-medium text-[var(--fg-muted)] mb-1">Email Address</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@company.com"
+                placeholder="you@example.com"
                 required
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-xs text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-medium text-[#9e9e98] mb-1">Password</label>
+              <label className="block text-[11px] font-medium text-[var(--fg-muted)] mb-1">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full bg-[#171717] border border-[#2a2a2a] rounded-lg px-3 py-2 text-xs text-[#f5f5f4] focus:outline-none focus:border-neutral-500"
+                className="w-full bg-[var(--surface-2)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 rounded-xl text-xs font-semibold bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition flex items-center justify-center gap-2 mt-2"
+              className="w-full py-2.5 rounded-xl text-xs font-semibold bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] transition flex items-center justify-center gap-2 mt-2"
             >
-              <span>{loading ? 'Authenticating...' : isRegister ? 'Create Account' : 'Sign In'}</span>
+              <span>{loading ? 'Signing in...' : isRegister ? 'Create Account' : 'Sign In'}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </form>
 
           {/* Toggle Register / Login */}
-          <div className="flex items-center justify-between text-xs pt-2 border-t border-[#202020]">
+          <div className="flex items-center justify-between text-xs pt-2 border-t border-[var(--border)]">
             <button
               type="button"
               onClick={() => setIsRegister(!isRegister)}
-              className="text-[#9e9e98] hover:text-[#f5f5f4] transition text-[11px]"
+              className="text-[var(--fg-muted)] hover:text-[var(--fg)] transition text-[11px]"
             >
               {isRegister ? 'Already have an account? Sign in' : "Don't have an account? Register"}
             </button>
@@ -201,7 +201,7 @@ export const AuthModal: React.FC = () => {
             <button
               type="button"
               onClick={() => loginAsDemo()}
-              className="text-[11px] font-medium text-emerald-400 hover:text-emerald-300 transition"
+              className="text-[11px] font-medium text-emerald-500 hover:text-emerald-600 transition"
             >
               Explore Demo Mode →
             </button>

@@ -36,7 +36,7 @@ export function BarList({
   const max = Math.max(...items.map((i) => i.value), 1);
 
   if (items.length === 0) {
-    return <div className="text-xs text-[#9e9e98] py-4 text-center">No category data recorded yet</div>;
+    return <div className="text-xs text-[var(--fg-muted)] py-4 text-center">No category data recorded yet</div>;
   }
 
   return (
@@ -61,13 +61,13 @@ export function BarList({
                   className="w-2 h-2 rounded-full shrink-0"
                   style={{ backgroundColor: color }}
                 />
-                <span className="text-[#f5f5f4] truncate font-medium">{item.label}</span>
+                <span className="text-[var(--fg)] truncate font-medium">{item.label}</span>
               </span>
-              <span className="tabular text-[#9e9e98] shrink-0 font-mono text-[11px]">
+              <span className="tabular text-[var(--fg-muted)] shrink-0 font-mono text-[11px]">
                 {isHovered ? `${percent.toFixed(1)}%` : format(item.value)}
               </span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-[#1e1e1e] overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-[var(--surface-2)] overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300"
                 style={{
@@ -92,7 +92,7 @@ export function Progress({
 }) {
   const percent = Math.min(100, Math.max(0, value * 100));
   return (
-    <div className="w-full h-1.5 rounded-full bg-[#1e1e1e] overflow-hidden">
+    <div className="w-full h-1.5 rounded-full bg-[var(--surface-2)] overflow-hidden">
       <div
         className="h-full rounded-full transition-all duration-300"
         style={{
@@ -112,7 +112,7 @@ export function Badge({
   tone?: 'neutral' | 'good' | 'warning' | 'critical';
 }) {
   const tones = {
-    neutral: 'bg-[#1e1e1e] text-[#9e9e98] border-[#2c2c2c]',
+    neutral: 'bg-[var(--surface-2)] text-[var(--fg-muted)] border-[var(--border)]',
     good: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
     warning: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
     critical: 'bg-rose-500/10 text-rose-400 border-rose-500/20',

@@ -199,82 +199,82 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-2xl p-6 space-y-5 shadow-2xl max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl w-full max-w-2xl p-6 space-y-5 shadow-2xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-zinc-800 shrink-0">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--border)] shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400">
-              <Sparkles className="w-5 h-5" />
+            <div className="p-2 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-[var(--fg)]">
+              <Sparkles className="w-5 h-5 text-[var(--accent)]" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white">Smart Financial Ingestion Hub</h2>
-              <p className="text-xs text-zinc-400">
-                Zero-friction data onboarding • 100% license-free & open banking standards
+              <h2 className="text-base font-bold text-[var(--fg)]">Import Transactions</h2>
+              <p className="text-xs text-[var(--fg-muted)]">
+                Bring in transactions from your statements, bank files, alerts, or CSV.
               </p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="text-zinc-400 hover:text-white">
+          <button type="button" onClick={onClose} className="text-[var(--fg-muted)] hover:text-[var(--fg)]">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Selector */}
-        <div className="flex items-center gap-2 p-1 bg-zinc-950/80 rounded-xl border border-zinc-800 shrink-0">
+        <div className="flex items-center gap-2 p-1 bg-[var(--surface-2)] rounded-xl border border-[var(--border)] shrink-0">
           <button
             type="button"
             onClick={() => { setActiveTab('statement'); setParsedItems([]); }}
             className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 ${
-              activeTab === 'statement' ? 'bg-zinc-800 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
+              activeTab === 'statement' ? 'bg-[var(--surface)] text-[var(--fg)] shadow-sm' : 'text-[var(--fg-muted)] hover:text-[var(--fg)]'
             }`}
           >
-            <FileText className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Bank Statement Drop</span>
+            <FileText className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Statement Text</span>
           </button>
 
           <button
             type="button"
             onClick={() => { setActiveTab('ofx'); setParsedItems([]); }}
             className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 ${
-              activeTab === 'ofx' ? 'bg-zinc-800 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
+              activeTab === 'ofx' ? 'bg-[var(--surface)] text-[var(--fg)] shadow-sm' : 'text-[var(--fg-muted)] hover:text-[var(--fg)]'
             }`}
           >
-            <Building2 className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Open Banking (.OFX)</span>
+            <Building2 className="w-3.5 h-3.5 text-emerald-500" />
+            <span>Bank File (.OFX)</span>
           </button>
 
           <button
             type="button"
             onClick={() => { setActiveTab('clip'); setParsedItems([]); }}
             className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 ${
-              activeTab === 'clip' ? 'bg-zinc-800 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
+              activeTab === 'clip' ? 'bg-[var(--surface)] text-[var(--fg)] shadow-sm' : 'text-[var(--fg-muted)] hover:text-[var(--fg)]'
             }`}
           >
-            <Zap className="w-3.5 h-3.5 text-amber-400" />
-            <span>Smart Clip (SMS / Alerts)</span>
+            <Zap className="w-3.5 h-3.5 text-amber-500" />
+            <span>Text / SMS Alert</span>
           </button>
 
           <button
             type="button"
             onClick={() => { setActiveTab('csv'); setParsedItems([]); }}
             className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 ${
-              activeTab === 'csv' ? 'bg-zinc-800 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
+              activeTab === 'csv' ? 'bg-[var(--surface)] text-[var(--fg)] shadow-sm' : 'text-[var(--fg-muted)] hover:text-[var(--fg)]'
             }`}
           >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-purple-400" />
-            <span>Standard CSV</span>
+            <FileSpreadsheet className="w-3.5 h-3.5 text-purple-500" />
+            <span>CSV</span>
           </button>
         </div>
 
         {/* Notifications */}
         {successMessage && (
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 text-xs font-semibold flex items-center gap-2 animate-fadeIn shrink-0">
+          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-500 text-xs font-semibold flex items-center gap-2 animate-fadeIn shrink-0">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
             <span>{successMessage}</span>
           </div>
         )}
         {errorMessage && (
-          <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs font-semibold flex items-center gap-2 animate-fadeIn shrink-0">
+          <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-500 text-xs font-semibold flex items-center gap-2 animate-fadeIn shrink-0">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMessage}</span>
           </div>
@@ -284,11 +284,11 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
         <div className="space-y-4 overflow-y-auto pr-1 flex-1">
           {/* Target Account Picker */}
           <div>
-            <label className="block text-xs font-semibold text-zinc-400 mb-1">Destination Financial Account</label>
+            <label className="block text-xs font-semibold text-[var(--fg-muted)] mb-1">Destination Account</label>
             <select
               value={selectedAccountId}
               onChange={e => setSelectedAccountId(e.target.value)}
-              className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500"
+              className="w-full px-3 py-2 bg-[var(--surface-2)] border border-[var(--border)] rounded-xl text-xs text-[var(--fg)] focus:outline-none focus:border-[var(--accent)]"
             >
               {accounts.map(acc => (
                 <option key={acc.id} value={acc.id}>
@@ -302,16 +302,16 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
           {activeTab === 'statement' && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-zinc-400">
-                  Paste rows directly from your PDF statement or online banking portal (Chase, BoA, Citi, etc.):
+                <span className="text-xs text-[var(--fg-muted)]">
+                  Paste rows directly from your PDF statement or online banking portal:
                 </span>
                 <button
                   type="button"
                   onClick={handleLoadSampleStatement}
-                  className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1"
+                  className="text-xs text-[var(--fg)] hover:opacity-80 font-semibold flex items-center gap-1"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  Load Sample Statement
+                  Load Sample
                 </button>
               </div>
 
@@ -320,16 +320,16 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
                 value={statementText}
                 onChange={e => setStatementText(e.target.value)}
                 placeholder={`10/12/2026 Whole Foods Market $64.20\n10/11/2026 Uber Technologies $22.50\n10/10/2026 Netflix Subscription $19.99...`}
-                className="w-full p-3 rounded-xl bg-zinc-800/80 border border-zinc-700 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500"
+                className="w-full p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs font-mono text-[var(--fg)] placeholder:[var(--fg-muted)] focus:outline-none focus:border-[var(--accent)]"
               />
 
               <button
                 type="button"
                 disabled={isLoading || !statementText.trim()}
                 onClick={handlePreviewStatement}
-                className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-lg shadow-indigo-600/20 disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-bold transition disabled:opacity-50"
               >
-                {isLoading ? 'Scanning & Auto-Categorizing...' : 'Analyze & Preview Statement'}
+                {isLoading ? 'Scanning transactions...' : 'Preview Transactions'}
               </button>
             </div>
           )}
@@ -338,13 +338,13 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
           {activeTab === 'ofx' && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-zinc-400">
-                  Paste or drop standard banking .OFX or .QFX export:
+                <span className="text-xs text-[var(--fg-muted)]">
+                  Paste standard banking .OFX or .QFX file text:
                 </span>
                 <button
                   type="button"
                   onClick={handleLoadSampleOfx}
-                  className="text-xs text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1"
+                  className="text-xs text-[var(--fg)] hover:opacity-80 font-semibold flex items-center gap-1"
                 >
                   <Download className="w-3.5 h-3.5" />
                   Load Sample OFX
@@ -356,16 +356,16 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
                 value={ofxContent}
                 onChange={e => setOfxContent(e.target.value)}
                 placeholder="<OFX><BANKTRANLIST><STMTTRN>...</STMTTRN></BANKTRANLIST></OFX>"
-                className="w-full p-3 rounded-xl bg-zinc-800/80 border border-zinc-700 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500"
+                className="w-full p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs font-mono text-[var(--fg)] placeholder:[var(--fg-muted)] focus:outline-none focus:border-[var(--accent)]"
               />
 
               <button
                 type="button"
                 disabled={isLoading || !ofxContent.trim()}
                 onClick={handlePreviewOfx}
-                className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-lg shadow-emerald-600/20 disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-bold transition disabled:opacity-50"
               >
-                {isLoading ? 'Parsing Open Banking Data...' : 'Preview OFX Transactions'}
+                {isLoading ? 'Parsing file...' : 'Preview OFX Transactions'}
               </button>
             </div>
           )}
@@ -374,16 +374,16 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
           {activeTab === 'clip' && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-zinc-400">
+                <span className="text-xs text-[var(--fg-muted)]">
                   Paste transaction push alert or SMS notification:
                 </span>
                 <button
                   type="button"
                   onClick={handleLoadSampleClip}
-                  className="text-xs text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1"
+                  className="text-xs text-[var(--fg)] hover:opacity-80 font-semibold flex items-center gap-1"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  Load Sample SMS
+                  Load Sample Alert
                 </button>
               </div>
 
@@ -392,16 +392,16 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
                 value={clipText}
                 onChange={e => setClipText(e.target.value)}
                 placeholder="e.g. Charged $15.50 at Blue Bottle Coffee on card ending 4242 or Sent $35.00 to Alex via Venmo"
-                className="w-full p-3 rounded-xl bg-zinc-800/80 border border-zinc-700 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500"
+                className="w-full p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs font-mono text-[var(--fg)] placeholder:[var(--fg-muted)] focus:outline-none focus:border-[var(--accent)]"
               />
 
               <button
                 type="button"
                 disabled={isLoading || !clipText.trim()}
                 onClick={handleSmartClipIngest}
-                className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition shadow-lg shadow-amber-600/20 disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-bold transition disabled:opacity-50"
               >
-                {isLoading ? 'Capturing Transaction...' : 'Instant Capture to Ledger'}
+                {isLoading ? 'Capturing...' : 'Capture to Transactions'}
               </button>
             </div>
           )}
@@ -414,14 +414,14 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
                 value={csvText}
                 onChange={e => setCsvText(e.target.value)}
                 placeholder={`Date,Description,Merchant,Category,Amount\n2026-10-10,Whole Foods,Whole Foods,Groceries,-54.20...`}
-                className="w-full p-3 rounded-xl bg-zinc-800/80 border border-zinc-700 text-xs font-mono text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500"
+                className="w-full p-3 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs font-mono text-[var(--fg)] placeholder:[var(--fg-muted)] focus:outline-none focus:border-[var(--accent)]"
               />
 
               <button
                 type="button"
                 disabled={isLoading || !csvText.trim()}
                 onClick={handleCsvImport}
-                className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition shadow-lg shadow-purple-600/20 disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-bold transition disabled:opacity-50"
               >
                 {isLoading ? 'Importing CSV...' : 'Import CSV directly'}
               </button>
@@ -430,47 +430,47 @@ export const SmartIngestModal: React.FC<SmartIngestModalProps> = ({
 
           {/* Interactive Parsed Items Preview Table */}
           {parsedItems.length > 0 && (
-            <div className="pt-3 space-y-3 border-t border-zinc-800 animate-fadeIn">
+            <div className="pt-3 space-y-3 border-t border-[var(--border)] animate-fadeIn">
               <div className="flex items-center justify-between">
-                <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  Detected {parsedItems.length} Transactions Ready for Ingestion
+                <h4 className="text-xs font-bold text-[var(--fg)] flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                  Found {parsedItems.length} transactions ready to save
                 </h4>
                 <button
                   type="button"
                   disabled={isCommitting}
                   onClick={handleCommitParsed}
-                  className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition disabled:opacity-50"
+                  className="px-4 py-1.5 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-bold transition disabled:opacity-50"
                 >
-                  {isCommitting ? 'Writing to Ledger...' : `Commit All to Ledger`}
+                  {isCommitting ? 'Saving...' : `Save All Transactions`}
                 </button>
               </div>
 
-              <div className="bg-zinc-950 rounded-xl border border-zinc-800 max-h-48 overflow-y-auto">
-                <table className="w-full text-left text-[11px] text-zinc-300">
-                  <thead className="bg-zinc-900 border-b border-zinc-800 text-zinc-400 uppercase tracking-wider sticky top-0">
+              <div className="bg-[var(--surface-2)] rounded-xl border border-[var(--border)] max-h-48 overflow-y-auto">
+                <table className="w-full text-left text-[11px] text-[var(--fg)]">
+                  <thead className="bg-[var(--surface)] border-b border-[var(--border)] text-[var(--fg-muted)] uppercase tracking-wider sticky top-0">
                     <tr>
                       <th className="py-2 px-3">Date</th>
-                      <th className="py-2 px-3">Merchant / Payee</th>
-                      <th className="py-2 px-3">Auto-Category</th>
+                      <th className="py-2 px-3">Merchant</th>
+                      <th className="py-2 px-3">Category</th>
                       <th className="py-2 px-3 text-right">Amount</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-zinc-800/60 font-medium">
+                  <tbody className="divide-y divide-[var(--border)] font-medium">
                     {parsedItems.map((item, idx) => (
-                      <tr key={idx} className="hover:bg-zinc-900/60 transition-colors">
-                        <td className="py-2 px-3 text-zinc-400">{item.date}</td>
-                        <td className="py-2 px-3 text-white font-semibold">{item.merchant}</td>
+                      <tr key={idx} className="hover:bg-[var(--surface)] transition-colors">
+                        <td className="py-2 px-3 text-[var(--fg-muted)]">{item.date}</td>
+                        <td className="py-2 px-3 font-semibold">{item.merchant}</td>
                         <td className="py-2 px-3">
-                          <span className="px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 font-semibold">
+                          <span className="px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 font-semibold">
                             {item.suggestedCategory}
                           </span>
                           {item.ruleMatched && (
-                            <span className="ml-1 text-[9px] text-emerald-400 font-mono">⚡Rule</span>
+                            <span className="ml-1 text-[9px] text-emerald-500 font-mono">⚡Rule</span>
                           )}
                         </td>
                         <td className={`py-2 px-3 text-right font-bold ${
-                          item.type === 'INCOME' ? 'text-emerald-400' : 'text-zinc-200'
+                          item.type === 'INCOME' ? 'text-emerald-500' : 'text-[var(--fg)]'
                         }`}>
                           {item.type === 'INCOME' ? '+' : '-'}${item.amount.toFixed(2)}
                         </td>

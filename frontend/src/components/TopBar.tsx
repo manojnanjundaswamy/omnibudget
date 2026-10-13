@@ -1,6 +1,7 @@
 import React from 'react';
-import { Menu, Search, Plus, ShieldCheck, Sparkles, Filter, X } from 'lucide-react';
+import { Menu, Search, Plus, Sparkles, Filter, X, Sun, Moon } from 'lucide-react';
 import { NavTab, TransactionFilter } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 interface TopBarProps {
   currentTab: NavTab;
@@ -14,48 +15,52 @@ interface TopBarProps {
 
 const TAB_TITLES: Record<NavTab, { title: string; subtitle: string }> = {
   dashboard: {
-    title: 'Financial Dashboard',
-    subtitle: 'Real-time liquidity, cash flow radar, and net worth engine',
-  },
-  accounts: {
-    title: 'Accounts & Liquidity',
-    subtitle: 'Checking, high-yield savings, credit cards, and investment holdings',
+    title: 'Dashboard',
+    subtitle: 'Where you stand today',
   },
   transactions: {
-    title: 'Master Ledger',
-    subtitle: 'Complete double-entry transaction activity and audit log',
+    title: 'Transactions',
+    subtitle: 'Every expense, income and transfer',
   },
   budgets: {
-    title: 'Monthly Category Budgets',
-    subtitle: 'Target spending plans and real-time category progress tracking',
+    title: 'Budgets',
+    subtitle: 'What you plan to spend this month',
   },
-  cashflow: {
-    title: 'Cash Flow & Savings Rate',
-    subtitle: 'Monthly income vs expenses, net savings, and financial velocity',
+  accounts: {
+    title: 'Accounts',
+    subtitle: 'Your banks, cash and credit cards',
   },
   recurring: {
-    title: 'Recurring Bills & Subscriptions',
-    subtitle: 'Anticipated upcoming regular charges and renewal radar',
+    title: 'Upcoming Bills',
+    subtitle: 'Upcoming regular bills and renewal dates',
   },
-  goals: {
-    title: 'Financial Goals & Milestones',
-    subtitle: 'Long-term savings targets, emergency reserves, and milestones',
+  cashflow: {
+    title: 'Reports',
+    subtitle: 'Where your money went this month',
   },
   household: {
-    title: 'Household & Partner Sharing',
-    subtitle: 'Proportional joint contributions and shared expense pool',
+    title: 'Household & Split',
+    subtitle: 'Shared expenses with family or roommates',
   },
-  rules: {
-    title: 'Automated Categorization Rules',
-    subtitle: 'Monarch-grade rules engine to automatically categorize and clean transactions',
-  },
-  plans: {
-    title: 'Subscription & SaaS Plans',
-    subtitle: 'Transparent tier pricing, active plan entitlements, and quota usage',
+  settings: {
+    title: 'Settings',
+    subtitle: 'Theme, currency, appearance, and data preferences',
   },
   admin: {
-    title: 'Admin Control Center',
-    subtitle: 'SaaS executive metrics, customer directory, entitlements & feature governance',
+    title: 'Admin Console',
+    subtitle: 'User accounts, memberships, and platform settings',
+  },
+  goals: {
+    title: 'Goals',
+    subtitle: 'Savings milestones and emergency funds',
+  },
+  rules: {
+    title: 'Rules',
+    subtitle: 'Automatic category rules for transactions',
+  },
+  plans: {
+    title: 'Plans & Pricing',
+    subtitle: 'Choose the membership that fits you',
   },
 };
 
@@ -69,27 +74,28 @@ export const TopBar: React.FC<TopBarProps> = ({
   onClearFilter,
 }) => {
   const meta = TAB_TITLES[currentTab] || { title: 'Workspace', subtitle: '' };
+  const { resolvedMode, toggleMode } = useTheme();
 
   return (
-    <header className="sticky top-0 z-30 bg-[#09090b]/90 backdrop-blur-md border-b border-[#1e1e24] px-4 sm:px-6 lg:px-8 py-3.5">
+    <header className="sticky top-0 z-30 bg-[var(--bg)]/90 backdrop-blur-md border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-3.5 transition-colors">
       <div className="flex items-center justify-between gap-4">
         {/* Left: Mobile Toggle & Page Title */}
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={onOpenMobileSidebar}
-            className="p-2 rounded-lg text-[#a1a1aa] hover:text-[#f4f4f5] hover:bg-[#141417] lg:hidden transition"
-            title="Open Navigation"
+            className="p-2 rounded-xl text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] lg:hidden transition"
+            title="Open Menu"
           >
             <Menu className="w-5 h-5" />
           </button>
 
           <div>
             <div className="flex items-center gap-2.5">
-              <h1 className="text-lg font-bold tracking-tight text-[#f4f4f5]">{meta.title}</h1>
+              <h1 className="text-lg font-semibold tracking-tight text-[var(--fg)]">{meta.title}</h1>
               {activeFilter && (
-                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#1e1e24] border border-[#2e2e38] text-[11px] text-[#a1a1aa]">
-                  <Filter className="w-3 h-3 text-emerald-400" />
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[var(--surface-2)] border border-[var(--border)] text-[11px] text-[var(--fg-muted)]">
+                  <Filter className="w-3 h-3 text-emerald-500" />
                   <span>
                     Filtered:{' '}
                     {activeFilter.category ||
@@ -101,7 +107,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                     <button
                       type="button"
                       onClick={onClearFilter}
-                      className="hover:text-red-400 transition"
+                      className="hover:text-red-500 transition ml-0.5"
                       title="Clear Filter"
                     >
                       <X className="w-3 h-3" />
@@ -110,36 +116,50 @@ export const TopBar: React.FC<TopBarProps> = ({
                 </div>
               )}
             </div>
-            <p className="text-xs text-[#71717a] hidden sm:block mt-0.5">{meta.subtitle}</p>
+            <p className="text-xs text-[var(--fg-muted)] hidden sm:block mt-0.5">{meta.subtitle}</p>
           </div>
         </div>
 
-        {/* Right: Search Shortcut & Quick Actions */}
-        <div className="flex items-center gap-2.5">
+        {/* Right: Actions */}
+        <div className="flex items-center gap-2">
           {/* Quick Search Shortcut (Ctrl+K) */}
           <button
             type="button"
             onClick={onOpenQuickCapture}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#141417] hover:bg-[#1a1a1f] border border-[#222228] text-xs text-[#71717a] hover:text-[#f4f4f5] transition"
-            title="Quick Capture or Search (Ctrl+K)"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] transition"
+            title="Quick Action or Search (Ctrl+K)"
           >
-            <Search className="w-3.5 h-3.5 text-[#a1a1aa]" />
-            <span className="hidden md:inline text-[11px]">Quick Action</span>
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-[#1e1e24] border border-[#2c2c34] rounded text-[#a1a1aa]">
+            <Search className="w-3.5 h-3.5 text-[var(--fg-muted)]" />
+            <span className="hidden md:inline text-[11px]">Search</span>
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-[var(--surface)] border border-[var(--border)] rounded text-[var(--fg-muted)]">
               Ctrl K
             </kbd>
           </button>
 
-          {/* Smart Ingest Open Banking & Statement Hub */}
+          {/* Theme Quick Toggle (Light / Dark) */}
+          <button
+            type="button"
+            onClick={toggleMode}
+            className="p-2 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)] transition"
+            title={`Switch to ${resolvedMode === 'dark' ? 'Light' : 'Dark'} mode`}
+          >
+            {resolvedMode === 'dark' ? (
+              <Sun className="w-3.5 h-3.5 text-amber-400" />
+            ) : (
+              <Moon className="w-3.5 h-3.5 text-[var(--fg)]" />
+            )}
+          </button>
+
+          {/* Smart Ingest Open Hub */}
           {onOpenSmartIngest && (
             <button
               type="button"
               onClick={onOpenSmartIngest}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold transition active:scale-[0.98]"
-              title="Zero-friction onboarding: Bank statement copy-paste drop, OFX/QFX parser, or SMS Smart Clip"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--surface-2)] hover:bg-[var(--surface-3)] border border-[var(--border)] text-[var(--fg)] text-xs font-medium transition active:scale-[0.98]"
+              title="Import bank statements or SMS notifications"
             >
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              <span className="hidden sm:inline">Smart Ingest</span>
+              <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+              <span className="hidden sm:inline">Import</span>
             </button>
           )}
 
@@ -147,10 +167,10 @@ export const TopBar: React.FC<TopBarProps> = ({
           <button
             type="button"
             onClick={onOpenAddTransaction}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#f4f4f5] hover:bg-white text-[#09090b] text-xs font-semibold transition active:scale-[0.98] shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--fg)] hover:opacity-90 text-[var(--bg)] text-xs font-semibold transition active:scale-[0.98] shadow-sm"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Transaction</span>
+            <span className="hidden sm:inline">Add</span>
           </button>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CurrencyProvider, useCurrency } from './context/CurrencyContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { DashboardPage } from './dashboard/DashboardPage';
@@ -14,6 +15,7 @@ import { RulesView } from './components/RulesView';
 import { HouseholdView } from './components/HouseholdView';
 import { PricingView } from './components/PricingView';
 import { AdminView } from './components/AdminView';
+import { SettingsView } from './components/SettingsView';
 import { SmartIngestModal } from './components/SmartIngestModal';
 import { TransactionDrilldownModal } from './components/TransactionDrilldownModal';
 import { QuickCaptureModal } from './components/QuickCaptureModal';
@@ -238,8 +240,8 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f5] flex font-sans antialiased">
-      {/* Left Collapsible & Rearrangeable Sidebar (Monarch Money Layout) */}
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)] flex font-sans antialiased transition-colors">
+      {/* Left Collapsible & Clean Sidebar (PayLedger Layout) */}
       <Sidebar
         currentTab={currentTab}
         onSelectTab={(tab) => {
@@ -367,17 +369,24 @@ const AppContent: React.FC = () => {
               {currentTab === 'admin' && (
                 <AdminView />
               )}
+              {currentTab === 'settings' && (
+                <SettingsView
+                  onOpenSmartIngest={() => setIsSmartIngestOpen(true)}
+                  onRefreshAll={refreshAllData}
+                  onNavigateToPlans={() => setCurrentTab('plans')}
+                />
+              )}
             </>
           )}
         </main>
 
         {/* Minimal Footer */}
-        <footer className="border-t border-[#1e1e24] bg-[#0c0c0e] px-6 py-3 text-center text-[11px] text-[#52525b]">
+        <footer className="border-t border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-center text-[11px] text-[var(--fg-muted)] transition-colors">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span>OmniBudget Enterprise Financial Engine • Monarch-Inspired Architecture</span>
+            <span>PayLedger • Simple, minimal money management</span>
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              <span className="text-[#71717a]">Spring Boot Core API :8088</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span className="text-[var(--fg-muted)]">Local API Connected (:8088)</span>
             </div>
           </div>
         </footer>
@@ -471,7 +480,9 @@ export default function App() {
   return (
     <AuthProvider>
       <CurrencyProvider>
-        <AppContent />
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
       </CurrencyProvider>
     </AuthProvider>
   );
