@@ -88,7 +88,7 @@ export const PricingView: React.FC<PricingViewProps> = ({
   }
 
   return (
-    <div className="space-y-8 animate-fadeIn max-w-7xl mx-auto pb-12">
+    <div className="space-y-8 animate-fadeIn max-w-[1720px] w-full mx-auto pb-12">
       {/* Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface-2)] border border-[var(--border)] text-xs font-semibold text-[var(--fg)]">

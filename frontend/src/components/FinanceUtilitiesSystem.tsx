@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Calculator as CalcIcon,
   Percent,
@@ -55,10 +56,23 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
   });
   const [isDraggingHandle, setIsDraggingHandle] = useState(false);
 
+  const clampPosition = (x: number, y: number) => {
+    if (typeof window === 'undefined') return { x, y };
+    const modalWidth = Math.min(510, window.innerWidth - 24);
+    const modalHeight = Math.min(640, window.innerHeight - 40);
+    const clampedX = Math.max(12, Math.min(Math.max(12, window.innerWidth - modalWidth - 16), x));
+    const clampedY = Math.max(60, Math.min(Math.max(60, window.innerHeight - modalHeight - 16), y));
+    return { x: clampedX, y: clampedY };
+  };
+
   // Floating Window Position
   const [windowPos, setWindowPos] = useState<{ x: number; y: number }>(() => {
-    const defaultX = typeof window !== 'undefined' ? Math.max(20, window.innerWidth - 530) : 100;
-    return { x: defaultX, y: 75 };
+    if (typeof window === 'undefined') return { x: 100, y: 75 };
+    const modalWidth = Math.min(510, window.innerWidth - 24);
+    const modalHeight = Math.min(640, window.innerHeight - 40);
+    const targetX = Math.max(16, window.innerWidth - modalWidth - 28);
+    const targetY = Math.max(70, Math.min(80, window.innerHeight - modalHeight - 16));
+    return { x: targetX, y: targetY };
   });
   const [isDraggingWindow, setIsDraggingWindow] = useState(false);
   const dragStartRef = useRef<{ mouseX: number; mouseY: number; winX: number; winY: number }>({
@@ -81,6 +95,22 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
       setActiveTab(defaultTab);
     }
   }, [defaultTab]);
+
+  // Reclamp window position on open
+  useEffect(() => {
+    if (isOpen) {
+      setWindowPos((prev) => clampPosition(prev.x, prev.y));
+    }
+  }, [isOpen]);
+
+  // Reclamp on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowPos((prev) => clampPosition(prev.x, prev.y));
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Handle Edge Handle Dragging
   useEffect(() => {
@@ -110,9 +140,8 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
       if (isDraggingWindow && !isMaximized) {
         const dx = e.clientX - dragStartRef.current.mouseX;
         const dy = e.clientY - dragStartRef.current.mouseY;
-        const newX = Math.max(10, Math.min(window.innerWidth - 320, dragStartRef.current.winX + dx));
-        const newY = Math.max(10, Math.min(window.innerHeight - 150, dragStartRef.current.winY + dy));
-        setWindowPos({ x: newX, y: newY });
+        const newPos = clampPosition(dragStartRef.current.winX + dx, dragStartRef.current.winY + dy);
+        setWindowPos(newPos);
       }
     };
     const handlePointerUp = () => {
@@ -165,19 +194,21 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
   const currentDef = UTILITIES.find((u) => u.id === activeTab) || UTILITIES[0];
   const CurrentIcon = currentDef.icon;
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <>
-      {/* 1. SAMSUNG-STYLE EDGE HANDLE (Right edge of screen) */}
-      {!isOpen && !isMinimized && (
+      {/* 1. SAMSUNG-STYLE EDGE HANDLE (Right edge of screen - persistent & draggable) */}
+      {!isMaximized && (
         <div
           style={{ top: `${handleY}px` }}
-          className="fixed right-0 z-40 select-none group"
+          className="fixed right-0 z-40 select-none group pointer-events-auto"
         >
           {/* Edge Handle Grip Tab */}
           <div className="relative flex items-center">
             {/* Slide-out Shelf Container */}
             {isEdgeShelfOpen && (
-              <div className="absolute right-9 top-1/2 -translate-y-1/2 bg-[var(--surface)] border border-[var(--border)] shadow-2xl rounded-2xl p-2.5 flex flex-col gap-1.5 w-48 modal-content backdrop-blur-md">
+              <div className="absolute right-9 top-1/2 -translate-y-1/2 bg-[var(--surface)] border border-[var(--border)] shadow-2xl rounded-2xl p-2.5 flex flex-col gap-1.5 w-52 modal-content backdrop-blur-md z-50 animate-scale-in">
                 <div className="px-2 py-1 flex items-center justify-between border-b border-[var(--border)] text-[10px] font-bold text-[var(--fg-muted)] uppercase tracking-wider">
                   <span>Finance Utilities</span>
                   <button
@@ -190,17 +221,22 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
                 </div>
                 {UTILITIES.map((u) => {
                   const Icon = u.icon;
+                  const isActive = isOpen && activeTab === u.id;
                   return (
                     <button
                       key={u.id}
                       type="button"
                       onClick={() => handleOpenUtility(u.id)}
-                      className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs hover:bg-[var(--surface-2)] text-[var(--fg)] transition interactive-row group/btn text-left"
+                      className={`flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-xs transition interactive-row group/btn text-left ${
+                        isActive
+                          ? 'bg-[var(--surface-2)] text-[var(--fg)] font-semibold border border-emerald-500/30'
+                          : 'hover:bg-[var(--surface-2)] text-[var(--fg)]'
+                      }`}
                     >
                       <div className="w-7 h-7 rounded-lg bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center text-[var(--fg)] shrink-0 group-hover/btn:border-emerald-500/40">
                         <Icon className="w-3.5 h-3.5" />
                       </div>
-                      <div className="truncate">
+                      <div className="truncate flex-1">
                         <span className="font-semibold block truncate leading-tight">{u.label}</span>
                         <span className="text-[10px] text-[var(--fg-muted)] block truncate">{u.desc}</span>
                       </div>
@@ -216,7 +252,7 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
               onPointerDown={(e) => {
                 if (e.button === 0) setIsDraggingHandle(true);
               }}
-              title="Drag up/down, click to open Financial Utilities"
+              title="Drag up/down, click to open Samsung Finance Utilities sidebar"
               className="flex items-center justify-center w-7 h-16 rounded-l-xl bg-[var(--fg)] text-[var(--bg)] cursor-pointer shadow-xl hover:w-8 transition-all duration-150 active:scale-95"
             >
               <div className="flex flex-col items-center justify-center gap-1">
@@ -249,17 +285,19 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
         <div
           style={
             isMaximized
-              ? { inset: '16px' }
+              ? { inset: '16px', position: 'fixed', width: 'auto', height: 'auto', zIndex: 60 }
+              : typeof window !== 'undefined' && window.innerWidth < 640
+              ? { left: '8px', right: '8px', top: '56px', bottom: '16px', position: 'fixed', width: 'auto', height: 'auto', zIndex: 60 }
               : {
+                  position: 'fixed',
                   left: `${windowPos.x}px`,
                   top: `${windowPos.y}px`,
                   width: 'min(510px, calc(100vw - 24px))',
                   height: 'min(640px, calc(100vh - 40px))',
+                  zIndex: 60,
                 }
           }
-          className={`fixed z-50 flex flex-col modal-card-luxury ambient-accent shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden backdrop-blur-md ${
-            isMaximized ? 'w-auto h-auto' : ''
-          }`}
+          className={`flex flex-col modal-card-luxury ambient-accent shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden backdrop-blur-md`}
         >
           {/* WINDOW TITLE BAR (Draggable) */}
           <div
@@ -337,7 +375,8 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
           </div>
         </div>
       )}
-    </>
+    </>,
+    document.body
   );
 };
 

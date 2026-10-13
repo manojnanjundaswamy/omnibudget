@@ -291,7 +291,7 @@ const AppContent: React.FC = () => {
         />
 
         {/* Viewport Canvas */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 2xl:px-10 max-w-[1720px] w-full mx-auto">
           {isLoading ? (
             <div className="min-h-[60vh] flex flex-col items-center justify-center text-[#71717a] gap-3">
               <RefreshCw className="w-5 h-5 animate-spin text-neutral-300" />
@@ -408,7 +408,7 @@ const AppContent: React.FC = () => {
 
         {/* Minimal Footer */}
         <footer className="border-t border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-center text-[11px] text-[var(--fg-muted)] transition-colors">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div className="max-w-[1720px] w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <span>PayLedger • Simple, minimal money management</span>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>

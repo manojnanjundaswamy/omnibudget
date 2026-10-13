@@ -164,7 +164,7 @@ export const AssetsView: React.FC = () => {
   const totalSip = summary?.totalMonthlySip || 0;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
+    <div className="space-y-6 max-w-[1720px] w-full mx-auto pb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border)] pb-5">
         <div>

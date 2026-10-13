@@ -21,3 +21,8 @@ frontend/*.tsbuildinfo
 # Docker & Database
 pgdata/
 *.h2.db
+
+# QA Automation Temp
+QA/*profile*/
+QA/debug_screenshots/
+QA/temp_*
