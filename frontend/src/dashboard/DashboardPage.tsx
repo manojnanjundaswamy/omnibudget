@@ -71,6 +71,7 @@ interface DashboardPageProps {
   onSimulateExpense: () => void;
   onNavigateToTransactions?: (filter?: { accountId?: string; category?: string; envelopeId?: string }) => void;
   onEditTransaction?: (tx: Transaction) => void;
+  onOpenDrilldown?: (title: string, transactions: Transaction[], subtitle?: string) => void;
 }
 
 const STORAGE_KEY = 'omnibudget_custom_dashboard_v1';
@@ -89,6 +90,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   onSimulateExpense,
   onNavigateToTransactions,
   onEditTransaction,
+  onOpenDrilldown,
 }) => {
   const { formatAmount } = useCurrency();
   const [editing, setEditing] = useState(false);
@@ -191,6 +193,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       goals,
       onNavigateToTransactions,
       onEditTransaction,
+      onOpenDrilldown,
     };
     switch (type) {
       case 'safe-to-spend':
@@ -231,8 +234,22 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               {greeting()}, Alex
             </h2>
             {summary && (
-              <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#181818] border border-[#262626] text-[#9e9e98] font-mono">
-                Net Worth: <strong className="text-[#f5f5f4]">{formatAmount(summary.netWorth)}</strong>
+              <span
+                onClick={() => {
+                  if (onOpenDrilldown) {
+                    onOpenDrilldown(
+                      'Total Portfolio Transactions',
+                      transactions,
+                      `Total Net Worth: ${formatAmount(summary.netWorth)} • ${transactions.length} records across ${accounts.length} accounts`
+                    );
+                  } else {
+                    onNavigateToTransactions?.();
+                  }
+                }}
+                className="text-xs px-2.5 py-0.5 rounded-full bg-[#181818] border border-[#262626] hover:border-emerald-500/50 text-[#9e9e98] font-mono cursor-pointer transition group"
+                title="Click to drill down into entire ledger activity"
+              >
+                Net Worth: <strong className="text-[#f5f5f4] group-hover:text-emerald-400 transition">{formatAmount(summary.netWorth)}</strong>
               </span>
             )}
           </div>

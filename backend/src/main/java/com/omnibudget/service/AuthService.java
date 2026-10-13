@@ -101,11 +101,21 @@ public class AuthService {
 
     public User getOrCreateDemoUser() {
         return userRepository.findByEmail(DEMO_USER_EMAIL)
+                .map(u -> {
+                    if (!"ADMIN".equals(u.getRole())) {
+                        u.setRole("ADMIN");
+                        return userRepository.save(u);
+                    }
+                    return u;
+                })
                 .orElseGet(() -> userRepository.save(User.builder()
                         .email(DEMO_USER_EMAIL)
-                        .name("Alex Chen (Demo)")
+                        .name("Alex Chen (Admin)")
                         .provider("DEMO")
                         .currency("USD")
+                        .plan("PRO")
+                        .role("ADMIN")
+                        .status("ACTIVE")
                         .hasCompletedOnboarding(true)
                         .build()));
     }

@@ -8,25 +8,32 @@ import {
   FileSpreadsheet,
   X,
   Upload,
+  Sparkles,
 } from 'lucide-react';
-import { Account } from '../types';
+import { Account, Transaction } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
 import { api } from '../services/api';
 
 interface AccountsViewProps {
   accounts: Account[];
+  transactions?: Transaction[];
   onRefresh: () => void;
   onOpenAddAccount: () => void;
   onEditAccount: (account: Account) => void;
   onNavigateToTransactions: (filter?: { accountId?: string }) => void;
+  onOpenDrilldown?: (title: string, transactions: Transaction[], subtitle?: string) => void;
+  onOpenSmartIngest?: () => void;
 }
 
 export const AccountsView: React.FC<AccountsViewProps> = ({
   accounts,
+  transactions = [],
   onRefresh,
   onOpenAddAccount,
   onEditAccount,
   onNavigateToTransactions,
+  onOpenDrilldown,
+  onOpenSmartIngest,
 }) => {
   const { formatAmount } = useCurrency();
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
@@ -87,13 +94,24 @@ export const AccountsView: React.FC<AccountsViewProps> = ({
             <ArrowRightLeft className="w-3.5 h-3.5 text-[#9e9e98]" />
             <span>Transfer Funds</span>
           </button>
-          <button
-            onClick={() => setIsCsvModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#181818] hover:bg-[#222222] text-[#f5f5f4] border border-[#242424] transition"
-          >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-[#9e9e98]" />
-            <span>Import CSV</span>
-          </button>
+          {onOpenSmartIngest ? (
+            <button
+              onClick={onOpenSmartIngest}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 transition shadow-sm"
+              title="Zero-friction onboarding: Bank statement drop, OFX/QFX parser, or SMS smart clip"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Smart Ingest</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsCsvModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#181818] hover:bg-[#222222] text-[#f5f5f4] border border-[#242424] transition"
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5 text-[#9e9e98]" />
+              <span>Import CSV</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -119,7 +137,18 @@ export const AccountsView: React.FC<AccountsViewProps> = ({
             return (
               <div
                 key={acc.id}
-                onClick={() => onNavigateToTransactions({ accountId: acc.id })}
+                onClick={() => {
+                  if (onOpenDrilldown) {
+                    const accTxs = transactions.filter((t) => t.accountId === acc.id);
+                    onOpenDrilldown(
+                      `${acc.name} Ledger`,
+                      accTxs,
+                      `${acc.institutionName || 'Account'} • Balance: ${formatAmount(acc.balance)} • ${accTxs.length} records`
+                    );
+                  } else {
+                    onNavigateToTransactions({ accountId: acc.id });
+                  }
+                }}
                 className="p-5 rounded-2xl bg-[#121212] border border-[#242424] shadow-sm hover:border-[#383838] transition space-y-4 cursor-pointer group"
               >
                 <div className="flex items-start justify-between">
@@ -194,10 +223,22 @@ export const AccountsView: React.FC<AccountsViewProps> = ({
                 )}
 
                 <div className="pt-3 border-t border-[#1e1e1e] flex items-center justify-between text-[11px] text-[#6b6b66] font-mono">
-                  <span className="text-[10px] text-[#9e9e98] group-hover:text-[#f5f5f4] transition">
-                    View transactions →
+                  <span className="text-[10px] text-emerald-400 group-hover:text-emerald-300 transition">
+                    Inspect drilldown →
                   </span>
-                  <span>•••• {acc.accountNumberLast4 || '4182'}</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onNavigateToTransactions({ accountId: acc.id });
+                      }}
+                      className="text-[10px] text-[#9e9e98] hover:text-[#f5f5f4] transition underline"
+                    >
+                      Ledger
+                    </button>
+                    <span>•••• {acc.accountNumberLast4 || '4182'}</span>
+                  </div>
                 </div>
               </div>
             );

@@ -21,6 +21,7 @@ import {
   Sparkles,
   Wand2,
   CreditCard,
+  ShieldCheck,
 } from 'lucide-react';
 import { NavTab } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -53,6 +54,7 @@ const DEFAULT_NAV_ITEMS: NavItemDef[] = [
   { id: 'rules', label: 'Rules', icon: Wand2, badge: 'Auto' },
   { id: 'household', label: 'Household', icon: Users2 },
   { id: 'plans', label: 'Plans & Pricing', icon: CreditCard, badge: 'Pro' },
+  { id: 'admin', label: 'Admin Center', icon: ShieldCheck, badge: 'Master' },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({

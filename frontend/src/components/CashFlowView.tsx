@@ -16,12 +16,14 @@ interface CashFlowViewProps {
   summary: DashboardSummary | null;
   transactions: Transaction[];
   onNavigateToTransactions: (filter?: TransactionFilter) => void;
+  onOpenDrilldown?: (title: string, transactions: Transaction[], subtitle?: string) => void;
 }
 
 export const CashFlowView: React.FC<CashFlowViewProps> = ({
   summary,
   transactions,
   onNavigateToTransactions,
+  onOpenDrilldown,
 }) => {
   const { formatAmount } = useCurrency();
 
@@ -80,38 +82,70 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
       {/* Primary KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
         {/* Income Card */}
-        <div className="p-5 rounded-2xl bg-[#121215] border border-[#27272a] space-y-2">
+        <div
+          onClick={() => {
+            const incomeTxs = transactions.filter((t) => t.type === 'INCOME');
+            if (onOpenDrilldown) {
+              onOpenDrilldown(
+                'Monthly Inflow & Income',
+                incomeTxs,
+                `Total: +${formatAmount(income)} across ${incomeTxs.length} records`
+              );
+            } else {
+              onNavigateToTransactions({ type: 'INCOME' });
+            }
+          }}
+          className="p-5 rounded-2xl bg-[#121215] border border-[#27272a] hover:border-emerald-500/40 cursor-pointer transition space-y-2 group"
+          title="Click to drill down into income transactions"
+        >
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider">
               Total Inflow (Income)
             </span>
-            <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center group-hover:scale-105 transition-transform">
               <ArrowDownRight className="w-4 h-4" />
             </div>
           </div>
           <span className="text-2xl font-bold tracking-tight text-emerald-400 tabular block">
             +{formatAmount(income)}
           </span>
-          <span className="text-[11px] text-[#71717a] block">
-            {sortedIncomes.length} recorded income sources
+          <span className="text-[11px] text-[#71717a] block flex items-center justify-between">
+            <span>{sortedIncomes.length} recorded income sources</span>
+            <span className="text-[10px] text-emerald-400 opacity-0 group-hover:opacity-100 transition">Drilldown →</span>
           </span>
         </div>
 
         {/* Expenses Card */}
-        <div className="p-5 rounded-2xl bg-[#121215] border border-[#27272a] space-y-2">
+        <div
+          onClick={() => {
+            const expenseTxs = transactions.filter((t) => t.type === 'EXPENSE');
+            if (onOpenDrilldown) {
+              onOpenDrilldown(
+                'Monthly Outflow & Expenses',
+                expenseTxs,
+                `Total: -${formatAmount(expenses)} across ${expenseTxs.length} records`
+              );
+            } else {
+              onNavigateToTransactions({ type: 'EXPENSE' });
+            }
+          }}
+          className="p-5 rounded-2xl bg-[#121215] border border-[#27272a] hover:border-rose-500/40 cursor-pointer transition space-y-2 group"
+          title="Click to drill down into expense transactions"
+        >
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider">
               Total Outflow (Expenses)
             </span>
-            <div className="w-7 h-7 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center group-hover:scale-105 transition-transform">
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
           <span className="text-2xl font-bold tracking-tight text-[#f4f4f5] tabular block">
             -{formatAmount(expenses)}
           </span>
-          <span className="text-[11px] text-[#71717a] block">
-            Average {formatAmount(avgDailySpend)} / day
+          <span className="text-[11px] text-[#71717a] block flex items-center justify-between">
+            <span>Average {formatAmount(avgDailySpend)} / day</span>
+            <span className="text-[10px] text-rose-400 opacity-0 group-hover:opacity-100 transition">Drilldown →</span>
           </span>
         </div>
 
@@ -188,7 +222,18 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                   <button
                     key={category}
                     type="button"
-                    onClick={() => onNavigateToTransactions({ category })}
+                    onClick={() => {
+                      const catTxs = transactions.filter((t) => (t.category || 'Uncategorized') === category);
+                      if (onOpenDrilldown) {
+                        onOpenDrilldown(
+                          `${category} Expenses`,
+                          catTxs,
+                          `${percent}% of monthly outflow • Total: ${formatAmount(amount)}`
+                        );
+                      } else {
+                        onNavigateToTransactions({ category });
+                      }
+                    }}
                     className="w-full text-left group p-2 -mx-2 rounded-xl hover:bg-[#18181c] transition"
                   >
                     <div className="flex items-center justify-between text-xs mb-1.5">
@@ -237,9 +282,31 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
               {sortedIncomes.map(([source, amount]) => {
                 const percent = income > 0 ? Math.round((amount / income) * 100) : 0;
                 return (
-                  <div key={source} className="p-2 -mx-2 rounded-xl bg-[#16161a] border border-[#222228]">
+                  <button
+                    key={source}
+                    type="button"
+                    onClick={() => {
+                      const incTxs = transactions.filter(
+                        (t) =>
+                          t.type === 'INCOME' &&
+                          (t.category === source ||
+                            t.merchant === source ||
+                            (!t.category && !t.merchant && source === 'General Income'))
+                      );
+                      if (onOpenDrilldown) {
+                        onOpenDrilldown(
+                          `${source} Inflow`,
+                          incTxs,
+                          `${percent}% of total inflow • Total: +${formatAmount(amount)}`
+                        );
+                      } else {
+                        onNavigateToTransactions({ type: 'INCOME' });
+                      }
+                    }}
+                    className="w-full text-left p-2 -mx-2 rounded-xl bg-[#16161a] hover:bg-[#1c1c22] border border-[#222228] transition group cursor-pointer"
+                  >
                     <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="font-medium text-[#f4f4f5]">{source}</span>
+                      <span className="font-medium text-[#f4f4f5] group-hover:text-emerald-400 transition">{source}</span>
                       <span className="font-bold text-emerald-400 tabular">+{formatAmount(amount)}</span>
                     </div>
                     <div className="w-full h-1.5 rounded-full bg-[#18181c] overflow-hidden">
@@ -248,7 +315,7 @@ export const CashFlowView: React.FC<CashFlowViewProps> = ({
                         style={{ width: `${percent}%` }}
                       />
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>

@@ -7,6 +7,7 @@ interface TopBarProps {
   onOpenMobileSidebar: () => void;
   onOpenQuickCapture: () => void;
   onOpenAddTransaction: () => void;
+  onOpenSmartIngest?: () => void;
   activeFilter?: TransactionFilter;
   onClearFilter?: () => void;
 }
@@ -52,6 +53,10 @@ const TAB_TITLES: Record<NavTab, { title: string; subtitle: string }> = {
     title: 'Subscription & SaaS Plans',
     subtitle: 'Transparent tier pricing, active plan entitlements, and quota usage',
   },
+  admin: {
+    title: 'Admin Control Center',
+    subtitle: 'SaaS executive metrics, customer directory, entitlements & feature governance',
+  },
 };
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -59,6 +64,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onOpenMobileSidebar,
   onOpenQuickCapture,
   onOpenAddTransaction,
+  onOpenSmartIngest,
   activeFilter,
   onClearFilter,
 }) => {
@@ -123,6 +129,19 @@ export const TopBar: React.FC<TopBarProps> = ({
               Ctrl K
             </kbd>
           </button>
+
+          {/* Smart Ingest Open Banking & Statement Hub */}
+          {onOpenSmartIngest && (
+            <button
+              type="button"
+              onClick={onOpenSmartIngest}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold transition active:scale-[0.98]"
+              title="Zero-friction onboarding: Bank statement copy-paste drop, OFX/QFX parser, or SMS Smart Clip"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+              <span className="hidden sm:inline">Smart Ingest</span>
+            </button>
+          )}
 
           {/* Quick Record Transaction Button */}
           <button

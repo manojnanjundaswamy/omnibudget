@@ -24,6 +24,7 @@ interface WidgetContextProps {
   goals?: Goal[];
   onNavigateToTransactions?: (filter?: { accountId?: string; category?: string; envelopeId?: string }) => void;
   onEditTransaction?: (tx: Transaction) => void;
+  onOpenDrilldown?: (title: string, transactions: Transaction[], subtitle?: string) => void;
 }
 
 export const SafeToSpendWidget: React.FC<WidgetContextProps> = ({ summary }) => {
@@ -64,7 +65,11 @@ export const SafeToSpendWidget: React.FC<WidgetContextProps> = ({ summary }) => 
   );
 };
 
-export const SpendingByCategoryWidget: React.FC<WidgetContextProps> = ({ transactions, onNavigateToTransactions }) => {
+export const SpendingByCategoryWidget: React.FC<WidgetContextProps> = ({
+  transactions,
+  onNavigateToTransactions,
+  onOpenDrilldown,
+}) => {
   const { formatAmount } = useCurrency();
 
   // Aggregate expenses by category
@@ -86,13 +91,20 @@ export const SpendingByCategoryWidget: React.FC<WidgetContextProps> = ({ transac
       <BarList
         items={items}
         format={formatAmount}
-        onSelect={(item) => onNavigateToTransactions?.({ category: item.key })}
+        onSelect={(item) => {
+          if (onOpenDrilldown) {
+            const catTxs = transactions.filter((t) => (t.category || 'Other') === item.key);
+            onOpenDrilldown(`${item.label} Spending`, catTxs, `Total: ${formatAmount(item.value)}`);
+          } else {
+            onNavigateToTransactions?.({ category: item.key });
+          }
+        }}
       />
     </div>
   );
 };
 
-export const CashFlowWidget: React.FC<WidgetContextProps> = ({ summary }) => {
+export const CashFlowWidget: React.FC<WidgetContextProps> = ({ summary, transactions, onNavigateToTransactions, onOpenDrilldown }) => {
   const { formatAmount } = useCurrency();
   if (!summary) return null;
 
@@ -102,13 +114,33 @@ export const CashFlowWidget: React.FC<WidgetContextProps> = ({ summary }) => {
   return (
     <div className="flex h-full flex-col justify-between gap-4">
       <div className="grid grid-cols-2 gap-3">
-        <div className="p-3 rounded-xl bg-[#181818] border border-[#242424]">
+        <div
+          onClick={() => {
+            if (onOpenDrilldown) {
+              const incTxs = transactions.filter((t) => t.type === 'INCOME');
+              onOpenDrilldown('Monthly Inflow & Income', incTxs, `Total: +${formatAmount(summary.totalIncomeThisMonth)}`);
+            } else {
+              onNavigateToTransactions?.();
+            }
+          }}
+          className="p-3 rounded-xl bg-[#181818] border border-[#242424] hover:border-emerald-500/40 cursor-pointer transition group"
+        >
           <span className="text-[11px] text-[#9e9e98] block">Income</span>
           <span className="text-base font-bold text-emerald-400 tabular block mt-0.5">
             +{formatAmount(summary.totalIncomeThisMonth)}
           </span>
         </div>
-        <div className="p-3 rounded-xl bg-[#181818] border border-[#242424]">
+        <div
+          onClick={() => {
+            if (onOpenDrilldown) {
+              const expTxs = transactions.filter((t) => t.type === 'EXPENSE');
+              onOpenDrilldown('Monthly Outlays & Expenses', expTxs, `Total: -${formatAmount(summary.totalExpensesThisMonth)}`);
+            } else {
+              onNavigateToTransactions?.();
+            }
+          }}
+          className="p-3 rounded-xl bg-[#181818] border border-[#242424] hover:border-rose-500/40 cursor-pointer transition group"
+        >
           <span className="text-[11px] text-[#9e9e98] block">Outlays</span>
           <span className="text-base font-bold text-[#f5f5f4] tabular block mt-0.5">
             -{formatAmount(summary.totalExpensesThisMonth)}
@@ -127,7 +159,7 @@ export const CashFlowWidget: React.FC<WidgetContextProps> = ({ summary }) => {
   );
 };
 
-export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes, onNavigateToTransactions }) => {
+export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes, transactions, onNavigateToTransactions, onOpenDrilldown }) => {
   const { formatAmount } = useCurrency();
 
   const sorted = [...envelopes]
@@ -144,7 +176,14 @@ export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes, onNavig
         return (
           <li
             key={env.id}
-            onClick={() => onNavigateToTransactions?.({ envelopeId: env.id, category: env.name })}
+            onClick={() => {
+              if (onOpenDrilldown) {
+                const catTxs = transactions.filter((t) => t.envelopeId === env.id || (t.category && t.category.toLowerCase() === env.name.toLowerCase()));
+                onOpenDrilldown(`${env.name} Budget Drilldown`, catTxs, `Target: ${formatAmount(env.monthlyBudget)} • Spent: ${formatAmount(env.spentAmount)}`);
+              } else {
+                onNavigateToTransactions?.({ envelopeId: env.id, category: env.name });
+              }
+            }}
             className="space-y-1 cursor-pointer hover:opacity-85 transition group"
           >
             <div className="flex items-center justify-between text-xs">
@@ -175,7 +214,7 @@ export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes, onNavig
   );
 };
 
-export const AccountsWidget: React.FC<WidgetContextProps> = ({ accounts, onNavigateToTransactions }) => {
+export const AccountsWidget: React.FC<WidgetContextProps> = ({ accounts, transactions, onNavigateToTransactions, onOpenDrilldown }) => {
   const { formatAmount } = useCurrency();
 
   return (
@@ -183,7 +222,14 @@ export const AccountsWidget: React.FC<WidgetContextProps> = ({ accounts, onNavig
       {accounts.slice(0, 4).map((acc) => (
         <li
           key={acc.id}
-          onClick={() => onNavigateToTransactions?.({ accountId: acc.id })}
+          onClick={() => {
+            if (onOpenDrilldown) {
+              const accTxs = transactions.filter((t) => t.accountId === acc.id);
+              onOpenDrilldown(`${acc.name} Activity`, accTxs, `Balance: ${formatAmount(acc.balance)}`);
+            } else {
+              onNavigateToTransactions?.({ accountId: acc.id });
+            }
+          }}
           className="flex items-center justify-between p-2.5 rounded-xl bg-[#181818] border border-[#242424] text-xs cursor-pointer hover:border-[#383838] transition group"
         >
           <div className="truncate pr-2">

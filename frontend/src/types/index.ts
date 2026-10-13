@@ -152,6 +152,9 @@ export interface User {
   plan?: string;
   billingCycle?: string;
   subscriptionStatus?: string;
+  role?: 'USER' | 'ADMIN';
+  status?: 'ACTIVE' | 'SUSPENDED';
+  lastLoginAt?: string;
   provider: 'GOOGLE' | 'EMAIL' | 'DEMO';
   hasCompletedOnboarding: boolean;
 }
@@ -386,6 +389,75 @@ export interface UpgradePlanPayload {
   billingCycle: 'MONTHLY' | 'ANNUAL';
 }
 
+export interface AdminMetrics {
+  totalUsers: number;
+  activeUsersToday: number;
+  mrr: number;
+  arr: number;
+  payingSubscribers: number;
+  starterUsers: number;
+  proUsers: number;
+  householdUsers: number;
+  totalAccountsTracked: number;
+  totalTransactionsProcessed: number;
+  totalAssetsUnderManagement: number;
+  platformHealth: string;
+  databaseEngine: string;
+}
+
+export interface AdminUserDetail {
+  id: string;
+  email: string;
+  name: string;
+  role: 'USER' | 'ADMIN';
+  plan: string;
+  billingCycle: string;
+  status: 'ACTIVE' | 'SUSPENDED';
+  currency: string;
+  accountsCount: number;
+  transactionsCount: number;
+  totalBalance: number;
+  createdAt: string;
+  lastLoginAt?: string;
+}
+
+export interface CreateAdminUserPayload {
+  email: string;
+  name?: string;
+  role?: string;
+  plan?: string;
+  currency?: string;
+}
+
+export interface UpdateAdminUserPayload {
+  name?: string;
+  role?: string;
+  plan?: string;
+  billingCycle?: string;
+  status?: string;
+}
+
+export interface ParsedTransaction {
+  date: string;
+  merchant: string;
+  description: string;
+  amount: number;
+  type: TransactionType;
+  suggestedCategory: string;
+  ruleMatched?: string;
+  confidence: number;
+}
+
+export interface IngestCommitPayload {
+  accountId: string;
+  transactions: ParsedTransaction[];
+}
+
+export interface SmartClipPayload {
+  text: string;
+  accountId?: string;
+}
+
 export type NavTab =
   | 'dashboard'
   | 'accounts'
@@ -396,6 +468,7 @@ export type NavTab =
   | 'goals'
   | 'rules'
   | 'household'
-  | 'plans';
+  | 'plans'
+  | 'admin';
 
 

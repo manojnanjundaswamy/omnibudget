@@ -9,23 +9,27 @@ import {
   Tag,
   ArrowRight,
 } from 'lucide-react';
-import { BudgetEnvelope, EnvelopeGroup } from '../types';
+import { BudgetEnvelope, EnvelopeGroup, Transaction } from '../types';
 import { useCurrency } from '../context/CurrencyContext';
 
 interface BudgetsViewProps {
   envelopes: BudgetEnvelope[];
+  transactions?: Transaction[];
   onRefresh: () => void;
   onOpenAddEnvelope: () => void;
   onEditEnvelope: (env: BudgetEnvelope) => void;
   onNavigateToTransactions: (filter?: { envelopeId?: string; category?: string }) => void;
+  onOpenDrilldown?: (title: string, transactions: Transaction[], subtitle?: string) => void;
 }
 
 export const BudgetsView: React.FC<BudgetsViewProps> = ({
   envelopes,
+  transactions = [],
   onRefresh,
   onOpenAddEnvelope,
   onEditEnvelope,
   onNavigateToTransactions,
+  onOpenDrilldown,
 }) => {
   const { formatAmount } = useCurrency();
 
@@ -87,11 +91,27 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
           </span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] space-y-1">
-          <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
-            Actual Spent So Far
-          </span>
-          <span className="text-2xl font-bold tracking-tight text-neutral-200 tabular block">
+        <div
+          onClick={() => {
+            if (onOpenDrilldown) {
+              const expenseTxs = transactions.filter((t) => t.type === 'EXPENSE');
+              onOpenDrilldown('Monthly Budget Expenses', expenseTxs, `Total spent: ${formatAmount(totalSpent)} across ${expenseTxs.length} transactions`);
+            } else {
+              onNavigateToTransactions();
+            }
+          }}
+          className="p-4 rounded-2xl bg-[#121215] border border-[#27272a] hover:border-emerald-500/40 cursor-pointer transition space-y-1 group"
+          title="Click to drill down into all spent transactions"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-medium text-[#71717a] uppercase tracking-wider block">
+              Actual Spent So Far
+            </span>
+            <span className="text-[10px] text-emerald-400 opacity-0 group-hover:opacity-100 transition">
+              Drill down →
+            </span>
+          </div>
+          <span className="text-2xl font-bold tracking-tight text-neutral-200 tabular block group-hover:text-white transition">
             {formatAmount(totalSpent)}
           </span>
           <span className="text-[11px] text-[#71717a]">
@@ -249,8 +269,35 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                         </div>
                       </div>
 
-                      {/* Card Footer: Drilldown Link */}
+                      {/* Card Footer: Drilldown & Ledger Link */}
                       <div className="pt-2 border-t border-[#1c1c22] flex items-center justify-between text-[11px]">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (onOpenDrilldown) {
+                              const catTxs = transactions.filter(
+                                (t) =>
+                                  t.envelopeId === env.id ||
+                                  (t.category && t.category.toLowerCase() === env.name.toLowerCase())
+                              );
+                              onOpenDrilldown(
+                                `${env.name} Spending`,
+                                catTxs,
+                                `Target: ${formatAmount(env.monthlyBudget)} • Spent: ${formatAmount(env.spentAmount)}`
+                              );
+                            } else {
+                              onNavigateToTransactions({
+                                envelopeId: env.id,
+                                category: env.name,
+                              });
+                            }
+                          }}
+                          className="text-emerald-400 hover:text-emerald-300 font-medium transition flex items-center gap-1 group/btn"
+                        >
+                          <span>Drilldown</span>
+                          <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
+                        </button>
+
                         <button
                           type="button"
                           onClick={() =>
@@ -259,10 +306,9 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
                               category: env.name,
                             })
                           }
-                          className="text-[#a1a1aa] hover:text-[#f4f4f5] transition flex items-center gap-1 group/btn"
+                          className="text-[#71717a] hover:text-[#f4f4f5] transition text-[10px]"
                         >
-                          <span>View transactions</span>
-                          <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
+                          Ledger →
                         </button>
                       </div>
                     </div>

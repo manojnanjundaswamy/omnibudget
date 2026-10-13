@@ -31,6 +31,13 @@ import {
   BillingPlan,
   SubscriptionSummary,
   UpgradePlanPayload,
+  AdminMetrics,
+  AdminUserDetail,
+  CreateAdminUserPayload,
+  UpdateAdminUserPayload,
+  ParsedTransaction,
+  IngestCommitPayload,
+  SmartClipPayload,
 } from '../types';
 
 const API_BASE = '/api';
@@ -559,6 +566,111 @@ export const api = {
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('Failed to update subscription');
+    return res.json();
+  },
+
+  // Admin Control Center
+  getAdminMetrics: async (): Promise<AdminMetrics> => {
+    const res = await fetch(`${API_BASE}/admin/metrics`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch admin metrics');
+    return res.json();
+  },
+
+  getAdminUsers: async (): Promise<AdminUserDetail[]> => {
+    const res = await fetch(`${API_BASE}/admin/users`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch users directory');
+    return res.json();
+  },
+
+  createAdminUser: async (data: CreateAdminUserPayload): Promise<AdminUserDetail> => {
+    const res = await fetch(`${API_BASE}/admin/users`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to create user');
+    return res.json();
+  },
+
+  updateAdminUser: async (id: string, data: UpdateAdminUserPayload): Promise<AdminUserDetail> => {
+    const res = await fetch(`${API_BASE}/admin/users/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update user');
+    return res.json();
+  },
+
+  deleteAdminUser: async (id: string): Promise<{ message: string }> => {
+    const res = await fetch(`${API_BASE}/admin/users/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete user');
+    return res.json();
+  },
+
+  getAdminSettings: async (): Promise<Record<string, any>> => {
+    const res = await fetch(`${API_BASE}/admin/settings`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch platform settings');
+    return res.json();
+  },
+
+  updateAdminSettings: async (settings: Record<string, any>): Promise<Record<string, any>> => {
+    const res = await fetch(`${API_BASE}/admin/settings`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(settings),
+    });
+    if (!res.ok) throw new Error('Failed to update platform settings');
+    return res.json();
+  },
+
+  // Zero-Friction Open Ingest Engine
+  previewStatementText: async (rawText: string): Promise<ParsedTransaction[]> => {
+    const res = await fetch(`${API_BASE}/ingest/statement-preview`, {
+      method: 'POST',
+      headers: getHeaders({ 'Content-Type': 'text/plain' }),
+      body: rawText,
+    });
+    if (!res.ok) throw new Error('Failed to parse statement text');
+    return res.json();
+  },
+
+  previewOfxContent: async (ofxContent: string): Promise<ParsedTransaction[]> => {
+    const res = await fetch(`${API_BASE}/ingest/ofx-preview`, {
+      method: 'POST',
+      headers: getHeaders({ 'Content-Type': 'text/plain' }),
+      body: ofxContent,
+    });
+    if (!res.ok) throw new Error('Failed to parse OFX/QFX content');
+    return res.json();
+  },
+
+  ingestSmartClip: async (data: SmartClipPayload): Promise<any> => {
+    const res = await fetch(`${API_BASE}/ingest/smart-clip`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to process smart clip snippet');
+    return res.json();
+  },
+
+  commitIngest: async (data: IngestCommitPayload): Promise<{ importedCount: number; accountName: string }> => {
+    const res = await fetch(`${API_BASE}/ingest/commit`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to commit ingested transactions');
     return res.json();
   },
 };

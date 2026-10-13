@@ -13,6 +13,9 @@ import { GoalsView } from './components/GoalsView';
 import { RulesView } from './components/RulesView';
 import { HouseholdView } from './components/HouseholdView';
 import { PricingView } from './components/PricingView';
+import { AdminView } from './components/AdminView';
+import { SmartIngestModal } from './components/SmartIngestModal';
+import { TransactionDrilldownModal } from './components/TransactionDrilldownModal';
 import { QuickCaptureModal } from './components/QuickCaptureModal';
 import { AuthModal } from './components/AuthModal';
 import { OnboardingWizardModal } from './components/OnboardingWizardModal';
@@ -47,6 +50,27 @@ const AppContent: React.FC = () => {
 
   // Drilldown Filter & Navigation State
   const [activeFilter, setActiveFilter] = useState<TransactionFilter | undefined>(undefined);
+  const [isSmartIngestOpen, setIsSmartIngestOpen] = useState(false);
+  const [drilldownConfig, setDrilldownConfig] = useState<{
+    isOpen: boolean;
+    title: string;
+    subtitle?: string;
+    transactions: Transaction[];
+  }>({
+    isOpen: false,
+    title: '',
+    subtitle: '',
+    transactions: [],
+  });
+
+  const handleOpenDrilldown = (title: string, txs: Transaction[], subtitle?: string) => {
+    setDrilldownConfig({
+      isOpen: true,
+      title,
+      subtitle,
+      transactions: txs,
+    });
+  };
 
   // CRUD Modals State
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
@@ -236,6 +260,7 @@ const AppContent: React.FC = () => {
           onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
           onOpenQuickCapture={() => setIsQuickCaptureOpen(true)}
           onOpenAddTransaction={handleOpenAddTransaction}
+          onOpenSmartIngest={() => setIsSmartIngestOpen(true)}
           activeFilter={activeFilter}
           onClearFilter={() => setActiveFilter(undefined)}
         />
@@ -264,24 +289,30 @@ const AppContent: React.FC = () => {
                   onSimulateExpense={handleSimulateExpense}
                   onNavigateToTransactions={handleNavigateToTransactions}
                   onEditTransaction={handleEditTransaction}
+                  onOpenDrilldown={handleOpenDrilldown}
                 />
               )}
               {currentTab === 'accounts' && (
                 <AccountsView
                   accounts={accounts}
+                  transactions={transactions}
                   onRefresh={refreshAllData}
                   onOpenAddAccount={handleOpenAddAccount}
                   onEditAccount={handleEditAccount}
                   onNavigateToTransactions={handleNavigateToTransactions}
+                  onOpenDrilldown={handleOpenDrilldown}
+                  onOpenSmartIngest={() => setIsSmartIngestOpen(true)}
                 />
               )}
               {currentTab === 'budgets' && (
                 <BudgetsView
                   envelopes={envelopes}
+                  transactions={transactions}
                   onRefresh={refreshAllData}
                   onOpenAddEnvelope={handleOpenAddEnvelope}
                   onEditEnvelope={handleEditEnvelope}
                   onNavigateToTransactions={handleNavigateToTransactions}
+                  onOpenDrilldown={handleOpenDrilldown}
                 />
               )}
               {currentTab === 'transactions' && (
@@ -300,6 +331,7 @@ const AppContent: React.FC = () => {
                   summary={summary}
                   transactions={transactions}
                   onNavigateToTransactions={handleNavigateToTransactions}
+                  onOpenDrilldown={handleOpenDrilldown}
                 />
               )}
               {currentTab === 'recurring' && (
@@ -332,6 +364,9 @@ const AppContent: React.FC = () => {
                   onPlanChanged={refreshAllData}
                 />
               )}
+              {currentTab === 'admin' && (
+                <AdminView />
+              )}
             </>
           )}
         </main>
@@ -363,6 +398,28 @@ const AppContent: React.FC = () => {
 
       {/* 3-Step Guided Onboarding Wizard Modal */}
       <OnboardingWizardModal onComplete={refreshAllData} />
+
+      {/* Smart Ingest Open Banking & Statement Parser Hub */}
+      <SmartIngestModal
+        isOpen={isSmartIngestOpen}
+        onClose={() => setIsSmartIngestOpen(false)}
+        accounts={accounts}
+        onSuccess={refreshAllData}
+      />
+
+      {/* Universal Traceability Transaction Drilldown Modal */}
+      <TransactionDrilldownModal
+        isOpen={drilldownConfig.isOpen}
+        onClose={() => setDrilldownConfig((prev) => ({ ...prev, isOpen: false }))}
+        title={drilldownConfig.title}
+        subtitle={drilldownConfig.subtitle}
+        transactions={drilldownConfig.transactions}
+        onNavigateToTab={(tab, filter) => {
+          setCurrentTab(tab);
+          if (filter) setActiveFilter(filter);
+        }}
+        onEditTransaction={handleEditTransaction}
+      />
 
       {/* Transaction Add & Edit Modal */}
       <TransactionModal
