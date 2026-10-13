@@ -16,9 +16,18 @@ import { api } from '../services/api';
 interface AccountsViewProps {
   accounts: Account[];
   onRefresh: () => void;
+  onOpenAddAccount: () => void;
+  onEditAccount: (account: Account) => void;
+  onNavigateToTransactions: (filter?: { accountId?: string }) => void;
 }
 
-export const AccountsView: React.FC<AccountsViewProps> = ({ accounts, onRefresh }) => {
+export const AccountsView: React.FC<AccountsViewProps> = ({
+  accounts,
+  onRefresh,
+  onOpenAddAccount,
+  onEditAccount,
+  onNavigateToTransactions,
+}) => {
   const { formatAmount } = useCurrency();
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [isCsvModalOpen, setIsCsvModalOpen] = useState(false);
@@ -66,10 +75,16 @@ export const AccountsView: React.FC<AccountsViewProps> = ({ accounts, onRefresh 
 
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setIsTransferModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-black hover:opacity-90 transition shadow-sm"
+            onClick={onOpenAddAccount}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition shadow-sm"
           >
-            <ArrowRightLeft className="w-3.5 h-3.5" />
+            <span>+ Add Account</span>
+          </button>
+          <button
+            onClick={() => setIsTransferModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#181818] hover:bg-[#222222] text-[#f5f5f4] border border-[#242424] transition"
+          >
+            <ArrowRightLeft className="w-3.5 h-3.5 text-[#9e9e98]" />
             <span>Transfer Funds</span>
           </button>
           <button
@@ -83,83 +98,112 @@ export const AccountsView: React.FC<AccountsViewProps> = ({ accounts, onRefresh 
       </div>
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {accounts.map((acc) => {
-          const isCredit = acc.type === 'CREDIT_CARD';
-          const isSavings = acc.type === 'SAVINGS';
-          const isInvestment = acc.type === 'INVESTMENT';
+      {accounts.length === 0 ? (
+        <div className="p-12 text-center rounded-2xl bg-[#121212] border border-[#242424] space-y-3">
+          <p className="text-sm font-semibold text-[#f5f5f4]">No financial accounts added yet</p>
+          <p className="text-xs text-[#9e9e98]">Add your checking, savings, or credit card accounts to start tracking liquidity.</p>
+          <button
+            onClick={onOpenAddAccount}
+            className="px-4 py-2 rounded-xl text-xs font-semibold bg-[#f5f5f4] text-[#0a0a0a] hover:bg-white transition"
+          >
+            + Add Your First Account
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {accounts.map((acc) => {
+            const isCredit = acc.type === 'CREDIT_CARD';
+            const isSavings = acc.type === 'SAVINGS';
+            const isInvestment = acc.type === 'INVESTMENT';
 
-          return (
-            <div
-              key={acc.id}
-              className="p-5 rounded-2xl bg-[#121212] border border-[#242424] shadow-sm hover:border-[#333333] transition space-y-4"
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <span className="text-[10px] font-medium uppercase tracking-wider text-[#9e9e98] block">
-                    {acc.institutionName || 'Financial Institution'}
-                  </span>
-                  <h3 className="font-semibold text-[#f5f5f4] text-sm mt-0.5 truncate max-w-[200px]">
-                    {acc.name}
-                  </h3>
-                </div>
-                <div className="w-8 h-8 rounded-xl bg-[#181818] border border-[#282828] flex items-center justify-center text-[#9e9e98]">
-                  {isCredit ? (
-                    <CreditCard className="w-4 h-4 text-amber-400" />
-                  ) : isInvestment ? (
-                    <TrendingUp className="w-4 h-4 text-purple-400" />
-                  ) : isSavings ? (
-                    <Building2 className="w-4 h-4 text-emerald-400" />
-                  ) : (
-                    <Wallet className="w-4 h-4 text-[#ededed]" />
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <span className="text-[#9e9e98] text-[11px] block">
-                  {isCredit ? 'Current Balance' : 'Available Balance'}
-                </span>
-                <div
-                  className={`text-2xl font-bold tracking-tight mt-0.5 tabular ${
-                    isCredit ? 'text-amber-400' : 'text-[#f5f5f4]'
-                  }`}
-                >
-                  {formatAmount(acc.balance)}
-                </div>
-              </div>
-
-              {isCredit && acc.creditLimit && (
-                <div className="pt-3 border-t border-[#1e1e1e] space-y-2 text-xs">
-                  <div className="flex justify-between text-[11px] text-[#9e9e98]">
-                    <span>Credit limit: {formatAmount(acc.creditLimit)}</span>
-                    <span className="text-emerald-400">
-                      Avail: {formatAmount(acc.creditLimit - Math.abs(acc.balance))}
+            return (
+              <div
+                key={acc.id}
+                onClick={() => onNavigateToTransactions({ accountId: acc.id })}
+                className="p-5 rounded-2xl bg-[#121212] border border-[#242424] shadow-sm hover:border-[#383838] transition space-y-4 cursor-pointer group"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-[#9e9e98] block">
+                      {acc.institutionName || 'Financial Institution'}
                     </span>
+                    <h3 className="font-semibold text-[#f5f5f4] text-sm mt-0.5 truncate max-w-[200px]">
+                      {acc.name}
+                    </h3>
                   </div>
-                  <div className="w-full bg-[#1e1e1e] h-1.5 rounded-full overflow-hidden">
-                    <div
-                      className="bg-amber-400 h-full rounded-full"
-                      style={{
-                        width: `${Math.min(100, (Math.abs(acc.balance) / acc.creditLimit) * 100)}%`,
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditAccount(acc);
                       }}
-                    />
-                  </div>
-                  <div className="flex justify-between text-[10px] text-[#6b6b66]">
-                    <span>Due: {acc.paymentDueDay}th of month</span>
-                    <span>APR: {acc.apr}%</span>
+                      className="p-1 rounded-lg text-[#737373] hover:text-[#f5f5f4] hover:bg-[#202020] transition opacity-0 group-hover:opacity-100"
+                      title="Edit Account"
+                    >
+                      <span className="text-[10px] font-medium px-1">Edit</span>
+                    </button>
+                    <div className="w-8 h-8 rounded-xl bg-[#181818] border border-[#282828] flex items-center justify-center text-[#9e9e98]">
+                      {isCredit ? (
+                        <CreditCard className="w-4 h-4 text-amber-400" />
+                      ) : isInvestment ? (
+                        <TrendingUp className="w-4 h-4 text-purple-400" />
+                      ) : isSavings ? (
+                        <Building2 className="w-4 h-4 text-emerald-400" />
+                      ) : (
+                        <Wallet className="w-4 h-4 text-[#ededed]" />
+                      )}
+                    </div>
                   </div>
                 </div>
-              )}
 
-              <div className="pt-3 border-t border-[#1e1e1e] flex items-center justify-between text-[11px] text-[#6b6b66] font-mono">
-                <span>ACTIVE</span>
-                <span>•••• {acc.accountNumberLast4 || '4182'}</span>
+                <div>
+                  <span className="text-[#9e9e98] text-[11px] block">
+                    {isCredit ? 'Current Balance' : 'Available Balance'}
+                  </span>
+                  <div
+                    className={`text-2xl font-bold tracking-tight mt-0.5 tabular ${
+                      isCredit ? 'text-amber-400' : 'text-[#f5f5f4]'
+                    }`}
+                  >
+                    {formatAmount(acc.balance)}
+                  </div>
+                </div>
+
+                {isCredit && acc.creditLimit && (
+                  <div className="pt-3 border-t border-[#1e1e1e] space-y-2 text-xs">
+                    <div className="flex justify-between text-[11px] text-[#9e9e98]">
+                      <span>Credit limit: {formatAmount(acc.creditLimit)}</span>
+                      <span className="text-emerald-400">
+                        Avail: {formatAmount(acc.creditLimit - Math.abs(acc.balance))}
+                      </span>
+                    </div>
+                    <div className="w-full bg-[#1e1e1e] h-1.5 rounded-full overflow-hidden">
+                      <div
+                        className="bg-amber-400 h-full rounded-full"
+                        style={{
+                          width: `${Math.min(100, (Math.abs(acc.balance) / acc.creditLimit) * 100)}%`,
+                        }}
+                      />
+                    </div>
+                    <div className="flex justify-between text-[10px] text-[#6b6b66]">
+                      <span>Due: {acc.paymentDueDay}th of month</span>
+                      <span>APR: {acc.apr}%</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="pt-3 border-t border-[#1e1e1e] flex items-center justify-between text-[11px] text-[#6b6b66] font-mono">
+                  <span className="text-[10px] text-[#9e9e98] group-hover:text-[#f5f5f4] transition">
+                    View transactions →
+                  </span>
+                  <span>•••• {acc.accountNumberLast4 || '4182'}</span>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Transfer Funds Modal */}
       {isTransferModalOpen && (

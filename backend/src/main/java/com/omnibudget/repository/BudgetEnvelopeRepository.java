@@ -9,5 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface BudgetEnvelopeRepository extends JpaRepository<BudgetEnvelope, UUID> {
+    List<BudgetEnvelope> findByUserIdOrderByGroupTypeAscCreatedAtAsc(String userId);
     List<BudgetEnvelope> findAllByOrderByGroupTypeAscCreatedAtAsc();
 }

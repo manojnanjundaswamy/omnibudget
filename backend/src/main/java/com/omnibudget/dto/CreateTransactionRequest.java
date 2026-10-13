@@ -14,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class CreateTransactionRequest {
+    private String userId;
     private UUID accountId;
     private BigDecimal amount;
     private TransactionType type;

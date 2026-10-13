@@ -16,7 +16,8 @@ public class DashboardController {
     private final LedgerService ledgerService;
 
     @GetMapping("/summary")
-    public ResponseEntity<DashboardSummaryResponse> getSummary() {
-        return ResponseEntity.ok(ledgerService.getDashboardSummary());
+    public ResponseEntity<DashboardSummaryResponse> getSummary(
+            @org.springframework.web.bind.annotation.RequestHeader(value = "X-User-Id", required = false) String userId) {
+        return ResponseEntity.ok(ledgerService.getDashboardSummary(userId));
     }
 }

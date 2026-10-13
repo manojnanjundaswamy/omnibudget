@@ -23,6 +23,14 @@ public class BudgetService {
         return envelopeRepository.findAllByOrderByGroupTypeAscCreatedAtAsc();
     }
 
+    public List<BudgetEnvelope> getAllEnvelopes(String userId) {
+        if (userId == null || userId.isBlank() || "demo-user-id".equals(userId)) {
+            List<BudgetEnvelope> userEnvs = envelopeRepository.findByUserIdOrderByGroupTypeAscCreatedAtAsc("demo-user-id");
+            return userEnvs.isEmpty() ? envelopeRepository.findAllByOrderByGroupTypeAscCreatedAtAsc() : userEnvs;
+        }
+        return envelopeRepository.findByUserIdOrderByGroupTypeAscCreatedAtAsc(userId);
+    }
+
     public BudgetEnvelope getEnvelopeById(UUID id) {
         return envelopeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Envelope not found with id: " + id));
@@ -30,7 +38,9 @@ public class BudgetService {
 
     @Transactional
     public BudgetEnvelope createEnvelope(CreateEnvelopeRequest req) {
+        String effectiveUserId = (req.getUserId() != null && !req.getUserId().isBlank()) ? req.getUserId() : "demo-user-id";
         BudgetEnvelope envelope = BudgetEnvelope.builder()
+                .userId(effectiveUserId)
                 .name(req.getName())
                 .groupType(req.getGroupType())
                 .targetRatio(req.getTargetRatio() != null ? req.getTargetRatio() : BigDecimal.ZERO)
@@ -41,6 +51,22 @@ public class BudgetService {
                 .color(req.getColor() != null ? req.getColor() : "#6366f1")
                 .build();
         return envelopeRepository.save(envelope);
+    }
+
+    @Transactional
+    public BudgetEnvelope updateEnvelope(UUID id, com.omnibudget.dto.UpdateEnvelopeRequest req) {
+        BudgetEnvelope envelope = getEnvelopeById(id);
+        if (req.getName() != null && !req.getName().isBlank()) envelope.setName(req.getName());
+        if (req.getGroupType() != null) envelope.setGroupType(req.getGroupType());
+        if (req.getMonthlyBudget() != null) envelope.setMonthlyBudget(req.getMonthlyBudget());
+        if (req.getColor() != null) envelope.setColor(req.getColor());
+        if (req.getIcon() != null) envelope.setIcon(req.getIcon());
+        return envelopeRepository.save(envelope);
+    }
+
+    @Transactional
+    public void deleteEnvelope(UUID id) {
+        envelopeRepository.deleteById(id);
     }
 
     @Transactional

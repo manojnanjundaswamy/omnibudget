@@ -66,6 +66,8 @@ interface DashboardPageProps {
   onOpenQuickCapture: () => void;
   onSimulatePaycheck: () => void;
   onSimulateExpense: () => void;
+  onNavigateToTransactions?: (filter?: { accountId?: string; category?: string; envelopeId?: string }) => void;
+  onEditTransaction?: (tx: Transaction) => void;
 }
 
 const STORAGE_KEY = 'omnibudget_custom_dashboard_v1';
@@ -81,6 +83,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   onOpenQuickCapture,
   onSimulatePaycheck,
   onSimulateExpense,
+  onNavigateToTransactions,
+  onEditTransaction,
 }) => {
   const { formatAmount } = useCurrency();
   const [editing, setEditing] = useState(false);
@@ -180,6 +184,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       subscriptions,
       household,
       simplifiedDebts,
+      onNavigateToTransactions,
+      onEditTransaction,
     };
     switch (type) {
       case 'safe-to-spend':

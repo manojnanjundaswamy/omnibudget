@@ -20,8 +20,9 @@ public class AccountController {
     private final LedgerService ledgerService;
 
     @GetMapping
-    public ResponseEntity<List<Account>> getAllAccounts() {
-        return ResponseEntity.ok(ledgerService.getAllAccounts());
+    public ResponseEntity<List<Account>> getAllAccounts(
+            @RequestHeader(value = "X-User-Id", required = false) String userId) {
+        return ResponseEntity.ok(ledgerService.getAllAccounts(userId));
     }
 
     @GetMapping("/{id}")
@@ -30,8 +31,24 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Account> createAccount(@RequestBody CreateAccountRequest req) {
+    public ResponseEntity<Account> createAccount(
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestBody CreateAccountRequest req) {
+        if (userId != null && !userId.isBlank()) req.setUserId(userId);
         return ResponseEntity.ok(ledgerService.createAccount(req));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Account> updateAccount(
+            @PathVariable UUID id,
+            @RequestBody com.omnibudget.dto.UpdateAccountRequest req) {
+        return ResponseEntity.ok(ledgerService.updateAccount(id, req));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, String>> deleteAccount(@PathVariable UUID id) {
+        ledgerService.deleteAccount(id);
+        return ResponseEntity.ok(Map.of("message", "Account deleted successfully"));
     }
 
     @PostMapping("/transfer")

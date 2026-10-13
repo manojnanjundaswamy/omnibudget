@@ -13,9 +13,18 @@ import { Progress, Badge } from '../dashboard/charts';
 interface BudgetsViewProps {
   envelopes: BudgetEnvelope[];
   onRefresh: () => void;
+  onOpenAddEnvelope: () => void;
+  onEditEnvelope: (env: BudgetEnvelope) => void;
+  onNavigateToTransactions: (filter?: { envelopeId?: string; category?: string }) => void;
 }
 
-export const BudgetsView: React.FC<BudgetsViewProps> = ({ envelopes, onRefresh }) => {
+export const BudgetsView: React.FC<BudgetsViewProps> = ({
+  envelopes,
+  onRefresh,
+  onOpenAddEnvelope,
+  onEditEnvelope,
+  onNavigateToTransactions,
+}) => {
   const { formatAmount } = useCurrency();
   const [isRebalanceModalOpen, setIsRebalanceModalOpen] = useState(false);
   const [sourceEnvId, setSourceEnvId] = useState('');
@@ -84,18 +93,24 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({ envelopes, onRefresh }
 
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setIsRebalanceModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-black hover:opacity-90 transition shadow-sm"
+            onClick={onOpenAddEnvelope}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#f5f5f4] hover:bg-white text-[#0a0a0a] transition shadow-sm"
           >
-            <ArrowRightLeft className="w-3.5 h-3.5" />
-            <span>Rebalance Envelopes</span>
+            <span>+ Add Envelope</span>
+          </button>
+          <button
+            onClick={() => setIsRebalanceModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#181818] hover:bg-[#222222] text-[#f5f5f4] border border-[#242424] transition"
+          >
+            <ArrowRightLeft className="w-3.5 h-3.5 text-[#9e9e98]" />
+            <span>Rebalance</span>
           </button>
           <button
             onClick={handleAutoAllocate}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#181818] hover:bg-[#222222] text-[#f5f5f4] border border-[#242424] transition"
           >
             <Sparkles className="w-3.5 h-3.5 text-[#9e9e98]" />
-            <span>Auto-Allocate (50/30/20)</span>
+            <span>Auto-Allocate</span>
           </button>
         </div>
       </div>
@@ -128,52 +143,76 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({ envelopes, onRefresh }
               </div>
 
               {/* Grid of Envelopes */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {groupEnvelopes.map((env) => {
-                  const remaining = env.monthlyBudget - env.spentAmount;
-                  const ratio = env.monthlyBudget > 0 ? env.spentAmount / env.monthlyBudget : 0;
-                  const isOverspent = remaining < 0;
+              {groupEnvelopes.length === 0 ? (
+                <div className="p-4 rounded-xl bg-[#161616] border border-[#202020] text-center text-xs text-[#737373]">
+                  No envelopes in this tier. Click "+ Add Envelope" above to create one.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {groupEnvelopes.map((env) => {
+                    const remaining = env.monthlyBudget - env.spentAmount;
+                    const ratio = env.monthlyBudget > 0 ? env.spentAmount / env.monthlyBudget : 0;
+                    const isOverspent = remaining < 0;
 
-                  return (
-                    <div
-                      key={env.id}
-                      className="p-4 rounded-xl bg-[#181818] border border-[#242424] space-y-3"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-xs text-[#f5f5f4]">{env.name}</span>
-                        {isOverspent ? (
-                          <Badge tone="critical">Overspent</Badge>
-                        ) : ratio > 0.8 ? (
-                          <Badge tone="warning">Warning</Badge>
-                        ) : (
-                          <Badge tone="good">On Track</Badge>
-                        )}
-                      </div>
-
-                      <div className="flex items-baseline justify-between">
-                        <div>
-                          <span className="text-base font-bold text-[#f5f5f4] tabular">
-                            {formatAmount(env.spentAmount)}
-                          </span>
-                          <span className="text-xs text-[#6b6b66]"> of {formatAmount(env.monthlyBudget)}</span>
+                    return (
+                      <div
+                        key={env.id}
+                        onClick={() => onNavigateToTransactions({ category: env.name, envelopeId: env.id })}
+                        className="p-4 rounded-xl bg-[#181818] border border-[#242424] space-y-3 cursor-pointer hover:border-[#383838] transition group"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-medium text-xs text-[#f5f5f4]">{env.name}</span>
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onEditEnvelope(env);
+                              }}
+                              className="text-[10px] text-[#737373] hover:text-[#f5f5f4] transition opacity-0 group-hover:opacity-100"
+                            >
+                              Edit
+                            </button>
+                            {isOverspent ? (
+                              <Badge tone="critical">Overspent</Badge>
+                            ) : ratio > 0.8 ? (
+                              <Badge tone="warning">Warning</Badge>
+                            ) : (
+                              <Badge tone="good">On Track</Badge>
+                            )}
+                          </div>
                         </div>
-                        <span
-                          className={`text-xs tabular font-medium ${
-                            isOverspent ? 'text-rose-400' : 'text-[#9e9e98]'
-                          }`}
-                        >
-                          {isOverspent ? `-${formatAmount(Math.abs(remaining))}` : `${formatAmount(remaining)} left`}
-                        </span>
-                      </div>
 
-                      <Progress
-                        value={ratio}
-                        color={isOverspent ? '#ef4444' : ratio > 0.8 ? '#f59e0b' : '#10b981'}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
+                        <div className="flex items-baseline justify-between">
+                          <div>
+                            <span className="text-base font-bold text-[#f5f5f4] tabular">
+                              {formatAmount(env.spentAmount)}
+                            </span>
+                            <span className="text-xs text-[#6b6b66]"> of {formatAmount(env.monthlyBudget)}</span>
+                          </div>
+                          <span
+                            className={`text-xs tabular font-medium ${
+                              isOverspent ? 'text-rose-400' : 'text-[#9e9e98]'
+                            }`}
+                          >
+                            {isOverspent ? `-${formatAmount(Math.abs(remaining))}` : `${formatAmount(remaining)} left`}
+                          </span>
+                        </div>
+
+                        <Progress
+                          value={ratio}
+                          color={isOverspent ? '#ef4444' : ratio > 0.8 ? '#f59e0b' : '#10b981'}
+                        />
+
+                        <div className="pt-2 border-t border-[#202020] flex items-center justify-between text-[10px] text-[#737373]">
+                          <span className="group-hover:text-[#f5f5f4] transition">View transactions →</span>
+                          <span>{Math.round(ratio * 100)}% utilized</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           );
         })}

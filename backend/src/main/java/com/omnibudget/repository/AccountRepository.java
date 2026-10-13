@@ -9,5 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, UUID> {
+    List<Account> findByUserIdAndIsActiveTrueOrderByCreatedAtAsc(String userId);
     List<Account> findByIsActiveTrueOrderByCreatedAtAsc();
 }

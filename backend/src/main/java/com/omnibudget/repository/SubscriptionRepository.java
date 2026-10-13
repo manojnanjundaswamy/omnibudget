@@ -9,5 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, UUID> {
+    List<Subscription> findByUserIdAndIsActiveTrueOrderByNextBillingDateAsc(String userId);
     List<Subscription> findByIsActiveTrueOrderByNextBillingDateAsc();
 }

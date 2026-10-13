@@ -27,13 +27,28 @@ public class SplitController {
     private final LedgerService ledgerService;
 
     @GetMapping("/groups")
-    public ResponseEntity<List<SplitGroup>> getAllGroups() {
-        return ResponseEntity.ok(groupRepository.findAll());
+    public ResponseEntity<List<SplitGroup>> getAllGroups(
+            @RequestHeader(value = "X-User-Id", required = false) String userId) {
+        if (userId == null || userId.isBlank() || "demo-user-id".equals(userId)) {
+            List<SplitGroup> userGroups = groupRepository.findByUserId("demo-user-id");
+            return ResponseEntity.ok(userGroups.isEmpty() ? groupRepository.findAll() : userGroups);
+        }
+        return ResponseEntity.ok(groupRepository.findByUserId(userId));
     }
 
     @PostMapping("/groups")
-    public ResponseEntity<SplitGroup> createGroup(@RequestBody SplitGroup group) {
+    public ResponseEntity<SplitGroup> createGroup(
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestBody SplitGroup group) {
+        String effectiveUserId = (userId != null && !userId.isBlank()) ? userId : "demo-user-id";
+        group.setUserId(effectiveUserId);
         return ResponseEntity.ok(groupRepository.save(group));
+    }
+
+    @DeleteMapping("/groups/{id}")
+    public ResponseEntity<Map<String, String>> deleteGroup(@PathVariable UUID id) {
+        groupRepository.deleteById(id);
+        return ResponseEntity.ok(Map.of("message", "Split group deleted successfully"));
     }
 
     @GetMapping("/debts")

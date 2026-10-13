@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface SplitGroupRepository extends JpaRepository<SplitGroup, UUID> {
+    java.util.List<SplitGroup> findByUserId(String userId);
 }

@@ -25,6 +25,7 @@ public class SandboxDataService {
     private final PeerDebtRepository peerDebtRepository;
     private final HouseholdRepository householdRepository;
     private final SubscriptionRepository subscriptionRepository;
+    private final UserRepository userRepository;
 
     @PostConstruct
     public void initOnStartup() {
@@ -44,6 +45,17 @@ public class SandboxDataService {
         groupRepository.deleteAll();
         householdRepository.deleteAll();
         subscriptionRepository.deleteAll();
+
+        // Seed demo user
+        if (!userRepository.existsByEmail("demo@omnibudget.app")) {
+            userRepository.save(User.builder()
+                    .email("demo@omnibudget.app")
+                    .name("Alex Chen (Demo)")
+                    .provider("DEMO")
+                    .currency("USD")
+                    .hasCompletedOnboarding(true)
+                    .build());
+        }
 
         // 1. ACCOUNTS
         Account checking = Account.builder()

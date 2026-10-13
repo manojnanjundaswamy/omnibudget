@@ -25,9 +25,11 @@ export interface BarListItem {
 export function BarList({
   items,
   format,
+  onSelect,
 }: {
   items: BarListItem[];
   format: (val: number) => string;
+  onSelect?: (item: BarListItem) => void;
 }) {
   const [hoverKey, setHoverKey] = useState<string | null>(null);
   const total = items.reduce((sum, item) => sum + item.value, 0);
@@ -48,9 +50,10 @@ export function BarList({
         return (
           <li
             key={item.key}
+            onClick={() => onSelect?.(item)}
             onMouseEnter={() => setHoverKey(item.key)}
             onMouseLeave={() => setHoverKey(null)}
-            className="group cursor-default"
+            className={`group ${onSelect ? 'cursor-pointer hover:opacity-80 transition' : 'cursor-default'}`}
           >
             <div className="flex items-baseline justify-between text-xs mb-1">
               <span className="flex items-center gap-2 truncate pr-2">

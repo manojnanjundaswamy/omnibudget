@@ -20,21 +20,30 @@ public class BudgetController {
     private final BudgetService budgetService;
 
     @GetMapping("/envelopes")
-    public ResponseEntity<List<BudgetEnvelope>> getEnvelopes() {
-        return ResponseEntity.ok(budgetService.getAllEnvelopes());
+    public ResponseEntity<List<BudgetEnvelope>> getEnvelopes(
+            @RequestHeader(value = "X-User-Id", required = false) String userId) {
+        return ResponseEntity.ok(budgetService.getAllEnvelopes(userId));
     }
 
     @PostMapping("/envelopes")
-    public ResponseEntity<BudgetEnvelope> createEnvelope(@RequestBody CreateEnvelopeRequest req) {
+    public ResponseEntity<BudgetEnvelope> createEnvelope(
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestBody CreateEnvelopeRequest req) {
+        if (userId != null && !userId.isBlank()) req.setUserId(userId);
         return ResponseEntity.ok(budgetService.createEnvelope(req));
     }
 
     @PutMapping("/envelopes/{id}")
-    public ResponseEntity<BudgetEnvelope> updateBudget(
+    public ResponseEntity<BudgetEnvelope> updateEnvelope(
             @PathVariable UUID id,
-            @RequestBody Map<String, BigDecimal> body) {
-        BigDecimal budget = body.get("monthlyBudget");
-        return ResponseEntity.ok(budgetService.updateBudget(id, budget));
+            @RequestBody com.omnibudget.dto.UpdateEnvelopeRequest req) {
+        return ResponseEntity.ok(budgetService.updateEnvelope(id, req));
+    }
+
+    @DeleteMapping("/envelopes/{id}")
+    public ResponseEntity<Map<String, String>> deleteEnvelope(@PathVariable UUID id) {
+        budgetService.deleteEnvelope(id);
+        return ResponseEntity.ok(Map.of("message", "Envelope deleted successfully"));
     }
 
     @PostMapping("/rebalance")

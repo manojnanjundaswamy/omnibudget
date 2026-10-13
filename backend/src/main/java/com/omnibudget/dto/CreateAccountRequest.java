@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class CreateAccountRequest {
+    private String userId;
     private String name;
     private AccountType type;
     private BigDecimal balance;

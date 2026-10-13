@@ -9,32 +9,119 @@ import {
   Subscription,
   DashboardSummary,
   SmartOffsetResponse,
+  User,
+  AuthResponse,
+  OnboardingPayload,
+  TransactionFilter,
+  CreateAccountPayload,
+  UpdateAccountPayload,
+  CreateEnvelopePayload,
+  UpdateEnvelopePayload,
+  CreateTransactionPayload,
+  UpdateTransactionPayload,
+  CreateSubscriptionPayload,
+  UpdateSubscriptionPayload,
+  CreateGroupPayload,
 } from '../types';
 
 const API_BASE = '/api';
 
+const getHeaders = (extra: Record<string, string> = {}) => {
+  const userId = localStorage.getItem('omnibudget_user_id');
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...extra,
+  };
+  if (userId) {
+    headers['X-User-Id'] = userId;
+  }
+  return headers;
+};
+
 export const api = {
+  // Auth & Multi-Tenancy
+  googleAuth: async (data: { email: string; name?: string; avatarUrl?: string }): Promise<AuthResponse> => {
+    const res = await fetch(`${API_BASE}/auth/google`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Google authentication failed');
+    return res.json();
+  },
+
+  emailAuth: async (data: { email: string; password?: string; name?: string; isRegister?: boolean }): Promise<AuthResponse> => {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Email authentication failed');
+    return res.json();
+  },
+
+  getCurrentUser: async (): Promise<User> => {
+    const res = await fetch(`${API_BASE}/auth/me`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch user profile');
+    return res.json();
+  },
+
+  completeOnboarding: async (data: OnboardingPayload): Promise<User> => {
+    const res = await fetch(`${API_BASE}/auth/onboarding`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to complete onboarding');
+    return res.json();
+  },
+
   // Dashboard
   getDashboardSummary: async (): Promise<DashboardSummary> => {
-    const res = await fetch(`${API_BASE}/dashboard/summary`);
+    const res = await fetch(`${API_BASE}/dashboard/summary`, {
+      headers: getHeaders(),
+    });
     if (!res.ok) throw new Error('Failed to fetch dashboard summary');
     return res.json();
   },
 
   // Accounts
   getAccounts: async (): Promise<Account[]> => {
-    const res = await fetch(`${API_BASE}/accounts`);
+    const res = await fetch(`${API_BASE}/accounts`, {
+      headers: getHeaders(),
+    });
     if (!res.ok) throw new Error('Failed to fetch accounts');
     return res.json();
   },
 
-  createAccount: async (data: Partial<Account>): Promise<Account> => {
+  createAccount: async (data: CreateAccountPayload): Promise<Account> => {
     const res = await fetch(`${API_BASE}/accounts`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getHeaders(),
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('Failed to create account');
+    return res.json();
+  },
+
+  updateAccount: async (id: string, data: UpdateAccountPayload): Promise<Account> => {
+    const res = await fetch(`${API_BASE}/accounts/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update account');
+    return res.json();
+  },
+
+  deleteAccount: async (id: string): Promise<{ message: string }> => {
+    const res = await fetch(`${API_BASE}/accounts/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete account');
     return res.json();
   },
 
@@ -47,83 +134,209 @@ export const api = {
   }): Promise<{ message: string }> => {
     const res = await fetch(`${API_BASE}/accounts/transfer`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getHeaders(),
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('Transfer failed');
     return res.json();
   },
 
+  // Envelopes / Budgets
+  getEnvelopes: async (): Promise<BudgetEnvelope[]> => {
+    const res = await fetch(`${API_BASE}/budgets/envelopes`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch envelopes');
+    return res.json();
+  },
+
+  createEnvelope: async (data: CreateEnvelopePayload): Promise<BudgetEnvelope> => {
+    const res = await fetch(`${API_BASE}/budgets/envelopes`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to create envelope');
+    return res.json();
+  },
+
+  updateEnvelope: async (id: string, data: UpdateEnvelopePayload): Promise<BudgetEnvelope> => {
+    const res = await fetch(`${API_BASE}/budgets/envelopes/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update envelope');
+    return res.json();
+  },
+
+  deleteEnvelope: async (id: string): Promise<{ message: string }> => {
+    const res = await fetch(`${API_BASE}/budgets/envelopes/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete envelope');
+    return res.json();
+  },
+
+  rebalanceEnvelopes: async (sourceEnvelopeId: string, targetEnvelopeId: string, amount: number) => {
+    const params = new URLSearchParams({
+      sourceEnvelopeId,
+      targetEnvelopeId,
+      amount: amount.toString(),
+    });
+    const res = await fetch(`${API_BASE}/budgets/rebalance?${params}`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Rebalance failed');
+    return res.json();
+  },
+
+  autoAllocateIncome: async (totalIncome: number) => {
+    const res = await fetch(`${API_BASE}/budgets/auto-allocate`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ totalIncome }),
+    });
+    if (!res.ok) throw new Error('Auto allocate failed');
+    return res.json();
+  },
+
   // Transactions
-  getTransactions: async (): Promise<Transaction[]> => {
-    const res = await fetch(`${API_BASE}/transactions`);
+  getTransactions: async (filter?: TransactionFilter): Promise<Transaction[]> => {
+    const query = new URLSearchParams();
+    if (filter?.accountId) query.set('accountId', filter.accountId);
+    if (filter?.category) query.set('category', filter.category);
+    if (filter?.envelopeId) query.set('envelopeId', filter.envelopeId);
+    if (filter?.type) query.set('type', filter.type);
+    if (filter?.search) query.set('search', filter.search);
+
+    const queryString = query.toString();
+    const url = queryString ? `${API_BASE}/transactions?${queryString}` : `${API_BASE}/transactions`;
+
+    const res = await fetch(url, {
+      headers: getHeaders(),
+    });
     if (!res.ok) throw new Error('Failed to fetch transactions');
     return res.json();
   },
 
-  createTransaction: async (data: any): Promise<Transaction> => {
+  createTransaction: async (data: CreateTransactionPayload): Promise<Transaction> => {
     const res = await fetch(`${API_BASE}/transactions`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getHeaders(),
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('Failed to record transaction');
     return res.json();
   },
 
-  // Budget Envelopes
-  getEnvelopes: async (): Promise<BudgetEnvelope[]> => {
-    const res = await fetch(`${API_BASE}/budgets/envelopes`);
-    if (!res.ok) throw new Error('Failed to fetch budget envelopes');
-    return res.json();
-  },
-
-  updateEnvelopeBudget: async (id: string, monthlyBudget: number): Promise<BudgetEnvelope> => {
-    const res = await fetch(`${API_BASE}/budgets/envelopes/${id}`, {
+  updateTransaction: async (id: string, data: UpdateTransactionPayload): Promise<Transaction> => {
+    const res = await fetch(`${API_BASE}/transactions/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ monthlyBudget }),
+      headers: getHeaders(),
+      body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Failed to update envelope budget');
+    if (!res.ok) throw new Error('Failed to update transaction');
     return res.json();
   },
 
-  rebalanceEnvelopes: async (sourceId: string, targetId: string, amount: number): Promise<{ message: string }> => {
-    const res = await fetch(
-      `${API_BASE}/budgets/rebalance?sourceEnvelopeId=${sourceId}&targetEnvelopeId=${targetId}&amount=${amount}`,
-      { method: 'POST' }
-    );
-    if (!res.ok) throw new Error('Failed to rebalance envelopes');
+  deleteTransaction: async (id: string): Promise<{ message: string }> => {
+    const res = await fetch(`${API_BASE}/transactions/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete transaction');
     return res.json();
   },
 
-  autoAllocateIncome: async (totalIncome: number): Promise<{ message: string }> => {
-    const res = await fetch(`${API_BASE}/budgets/auto-allocate`, {
+  // Subscriptions
+  getSubscriptions: async (): Promise<Subscription[]> => {
+    const res = await fetch(`${API_BASE}/subscriptions`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch subscriptions');
+    return res.json();
+  },
+
+  createSubscription: async (data: CreateSubscriptionPayload): Promise<Subscription> => {
+    const res = await fetch(`${API_BASE}/subscriptions`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ totalIncome }),
+      headers: getHeaders(),
+      body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Failed to auto allocate income');
+    if (!res.ok) throw new Error('Failed to create subscription');
     return res.json();
   },
 
-  // Splits & Peer Debts
+  updateSubscription: async (id: string, data: UpdateSubscriptionPayload): Promise<Subscription> => {
+    const res = await fetch(`${API_BASE}/subscriptions/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update subscription');
+    return res.json();
+  },
+
+  deleteSubscription: async (id: string): Promise<{ message: string }> => {
+    const res = await fetch(`${API_BASE}/subscriptions/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete subscription');
+    return res.json();
+  },
+
+  // Splits & Debts
   getSplitGroups: async (): Promise<SplitGroup[]> => {
-    const res = await fetch(`${API_BASE}/splits/groups`);
+    const res = await fetch(`${API_BASE}/splits/groups`, {
+      headers: getHeaders(),
+    });
     if (!res.ok) throw new Error('Failed to fetch split groups');
     return res.json();
   },
 
-  getPeerDebts: async (groupId?: string): Promise<PeerDebt[]> => {
-    const url = groupId ? `${API_BASE}/splits/debts?groupId=${groupId}` : `${API_BASE}/splits/debts`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('Failed to fetch peer debts');
+  createSplitGroup: async (data: CreateGroupPayload): Promise<SplitGroup> => {
+    const res = await fetch(`${API_BASE}/splits/groups`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to create split group');
     return res.json();
   },
 
-  getSimplifiedDebts: async (groupId?: string): Promise<DebtSimplificationResponse> => {
-    const url = groupId ? `${API_BASE}/splits/simplify?groupId=${groupId}` : `${API_BASE}/splits/simplify`;
-    const res = await fetch(url);
+  deleteSplitGroup: async (id: string): Promise<{ message: string }> => {
+    const res = await fetch(`${API_BASE}/splits/groups/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete split group');
+    return res.json();
+  },
+
+  getAllDebts: async (): Promise<PeerDebt[]> => {
+    const res = await fetch(`${API_BASE}/splits/debts`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch debts');
+    return res.json();
+  },
+
+  getPeerDebts: async (): Promise<PeerDebt[]> => {
+    const res = await fetch(`${API_BASE}/splits/debts`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch debts');
+    return res.json();
+  },
+
+  getSimplifiedDebts: async (): Promise<DebtSimplificationResponse> => {
+    const res = await fetch(`${API_BASE}/splits/simplify`, {
+      headers: getHeaders(),
+    });
     if (!res.ok) throw new Error('Failed to simplify debts');
     return res.json();
   },
@@ -132,72 +345,80 @@ export const api = {
     fromUser: string;
     toUser: string;
     amount: number;
-    splitGroupId?: string;
     targetAccountId?: string;
-  }): Promise<{ message: string }> => {
+  }) => {
     const res = await fetch(`${API_BASE}/splits/settle`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getHeaders(),
       body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Failed to settle debt');
+    if (!res.ok) throw new Error('Debt settlement failed');
     return res.json();
   },
 
   // Household
   getHousehold: async (): Promise<Household> => {
-    const res = await fetch(`${API_BASE}/household`);
-    if (!res.ok) throw new Error('Failed to fetch household');
-    return res.json();
-  },
-
-  updateHouseholdSalaries: async (data: {
-    salaryA: number;
-    salaryB: number;
-    jointTarget: number;
-  }): Promise<Household> => {
-    const res = await fetch(`${API_BASE}/household/salaries`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+    const res = await fetch(`${API_BASE}/household`, {
+      headers: getHeaders(),
     });
-    if (!res.ok) throw new Error('Failed to update household salaries');
+    if (!res.ok) throw new Error('Failed to fetch household profile');
     return res.json();
   },
 
   executeCrossOffset: async (amount: number): Promise<SmartOffsetResponse> => {
     const res = await fetch(`${API_BASE}/household/cross-offset`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getHeaders(),
       body: JSON.stringify({ amount }),
     });
-    if (!res.ok) throw new Error('Failed to execute smart cross offset');
+    if (!res.ok) throw new Error('Smart cross-offset failed');
     return res.json();
   },
 
-  // Subscriptions
-  getSubscriptions: async (): Promise<Subscription[]> => {
-    const res = await fetch(`${API_BASE}/subscriptions`);
-    if (!res.ok) throw new Error('Failed to fetch subscriptions');
+  smartOffset: async (): Promise<SmartOffsetResponse> => {
+    const res = await fetch(`${API_BASE}/household/cross-offset`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ amount: 50.0 }),
+    });
+    if (!res.ok) throw new Error('Smart offset failed');
     return res.json();
   },
 
-  // Sandbox Simulator
-  resetSandboxDemo: async (): Promise<{ message: string }> => {
-    const res = await fetch(`${API_BASE}/sandbox/reset`, { method: 'POST' });
-    if (!res.ok) throw new Error('Failed to reset sandbox');
+  // Sandbox simulation triggers
+  resetSandboxDemo: async () => {
+    const res = await fetch(`${API_BASE}/sandbox/reset`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Reset failed');
     return res.json();
   },
 
-  simulatePaycheck: async (): Promise<Transaction> => {
-    const res = await fetch(`${API_BASE}/sandbox/simulate-paycheck`, { method: 'POST' });
-    if (!res.ok) throw new Error('Failed to simulate paycheck');
+  resetSandbox: async () => {
+    const res = await fetch(`${API_BASE}/sandbox/reset`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Reset failed');
     return res.json();
   },
 
-  simulateExpense: async (): Promise<Transaction> => {
-    const res = await fetch(`${API_BASE}/sandbox/simulate-expense`, { method: 'POST' });
-    if (!res.ok) throw new Error('Failed to simulate expense');
+  simulatePaycheck: async () => {
+    const res = await fetch(`${API_BASE}/sandbox/simulate/paycheck`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Paycheck simulation failed');
+    return res.json();
+  },
+
+  simulateExpense: async () => {
+    const res = await fetch(`${API_BASE}/sandbox/simulate/expense`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Expense simulation failed');
     return res.json();
   },
 };

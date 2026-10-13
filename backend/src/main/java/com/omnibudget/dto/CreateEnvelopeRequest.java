@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class CreateEnvelopeRequest {
+    private String userId;
     private String name;
     private EnvelopeGroup groupType;
     private BigDecimal targetRatio;

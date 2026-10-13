@@ -19,6 +19,9 @@ public class BudgetEnvelope {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Builder.Default
+    private String userId = "demo-user-id";
+
     @Column(nullable = false)
     private String name;
 

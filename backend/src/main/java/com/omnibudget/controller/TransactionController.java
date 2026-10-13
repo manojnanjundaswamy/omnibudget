@@ -18,13 +18,35 @@ public class TransactionController {
     private final LedgerService ledgerService;
 
     @GetMapping
-    public ResponseEntity<List<Transaction>> getAllTransactions() {
-        return ResponseEntity.ok(ledgerService.getAllTransactions());
+    public ResponseEntity<List<Transaction>> getAllTransactions(
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestParam(required = false) UUID accountId,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) UUID envelopeId,
+            @RequestParam(required = false) com.omnibudget.domain.TransactionType type,
+            @RequestParam(required = false) String search) {
+        return ResponseEntity.ok(ledgerService.getFilteredTransactions(userId, accountId, category, envelopeId, type, search));
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> recordTransaction(@RequestBody CreateTransactionRequest req) {
+    public ResponseEntity<Transaction> recordTransaction(
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestBody CreateTransactionRequest req) {
+        if (userId != null && !userId.isBlank()) req.setUserId(userId);
         return ResponseEntity.ok(ledgerService.recordTransaction(req));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Transaction> updateTransaction(
+            @PathVariable UUID id,
+            @RequestBody com.omnibudget.dto.UpdateTransactionRequest req) {
+        return ResponseEntity.ok(ledgerService.updateTransaction(id, req));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<java.util.Map<String, String>> deleteTransaction(@PathVariable UUID id) {
+        ledgerService.deleteTransaction(id);
+        return ResponseEntity.ok(java.util.Map.of("message", "Transaction deleted and balances reverted successfully"));
     }
 
     @GetMapping("/account/{accountId}")

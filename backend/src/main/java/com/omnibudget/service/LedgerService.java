@@ -27,6 +27,14 @@ public class LedgerService {
         return accountRepository.findByIsActiveTrueOrderByCreatedAtAsc();
     }
 
+    public List<Account> getAllAccounts(String userId) {
+        if (userId == null || userId.isBlank() || "demo-user-id".equals(userId)) {
+            List<Account> userAccounts = accountRepository.findByUserIdAndIsActiveTrueOrderByCreatedAtAsc("demo-user-id");
+            return userAccounts.isEmpty() ? accountRepository.findByIsActiveTrueOrderByCreatedAtAsc() : userAccounts;
+        }
+        return accountRepository.findByUserIdAndIsActiveTrueOrderByCreatedAtAsc(userId);
+    }
+
     public Account getAccountById(UUID id) {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Account not found: " + id));
@@ -34,7 +42,9 @@ public class LedgerService {
 
     @Transactional
     public Account createAccount(CreateAccountRequest req) {
+        String effectiveUserId = (req.getUserId() != null && !req.getUserId().isBlank()) ? req.getUserId() : "demo-user-id";
         Account account = Account.builder()
+                .userId(effectiveUserId)
                 .name(req.getName())
                 .type(req.getType())
                 .balance(req.getBalance() != null ? req.getBalance() : BigDecimal.ZERO)
@@ -52,8 +62,55 @@ public class LedgerService {
         return accountRepository.save(account);
     }
 
+    @Transactional
+    public Account updateAccount(UUID id, UpdateAccountRequest req) {
+        Account account = getAccountById(id);
+        if (req.getName() != null && !req.getName().isBlank()) account.setName(req.getName());
+        if (req.getType() != null) account.setType(req.getType());
+        if (req.getBalance() != null) account.setBalance(req.getBalance());
+        if (req.getCurrency() != null && !req.getCurrency().isBlank()) account.setCurrency(req.getCurrency());
+        if (req.getInstitutionName() != null) account.setInstitutionName(req.getInstitutionName());
+        if (req.getCreditLimit() != null) account.setCreditLimit(req.getCreditLimit());
+        if (req.getColor() != null) account.setColor(req.getColor());
+        if (req.getIcon() != null) account.setIcon(req.getIcon());
+        return accountRepository.save(account);
+    }
+
+    @Transactional
+    public void deleteAccount(UUID id) {
+        Account account = getAccountById(id);
+        account.setIsActive(false);
+        accountRepository.save(account);
+    }
+
     public List<Transaction> getAllTransactions() {
         return transactionRepository.findAllByOrderByDateDescCreatedAtDesc();
+    }
+
+    public List<Transaction> getAllTransactions(String userId) {
+        if (userId == null || userId.isBlank() || "demo-user-id".equals(userId)) {
+            List<Transaction> userTxs = transactionRepository.findByUserIdOrderByDateDescCreatedAtDesc("demo-user-id");
+            return userTxs.isEmpty() ? transactionRepository.findAllByOrderByDateDescCreatedAtDesc() : userTxs;
+        }
+        return transactionRepository.findByUserIdOrderByDateDescCreatedAtDesc(userId);
+    }
+
+    public List<Transaction> getFilteredTransactions(String userId, UUID accountId, String category, UUID envelopeId, TransactionType type, String search) {
+        List<Transaction> base = getAllTransactions(userId);
+        return base.stream().filter(t -> {
+            if (accountId != null && !accountId.equals(t.getAccountId())) return false;
+            if (envelopeId != null && !envelopeId.equals(t.getEnvelopeId())) return false;
+            if (category != null && !category.isBlank() && !category.equalsIgnoreCase(t.getCategory())) return false;
+            if (type != null && t.getType() != type) return false;
+            if (search != null && !search.isBlank()) {
+                String q = search.toLowerCase();
+                boolean matchMerchant = t.getMerchant() != null && t.getMerchant().toLowerCase().contains(q);
+                boolean matchDesc = t.getDescription() != null && t.getDescription().toLowerCase().contains(q);
+                boolean matchCat = t.getCategory() != null && t.getCategory().toLowerCase().contains(q);
+                if (!matchMerchant && !matchDesc && !matchCat) return false;
+            }
+            return true;
+        }).toList();
     }
 
     public List<Transaction> getTransactionsByAccount(UUID accountId) {
@@ -191,8 +248,11 @@ public class LedgerService {
             }
         }
 
+        String effectiveUserId = (req.getUserId() != null && !req.getUserId().isBlank()) ? req.getUserId() : account.getUserId();
+
         // 4. Persist Transaction
         Transaction tx = Transaction.builder()
+                .userId(effectiveUserId)
                 .accountId(account.getId())
                 .accountName(account.getName())
                 .amount(signedAccountImpact)
@@ -235,6 +295,90 @@ public class LedgerService {
         }
 
         return savedTx;
+    }
+
+    @Transactional
+    public Transaction updateTransaction(UUID id, UpdateTransactionRequest req) {
+        Transaction tx = transactionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Transaction not found: " + id));
+
+        // 1. Revert previous account balance impact
+        Account oldAccount = accountRepository.findById(tx.getAccountId()).orElse(null);
+        if (oldAccount != null) {
+            oldAccount.setBalance(oldAccount.getBalance().subtract(tx.getAmount()));
+            accountRepository.save(oldAccount);
+        }
+
+        // 2. Revert previous envelope spent amount
+        if (tx.getEnvelopeId() != null && tx.getType() == TransactionType.EXPENSE) {
+            BudgetEnvelope oldEnvelope = envelopeRepository.findById(tx.getEnvelopeId()).orElse(null);
+            if (oldEnvelope != null) {
+                BigDecimal oldImpact = tx.getNetPersonalAmount() != null ? tx.getNetPersonalAmount().abs() : tx.getAmount().abs();
+                oldEnvelope.setSpentAmount(oldEnvelope.getSpentAmount().subtract(oldImpact).max(BigDecimal.ZERO));
+                envelopeRepository.save(oldEnvelope);
+            }
+        }
+
+        // 3. Apply new values
+        UUID targetAccountId = req.getAccountId() != null ? req.getAccountId() : tx.getAccountId();
+        Account newAccount = getAccountById(targetAccountId);
+        BigDecimal newGross = (req.getAmount() != null ? req.getAmount() : tx.getGrossAmount()).abs();
+        TransactionType newType = req.getType() != null ? req.getType() : tx.getType();
+        BigDecimal newSignedImpact = (newType == TransactionType.INCOME) ? newGross : newGross.negate();
+
+        newAccount.setBalance(newAccount.getBalance().add(newSignedImpact));
+        accountRepository.save(newAccount);
+
+        String newEnvelopeName = null;
+        UUID targetEnvelopeId = req.getEnvelopeId() != null ? req.getEnvelopeId() : tx.getEnvelopeId();
+        if (targetEnvelopeId != null && newType == TransactionType.EXPENSE) {
+            BudgetEnvelope newEnv = envelopeRepository.findById(targetEnvelopeId).orElse(null);
+            if (newEnv != null) {
+                newEnvelopeName = newEnv.getName();
+                newEnv.setSpentAmount(newEnv.getSpentAmount().add(newGross));
+                envelopeRepository.save(newEnv);
+            }
+        }
+
+        tx.setAccountId(newAccount.getId());
+        tx.setAccountName(newAccount.getName());
+        tx.setAmount(newSignedImpact);
+        tx.setGrossAmount(newGross);
+        tx.setNetPersonalAmount(newSignedImpact);
+        tx.setType(newType);
+        if (req.getCategory() != null) tx.setCategory(req.getCategory());
+        tx.setEnvelopeId(targetEnvelopeId);
+        tx.setEnvelopeName(newEnvelopeName);
+        if (req.getMerchant() != null) tx.setMerchant(req.getMerchant());
+        if (req.getDescription() != null) tx.setDescription(req.getDescription());
+        if (req.getDate() != null) tx.setDate(req.getDate());
+
+        return transactionRepository.save(tx);
+    }
+
+    @Transactional
+    public void deleteTransaction(UUID id) {
+        Transaction tx = transactionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Transaction not found: " + id));
+
+        // Revert account balance
+        Account account = accountRepository.findById(tx.getAccountId()).orElse(null);
+        if (account != null) {
+            account.setBalance(account.getBalance().subtract(tx.getAmount()));
+            accountRepository.save(account);
+        }
+
+        // Revert envelope spent amount
+        if (tx.getEnvelopeId() != null && tx.getType() == TransactionType.EXPENSE) {
+            BudgetEnvelope envelope = envelopeRepository.findById(tx.getEnvelopeId()).orElse(null);
+            if (envelope != null) {
+                BigDecimal impact = tx.getNetPersonalAmount() != null ? tx.getNetPersonalAmount().abs() : tx.getAmount().abs();
+                envelope.setSpentAmount(envelope.getSpentAmount().subtract(impact).max(BigDecimal.ZERO));
+                envelopeRepository.save(envelope);
+            }
+        }
+
+        transactionRepository.delete(tx);
     }
 
     /**
@@ -325,8 +469,14 @@ public class LedgerService {
      * Calculate Complete Financial Dashboard Summary
      */
     public DashboardSummaryResponse getDashboardSummary() {
-        List<Account> accounts = getAllAccounts();
-        List<BudgetEnvelope> envelopes = envelopeRepository.findAll();
+        return getDashboardSummary("demo-user-id");
+    }
+
+    public DashboardSummaryResponse getDashboardSummary(String userId) {
+        List<Account> accounts = getAllAccounts(userId);
+        List<BudgetEnvelope> envelopes = (userId == null || userId.isBlank() || "demo-user-id".equals(userId))
+                ? envelopeRepository.findAll()
+                : envelopeRepository.findByUserIdOrderByGroupTypeAscCreatedAtAsc(userId);
 
         BigDecimal liquid = BigDecimal.ZERO;
         BigDecimal liabilities = BigDecimal.ZERO;
@@ -336,7 +486,6 @@ public class LedgerService {
             if (acc.getType() == AccountType.CHECKING || acc.getType() == AccountType.CASH_WALLET || acc.getType() == AccountType.SAVINGS) {
                 liquid = liquid.add(acc.getBalance());
             } else if (acc.getType() == AccountType.CREDIT_CARD) {
-                // If credit card has negative balance or positive debt
                 liabilities = liabilities.add(acc.getBalance().abs());
             } else if (acc.getType() == AccountType.INVESTMENT) {
                 investments = investments.add(acc.getBalance());
@@ -373,20 +522,22 @@ public class LedgerService {
             }
         }
 
-        // Calculate current month's income & expenses
+        // Calculate current month's income & expenses for this user
         LocalDate now = LocalDate.now();
         LocalDate startOfMonth = now.withDayOfMonth(1);
-        List<Transaction> monthTxs = transactionRepository.findByDateBetweenOrderByDateDesc(startOfMonth, now);
+        List<Transaction> userTxs = getAllTransactions(userId);
 
         BigDecimal incomeMonth = BigDecimal.ZERO;
         BigDecimal expenseMonth = BigDecimal.ZERO;
 
-        for (Transaction tx : monthTxs) {
-            if (tx.getType() == TransactionType.INCOME) {
-                incomeMonth = incomeMonth.add(tx.getAmount());
-            } else if (tx.getType() == TransactionType.EXPENSE) {
-                // Use netPersonalAmount to preserve split-to-budget integrity
-                expenseMonth = expenseMonth.add(tx.getNetPersonalAmount().abs());
+        for (Transaction tx : userTxs) {
+            if (tx.getDate() != null && !tx.getDate().isBefore(startOfMonth) && !tx.getDate().isAfter(now)) {
+                if (tx.getType() == TransactionType.INCOME) {
+                    incomeMonth = incomeMonth.add(tx.getAmount());
+                } else if (tx.getType() == TransactionType.EXPENSE) {
+                    BigDecimal exp = tx.getNetPersonalAmount() != null ? tx.getNetPersonalAmount().abs() : tx.getAmount().abs();
+                    expenseMonth = expenseMonth.add(exp);
+                }
             }
         }
 

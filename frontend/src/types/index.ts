@@ -142,3 +142,135 @@ export interface SmartOffsetResponse {
   newJointBalance: number;
   summary: string;
 }
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatarUrl?: string;
+  currency: string;
+  provider: 'GOOGLE' | 'EMAIL' | 'DEMO';
+  hasCompletedOnboarding: boolean;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: User;
+  isNewUser: boolean;
+  message?: string;
+}
+
+export interface OnboardingPayload {
+  currency: string;
+  initialAccount?: {
+    name: string;
+    institutionName?: string;
+    type: AccountType;
+    balance: number;
+  };
+  initialEnvelopes?: {
+    name: string;
+    groupType: EnvelopeGroup;
+    monthlyBudget: number;
+    icon?: string;
+    color?: string;
+  }[];
+}
+
+export interface TransactionFilter {
+  accountId?: string;
+  category?: string;
+  envelopeId?: string;
+  type?: TransactionType;
+  search?: string;
+}
+
+export interface CreateAccountPayload {
+  name: string;
+  type: AccountType;
+  balance: number;
+  currency?: string;
+  institutionName?: string;
+  creditLimit?: number;
+  color?: string;
+  icon?: string;
+}
+
+export interface UpdateAccountPayload {
+  name?: string;
+  type?: AccountType;
+  balance?: number;
+  currency?: string;
+  institutionName?: string;
+  creditLimit?: number;
+  color?: string;
+  icon?: string;
+}
+
+export interface CreateEnvelopePayload {
+  name: string;
+  groupType: EnvelopeGroup;
+  monthlyBudget: number;
+  targetRatio?: number;
+  color?: string;
+  icon?: string;
+}
+
+export interface UpdateEnvelopePayload {
+  name?: string;
+  groupType?: EnvelopeGroup;
+  monthlyBudget?: number;
+  color?: string;
+  icon?: string;
+}
+
+export interface CreateTransactionPayload {
+  accountId: string;
+  amount: number;
+  type: TransactionType;
+  category: string;
+  envelopeId?: string;
+  merchant?: string;
+  description?: string;
+  date?: string;
+  splitGroupId?: string;
+  splitMembers?: string[];
+}
+
+export interface UpdateTransactionPayload {
+  accountId?: string;
+  amount?: number;
+  type?: TransactionType;
+  category?: string;
+  envelopeId?: string;
+  merchant?: string;
+  description?: string;
+  date?: string;
+}
+
+export interface CreateSubscriptionPayload {
+  name: string;
+  amount: number;
+  cadence: string;
+  category?: string;
+  nextBillingDate: string;
+  accountId?: string;
+  accountName?: string;
+}
+
+export interface UpdateSubscriptionPayload {
+  name?: string;
+  amount?: number;
+  cadence?: string;
+  category?: string;
+  nextBillingDate?: string;
+  accountId?: string;
+  accountName?: string;
+}
+
+export interface CreateGroupPayload {
+  name: string;
+  description?: string;
+  members: string;
+}
+

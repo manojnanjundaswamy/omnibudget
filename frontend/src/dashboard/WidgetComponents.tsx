@@ -20,6 +20,8 @@ interface WidgetContextProps {
   subscriptions: Subscription[];
   household: Household | null;
   simplifiedDebts: SimplifiedDebtItem[];
+  onNavigateToTransactions?: (filter?: { accountId?: string; category?: string; envelopeId?: string }) => void;
+  onEditTransaction?: (tx: Transaction) => void;
 }
 
 export const SafeToSpendWidget: React.FC<WidgetContextProps> = ({ summary }) => {
@@ -60,7 +62,7 @@ export const SafeToSpendWidget: React.FC<WidgetContextProps> = ({ summary }) => 
   );
 };
 
-export const SpendingByCategoryWidget: React.FC<WidgetContextProps> = ({ transactions }) => {
+export const SpendingByCategoryWidget: React.FC<WidgetContextProps> = ({ transactions, onNavigateToTransactions }) => {
   const { formatAmount } = useCurrency();
 
   // Aggregate expenses by category
@@ -79,7 +81,11 @@ export const SpendingByCategoryWidget: React.FC<WidgetContextProps> = ({ transac
 
   return (
     <div className="flex flex-col gap-3">
-      <BarList items={items} format={formatAmount} />
+      <BarList
+        items={items}
+        format={formatAmount}
+        onSelect={(item) => onNavigateToTransactions?.({ category: item.key })}
+      />
     </div>
   );
 };
@@ -119,7 +125,7 @@ export const CashFlowWidget: React.FC<WidgetContextProps> = ({ summary }) => {
   );
 };
 
-export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes }) => {
+export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes, onNavigateToTransactions }) => {
   const { formatAmount } = useCurrency();
 
   const sorted = [...envelopes]
@@ -134,9 +140,15 @@ export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes }) => {
         const isWarning = ratio > 0.8 && !isOver;
 
         return (
-          <li key={env.id} className="space-y-1">
+          <li
+            key={env.id}
+            onClick={() => onNavigateToTransactions?.({ envelopeId: env.id, category: env.name })}
+            className="space-y-1 cursor-pointer hover:opacity-85 transition group"
+          >
             <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-[#f5f5f4] truncate max-w-[140px]">{env.name}</span>
+              <span className="font-medium text-[#f5f5f4] truncate max-w-[140px] group-hover:text-white transition">
+                {env.name}
+              </span>
               <div className="flex items-center gap-2">
                 <span className="tabular text-[#9e9e98] text-[11px]">
                   {formatAmount(env.spentAmount)} <span className="text-[#6b6b66]">/ {formatAmount(env.monthlyBudget)}</span>
@@ -161,7 +173,7 @@ export const BudgetsWidget: React.FC<WidgetContextProps> = ({ envelopes }) => {
   );
 };
 
-export const AccountsWidget: React.FC<WidgetContextProps> = ({ accounts }) => {
+export const AccountsWidget: React.FC<WidgetContextProps> = ({ accounts, onNavigateToTransactions }) => {
   const { formatAmount } = useCurrency();
 
   return (
@@ -169,10 +181,11 @@ export const AccountsWidget: React.FC<WidgetContextProps> = ({ accounts }) => {
       {accounts.slice(0, 4).map((acc) => (
         <li
           key={acc.id}
-          className="flex items-center justify-between p-2.5 rounded-xl bg-[#181818] border border-[#242424] text-xs"
+          onClick={() => onNavigateToTransactions?.({ accountId: acc.id })}
+          className="flex items-center justify-between p-2.5 rounded-xl bg-[#181818] border border-[#242424] text-xs cursor-pointer hover:border-[#383838] transition group"
         >
           <div className="truncate pr-2">
-            <span className="text-[#f5f5f4] font-medium block truncate">{acc.name}</span>
+            <span className="text-[#f5f5f4] font-medium block truncate group-hover:text-white transition">{acc.name}</span>
             <span className="text-[10px] text-[#6b6b66] font-mono">•••• {acc.accountNumberLast4 || '0000'}</span>
           </div>
           <span
@@ -273,7 +286,7 @@ export const BillsRadarWidget: React.FC<WidgetContextProps> = ({ subscriptions }
   );
 };
 
-export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transactions }) => {
+export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transactions, onEditTransaction }) => {
   const { formatAmount } = useCurrency();
 
   return (
@@ -283,7 +296,11 @@ export const RecentTransactionsWidget: React.FC<WidgetContextProps> = ({ transac
         const isSplit = tx.receivableAmount > 0;
 
         return (
-          <div key={tx.id} className="py-2.5 flex items-center justify-between text-xs gap-3">
+          <div
+            key={tx.id}
+            onClick={() => onEditTransaction?.(tx)}
+            className="py-2.5 flex items-center justify-between text-xs gap-3 cursor-pointer hover:bg-[#181818] -mx-2 px-2 rounded-lg transition group"
+          >
             <div className="flex items-center gap-3 truncate">
               <div
                 className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
