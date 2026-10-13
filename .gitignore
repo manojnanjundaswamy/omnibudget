@@ -1,0 +1,23 @@
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Gradle & Java
+backend/.gradle/
+backend/build/
+backend/out/
+backend/bin/
+backend/*.log
+
+# Node & Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/*.tsbuildinfo
+
+# Docker & Database
+pgdata/
+*.h2.db
