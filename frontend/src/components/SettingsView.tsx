@@ -12,6 +12,9 @@ import {
   Sparkles,
   ArrowRight,
   ShieldCheck,
+  Download,
+  FileSpreadsheet,
+  FileJson,
 } from 'lucide-react';
 import { useTheme, ACCENT_PRESETS, ThemeMode, RadiusType } from '../context/ThemeContext';
 import { useCurrency, SUPPORTED_CURRENCIES } from '../context/CurrencyContext';
@@ -34,7 +37,20 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   const { currentUser } = useAuth();
   const [activeTab, setActiveTab] = useState<'appearance' | 'regional' | 'billing' | 'data'>('appearance');
   const [isResetting, setIsResetting] = useState(false);
+  const [isExporting, setIsExporting] = useState<'csv' | 'json' | null>(null);
   const [customHex, setCustomHex] = useState(accent || '');
+
+  const handleExport = async (format: 'csv' | 'json') => {
+    try {
+      setIsExporting(format);
+      await api.exportData(format);
+    } catch (e) {
+      console.error(e);
+      alert('Failed to export ledger data');
+    } finally {
+      setIsExporting(null);
+    }
+  };
 
   const handleResetSandbox = async () => {
     if (!confirm('Reset ledger and restore realistic seed data?')) return;
@@ -410,12 +426,47 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               <button
                 type="button"
                 onClick={onOpenSmartIngest}
-                className="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--fg)] text-[var(--bg)] hover:opacity-90 transition shadow-sm flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--fg)] text-[var(--bg)] hover:opacity-90 transition shadow-sm flex items-center gap-1.5 interactive-btn"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Open Import Hub</span>
               </button>
             )}
+          </section>
+
+          {/* Data Portability & Zero Lock-in (Lunch Money Moat) */}
+          <section className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-4">
+            <div className="flex items-start gap-3">
+              <Download className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-sm font-semibold text-[var(--fg)]">Export & Data Portability</h3>
+                <p className="text-xs text-[var(--fg-muted)] mt-0.5">
+                  Download 100% of your financial history anytime. You own your data with zero vendor lock-in.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              <button
+                type="button"
+                disabled={isExporting !== null}
+                onClick={() => handleExport('csv')}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[var(--surface-2)] hover:bg-[var(--border)] text-[var(--fg)] border border-[var(--border)] transition disabled:opacity-50 interactive-btn shadow-sm"
+              >
+                <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+                <span>{isExporting === 'csv' ? 'Generating CSV...' : 'Export Ledger (CSV)'}</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={isExporting !== null}
+                onClick={() => handleExport('json')}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[var(--surface-2)] hover:bg-[var(--border)] text-[var(--fg)] border border-[var(--border)] transition disabled:opacity-50 interactive-btn shadow-sm"
+              >
+                <FileJson className="w-3.5 h-3.5 text-blue-400" />
+                <span>{isExporting === 'json' ? 'Generating JSON...' : 'Export Full Backup (JSON)'}</span>
+              </button>
+            </div>
           </section>
 
           <section className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-3">

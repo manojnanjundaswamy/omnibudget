@@ -273,8 +273,8 @@ async function run() {
   assert(previewRes.ok && Array.isArray(previewRes.data), 'Parse CSV statement preview');
   assert(previewRes.data.length === 2, 'Parsed 2 transaction lines correctly');
 
-  // 12. Dashboard Master Invariant Verification
-  console.log('\n[12/12] Validating Dashboard Financial Invariants & Net Worth...');
+  // 12. Dashboard Master Invariant Verification & Historical Trends
+  console.log('\n[12/12] Validating Dashboard Financial Invariants & Net Worth Trends...');
   const dashRes = await request('/dashboard/summary');
   assert(dashRes.ok, 'Fetch complete dashboard summary');
   const d = dashRes.data;
@@ -285,6 +285,20 @@ async function run() {
     `Net worth invariant matches: Liquid ($${d.totalLiquidAssets}) + Invest ($${d.totalInvestments}) - Liabilities ($${d.totalCreditLiabilities}) = $${d.netWorth}`
   );
   assert(Number(d.safeToSpend) >= 0, `Safe-to-spend buffer is positive: $${d.safeToSpend}`);
+
+  // Test 6-Month Historical Trends
+  const trendsRes = await request('/dashboard/trends?months=6');
+  assert(trendsRes.ok && Array.isArray(trendsRes.data), 'Fetch 6-month historical trends');
+  assert(trendsRes.data.length === 6, 'Contains 6 monthly historical trend data points');
+  assert(trendsRes.data[5].monthKey.includes('-'), 'Latest trend point has valid monthKey');
+
+  // Test Data Export (CSV & JSON)
+  const exportCsvRes = await request('/ingest/export?format=csv');
+  assert(exportCsvRes.ok, 'Export financial ledger as CSV');
+  assert(typeof exportCsvRes.data === 'string' && exportCsvRes.data.includes('Date,Type,Account,Category'), 'CSV export contains valid standard headers');
+
+  const exportJsonRes = await request('/ingest/export?format=json');
+  assert(exportJsonRes.ok && exportJsonRes.data.accounts, 'Export complete financial workspace as JSON');
 
   // Summary
   console.log('\n======================================================');

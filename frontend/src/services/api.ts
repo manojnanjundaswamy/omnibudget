@@ -41,6 +41,7 @@ import {
   Asset,
   AssetPortfolioSummary,
   CreateAssetPayload,
+  TrendPoint,
 } from '../types';
 
 const API_BASE = '/api';
@@ -104,6 +105,30 @@ export const api = {
     });
     if (!res.ok) throw new Error('Failed to fetch dashboard summary');
     return res.json();
+  },
+
+  getMonthlyTrends: async (months: number = 6): Promise<TrendPoint[]> => {
+    const res = await fetch(`${API_BASE}/dashboard/trends?months=${months}`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch financial trends');
+    return res.json();
+  },
+
+  exportData: async (format: 'csv' | 'json' = 'csv'): Promise<void> => {
+    const res = await fetch(`${API_BASE}/ingest/export?format=${format}`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to export financial data');
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `omnibudget-export-${new Date().toISOString().slice(0, 10)}.${format}`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   },
 
   // Accounts

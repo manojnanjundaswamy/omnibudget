@@ -5,6 +5,8 @@ import com.omnibudget.dto.CreateTransactionRequest;
 import com.omnibudget.dto.ParsedTransactionDto;
 import com.omnibudget.dto.SmartClipRequest;
 import com.omnibudget.repository.AccountRepository;
+import com.omnibudget.repository.BudgetEnvelopeRepository;
+import com.omnibudget.repository.SubscriptionRepository;
 import com.omnibudget.repository.TransactionRepository;
 import com.omnibudget.repository.TransactionRuleRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,8 @@ public class IngestService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
     private final TransactionRuleRepository ruleRepository;
+    private final BudgetEnvelopeRepository envelopeRepository;
+    private final SubscriptionRepository subscriptionRepository;
     private final LedgerService ledgerService;
     private final RuleService ruleService;
 
@@ -368,5 +372,52 @@ public class IngestService {
             return m.group(1).trim();
         }
         return null;
+    }
+
+    /**
+     * Export all ledger transactions in CSV format for user data portability
+     */
+    public String exportCsv(String userId) {
+        List<Transaction> txs = ledgerService.getAllTransactions(userId);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Date,Type,Account,Category,Envelope,Merchant,Amount,Description,Status\n");
+
+        for (Transaction tx : txs) {
+            sb.append(tx.getDate() != null ? tx.getDate().toString() : "").append(",");
+            sb.append(tx.getType() != null ? tx.getType().name() : "").append(",");
+            sb.append(escapeCsv(tx.getAccountName())).append(",");
+            sb.append(escapeCsv(tx.getCategory())).append(",");
+            sb.append(escapeCsv(tx.getEnvelopeName())).append(",");
+            sb.append(escapeCsv(tx.getMerchant())).append(",");
+            sb.append(tx.getAmount() != null ? tx.getAmount().toPlainString() : "0.00").append(",");
+            sb.append(escapeCsv(tx.getDescription())).append(",");
+            sb.append(tx.getStatus() != null ? tx.getStatus().name() : "CLEARED").append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Export complete financial workspace as JSON (Accounts, Transactions, Envelopes, Subscriptions)
+     */
+    public Map<String, Object> exportJson(String userId) {
+        String effectiveUserId = (userId != null && !userId.isBlank()) ? userId : "demo-user-id";
+        Map<String, Object> backup = new LinkedHashMap<>();
+        backup.put("version", "1.0");
+        backup.put("exportedAt", java.time.Instant.now().toString());
+        backup.put("userId", effectiveUserId);
+        backup.put("accounts", ledgerService.getAllAccounts(effectiveUserId));
+        backup.put("transactions", ledgerService.getAllTransactions(effectiveUserId));
+        backup.put("envelopes", envelopeRepository.findAll());
+        backup.put("subscriptions", subscriptionRepository.findAll());
+        return backup;
+    }
+
+    private String escapeCsv(String str) {
+        if (str == null) return "";
+        if (str.contains(",") || str.contains("\"") || str.contains("\n")) {
+            return "\"" + str.replace("\"", "\"\"") + "\"";
+        }
+        return str;
     }
 }

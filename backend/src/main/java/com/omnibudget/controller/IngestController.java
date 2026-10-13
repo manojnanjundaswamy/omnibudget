@@ -46,4 +46,20 @@ public class IngestController {
             @RequestBody IngestCommitRequest req) {
         return ResponseEntity.ok(ingestService.commitParsedTransactions(userId, req.getAccountId(), req.getTransactions()));
     }
+
+    @GetMapping("/export")
+    public ResponseEntity<?> exportData(
+            @RequestHeader(value = "X-User-Id", required = false) String userId,
+            @RequestParam(defaultValue = "csv") String format) {
+        if ("json".equalsIgnoreCase(format)) {
+            return ResponseEntity.ok()
+                    .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"omnibudget-backup-" + java.time.LocalDate.now() + ".json\"")
+                    .body(ingestService.exportJson(userId));
+        } else {
+            return ResponseEntity.ok()
+                    .header(org.springframework.http.HttpHeaders.CONTENT_TYPE, "text/csv; charset=UTF-8")
+                    .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"omnibudget-export-" + java.time.LocalDate.now() + ".csv\"")
+                    .body(ingestService.exportCsv(userId));
+        }
+    }
 }

@@ -526,5 +526,15 @@ export type NavTab =
   | 'settings'
   | 'admin';
 
+export interface TrendPoint {
+  month: string;
+  monthKey: string;
+  income: number;
+  expenses: number;
+  netSavings: number;
+  netWorth: number;
+  savingsRate: number;
+}
+
 
 
