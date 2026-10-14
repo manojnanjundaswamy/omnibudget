@@ -33,6 +33,8 @@ interface TransactionModalProps {
   accounts: Account[];
   envelopes: BudgetEnvelope[];
   transactionToEdit?: Transaction | null;
+  initialDate?: string;
+  initialType?: TransactionType;
   onSuccess: () => void;
 }
 
@@ -57,17 +59,19 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   accounts,
   envelopes,
   transactionToEdit,
+  initialDate,
+  initialType,
   onSuccess,
 }) => {
   const { currentCurrency, formatAmount } = useCurrency();
-  const [type, setType] = useState<TransactionType>('EXPENSE');
+  const [type, setType] = useState<TransactionType>(initialType || 'EXPENSE');
   const [amount, setAmount] = useState('');
   const [merchant, setMerchant] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Dining');
   const [accountId, setAccountId] = useState('');
   const [envelopeId, setEnvelopeId] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(initialDate || new Date().toISOString().split('T')[0]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -87,14 +91,14 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
       setEnvelopeId(transactionToEdit.envelopeId || '');
       setDate(transactionToEdit.date || new Date().toISOString().split('T')[0]);
     } else {
-      setType('EXPENSE');
+      setType(initialType || 'EXPENSE');
       setAmount('');
       setMerchant('');
       setDescription('');
-      setCategory('Dining');
+      setCategory(initialType === 'INCOME' ? 'Salary' : 'Dining');
       setAccountId(accounts[0]?.id || '');
       setEnvelopeId('');
-      setDate(new Date().toISOString().split('T')[0]);
+      setDate(initialDate || new Date().toISOString().split('T')[0]);
     }
     setError('');
     setConfirmDelete(false);

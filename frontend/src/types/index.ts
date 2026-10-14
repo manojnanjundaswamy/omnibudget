@@ -523,6 +523,7 @@ export type NavTab =
   | 'goals'
   | 'rules'
   | 'plans'
+  | 'utilities'
   | 'settings'
   | 'admin';
 

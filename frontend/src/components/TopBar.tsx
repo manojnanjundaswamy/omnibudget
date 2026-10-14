@@ -70,6 +70,10 @@ const TAB_TITLES: Record<NavTab, { title: string; subtitle: string }> = {
     title: 'Plans & Pricing',
     subtitle: 'Choose the membership that fits you',
   },
+  utilities: {
+    title: 'Finance Utilities',
+    subtitle: 'Calculators and financial planning tools',
+  },
 };
 
 export const TopBar: React.FC<TopBarProps> = ({

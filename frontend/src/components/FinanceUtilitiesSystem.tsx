@@ -69,6 +69,26 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
 
   // Samsung Edge Panel Handle State
   const [isEdgeOpen, setIsEdgeOpen] = useState(false);
+  const [dockHidden, setDockHidden] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('omnibudget-edge-dock-hidden') === '1';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    const handleDockChange = () => {
+      try {
+        setDockHidden(localStorage.getItem('omnibudget-edge-dock-hidden') === '1');
+      } catch {
+        // ignore
+      }
+    };
+    window.addEventListener('edge-dock-change', handleDockChange);
+    return () => window.removeEventListener('edge-dock-change', handleDockChange);
+  }, []);
+
   const [edgeY, setEdgeY] = useState<number>(() => {
     try {
       const saved = localStorage.getItem(EDGE_Y_KEY);
@@ -192,10 +212,11 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
       />
 
       {/* 3. Samsung Edge Panel Handle & Drawer (Fixed flush right to the end) */}
-      <div
-        className="fixed right-0 z-[200] flex items-center select-none"
-        style={{ top: `${edgeY}%`, transform: 'translateY(-50%)' }}
-      >
+      {!dockHidden && (
+        <div
+          className="fixed right-0 z-[200] flex items-center select-none"
+          style={{ top: `${edgeY}%`, transform: 'translateY(-50%)' }}
+        >
         {/* Edge Shelf Flyout Menu */}
         {isEdgeOpen && (
           <div
@@ -288,6 +309,7 @@ export const FinanceUtilitiesSystem: React.FC<FinanceUtilitiesSystemProps> = ({
           </div>
         </button>
       </div>
+      )}
     </>,
     document.body
   );

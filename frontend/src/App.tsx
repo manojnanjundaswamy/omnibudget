@@ -28,12 +28,15 @@ import { EnvelopeModal } from './components/EnvelopeModal';
 import { SubscriptionModal } from './components/SubscriptionModal';
 import { GoalModal } from './components/GoalModal';
 import { FinanceUtilitiesSystem, UtilityTab } from './components/FinanceUtilitiesSystem';
+import { UtilitiesView } from './components/UtilitiesView';
+import { MobileTabBar } from './components/MobileTabBar';
 import { api } from './services/api';
 import {
   DashboardSummary,
   Account,
   BudgetEnvelope,
   Transaction,
+  TransactionType,
   SplitGroup,
   Household,
   Subscription,
@@ -84,6 +87,8 @@ const AppContent: React.FC = () => {
   // CRUD Modals State
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
   const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null);
+  const [transactionInitialDate, setTransactionInitialDate] = useState<string | undefined>();
+  const [transactionInitialType, setTransactionInitialType] = useState<TransactionType | undefined>();
 
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
   const [accountToEdit, setAccountToEdit] = useState<Account | null>(null);
@@ -182,13 +187,17 @@ const AppContent: React.FC = () => {
   };
 
   // Transaction CRUD handlers
-  const handleOpenAddTransaction = () => {
+  const handleOpenAddTransaction = (initialDate?: string, initialType?: TransactionType) => {
     setTransactionToEdit(null);
+    setTransactionInitialDate(initialDate);
+    setTransactionInitialType(initialType);
     setIsTransactionModalOpen(true);
   };
 
   const handleEditTransaction = (tx: Transaction) => {
     setTransactionToEdit(tx);
+    setTransactionInitialDate(undefined);
+    setTransactionInitialType(undefined);
     setIsTransactionModalOpen(true);
   };
 
@@ -301,7 +310,7 @@ const AppContent: React.FC = () => {
         />
 
         {/* Viewport Canvas */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 2xl:px-10 max-w-[1720px] w-full mx-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 2xl:px-10 max-w-[1720px] w-full mx-auto pb-28 md:pb-10">
           {isLoading ? (
             <div className="min-h-[60vh] flex flex-col items-center justify-center text-[#71717a] gap-3">
               <RefreshCw className="w-5 h-5 animate-spin text-neutral-300" />
@@ -362,6 +371,7 @@ const AppContent: React.FC = () => {
                   onRefresh={refreshAllData}
                   onOpenAddModal={handleOpenAddTransaction}
                   onEditTransaction={handleEditTransaction}
+                  onOpenAddBill={handleOpenAddSubscription}
                 />
               )}
               {currentTab === 'cashflow' && (
@@ -400,6 +410,11 @@ const AppContent: React.FC = () => {
                 <PricingView
                   formatCurrency={formatAmount}
                   onPlanChanged={refreshAllData}
+                />
+              )}
+              {currentTab === 'utilities' && (
+                <UtilitiesView
+                  onPopOut={(toolId) => handleOpenUtilities(toolId)}
                 />
               )}
               {currentTab === 'admin' && (
@@ -474,6 +489,8 @@ const AppContent: React.FC = () => {
         accounts={accounts}
         envelopes={envelopes}
         transactionToEdit={transactionToEdit}
+        initialDate={transactionInitialDate}
+        initialType={transactionInitialType}
         onSuccess={refreshAllData}
       />
 
@@ -520,6 +537,14 @@ const AppContent: React.FC = () => {
         }}
         onClose={() => setIsUtilitiesOpen(false)}
         defaultTab={utilitiesTab}
+      />
+
+      {/* Responsive Mobile Bottom Tab Bar */}
+      <MobileTabBar
+        currentTab={currentTab}
+        onSelectTab={setCurrentTab}
+        onOpenAddTransaction={() => handleOpenAddTransaction()}
+        isAdmin={currentUser?.role === 'ADMIN'}
       />
     </div>
   );

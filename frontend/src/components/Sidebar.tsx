@@ -57,6 +57,7 @@ const NAV_ITEMS: NavItemDef[] = [
   { id: 'household', label: 'Household & Split', icon: Users, section: 'together' },
 
   // App
+  { id: 'utilities', label: 'Utilities', icon: Calculator, section: 'app' },
   { id: 'admin', label: 'Admin Console', icon: ShieldCheck, section: 'app', adminOnly: true },
   { id: 'settings', label: 'Settings', icon: Settings, section: 'app' },
 ];
@@ -80,6 +81,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
   useEffect(() => {
     localStorage.setItem('omnibudget_sidebar_collapsed', isCollapsed ? 'true' : 'false');
   }, [isCollapsed]);
+
+  // Pressing "[" toggles sidebar collapse (desktop)
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))) {
+        return;
+      }
+      if (e.key === '[') {
+        e.preventDefault();
+        setIsCollapsed((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
 
   const isAdmin = currentUser?.role === 'ADMIN';
 
