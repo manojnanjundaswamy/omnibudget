@@ -91,6 +91,8 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     font-feature-settings: "cv11", "ss01";
+    font-size: 14.5px;
+    line-height: 1.5;
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
@@ -318,15 +320,11 @@
   transform: scale(0.96);
 }
 
-/* Modal Dialog Motion & Luxury Popups */
-@keyframes modalSpringIn {
+/* Modal Dialog Motion & Professional Panels */
+@keyframes modalCleanIn {
   0% {
     opacity: 0;
-    transform: scale(0.93) translateY(14px);
-  }
-  65% {
-    opacity: 1;
-    transform: scale(1.008) translateY(-1px);
+    transform: scale(0.98) translateY(6px);
   }
   100% {
     opacity: 1;
@@ -335,29 +333,26 @@
 }
 
 .modal-backdrop {
-  animation: fadeIn 0.22s var(--ease-out) both;
+  animation: fadeIn 0.18s var(--ease-out) both;
 }
 
 .modal-content {
-  animation: modalSpringIn 0.3s var(--ease-spring) both;
+  animation: modalCleanIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .modal-backdrop-luxury {
-  background-color: rgba(0, 0, 0, 0.68);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  animation: fadeIn 0.22s var(--ease-out) both;
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadeIn 0.18s var(--ease-out) both;
 }
 
 .modal-card-luxury {
   background-color: var(--surface);
-  border: 1px solid var(--border-strong);
-  box-shadow:
-    0 25px 65px -12px rgba(0, 0, 0, 0.55),
-    0 1px 0 0 rgba(255, 255, 255, 0.12) inset,
-    0 0 0 1px rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  animation: modalSpringIn 0.32s var(--ease-spring) both;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--border);
+  border-radius: 20px;
+  animation: modalCleanIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
   overflow: hidden;
 }
@@ -366,31 +361,20 @@
   position: relative;
 }
 
-.modal-card-luxury::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 24px;
-  right: 24px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
-  pointer-events: none;
-}
-
 .ambient-expense {
-  background-image: radial-gradient(circle at 50% -25%, rgba(244, 63, 94, 0.12) 0%, transparent 65%);
+  background-color: var(--surface);
 }
 
 .ambient-income {
-  background-image: radial-gradient(circle at 50% -25%, rgba(16, 185, 129, 0.14) 0%, transparent 65%);
+  background-color: var(--surface);
 }
 
 .ambient-transfer {
-  background-image: radial-gradient(circle at 50% -25%, rgba(99, 102, 241, 0.14) 0%, transparent 65%);
+  background-color: var(--surface);
 }
 
 .ambient-accent {
-  background-image: radial-gradient(circle at 50% -25%, rgba(255, 255, 255, 0.07) 0%, transparent 65%);
+  background-color: var(--surface);
 }
 
 .input-luxury {

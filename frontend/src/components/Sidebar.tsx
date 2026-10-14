@@ -111,7 +111,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         } ${isMobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}`}
       >
         {/* Top Brand Header */}
-        <div className="flex items-center justify-between px-4 h-16 border-b border-[var(--border)] shrink-0">
+        <div className="flex items-center justify-between px-4 h-16 min-h-[64px] max-h-[64px] border-b border-[var(--border)] bg-[var(--surface)] shrink-0">
           {!isCollapsed ? (
             <div className="flex items-center gap-2.5 overflow-hidden">
               <div className="w-8 h-8 rounded-xl bg-[var(--fg)] text-[var(--bg)] flex items-center justify-center font-bold text-sm tracking-tighter shrink-0 shadow-sm">

@@ -30,17 +30,28 @@ interface SettingsViewProps {
   onOpenSmartIngest?: () => void;
   onRefreshAll?: () => void;
   onNavigateToPlans?: () => void;
+  initialTab?: 'appearance' | 'regional' | 'notifications' | 'billing' | 'data';
 }
 
 export const SettingsView: React.FC<SettingsViewProps> = ({
   onOpenSmartIngest,
   onRefreshAll,
   onNavigateToPlans,
+  initialTab,
 }) => {
   const { mode, setMode, accent, setAccent, radius, setRadius } = useTheme();
   const { currentCurrency, setCurrency, isPrivacyMode, togglePrivacyMode, formatAmount } = useCurrency();
   const { currentUser } = useAuth();
-  const [activeTab, setActiveTab] = useState<'appearance' | 'regional' | 'notifications' | 'billing' | 'data'>('appearance');
+  const [activeTab, setActiveTab] = useState<'appearance' | 'regional' | 'notifications' | 'billing' | 'data'>(
+    initialTab || 'appearance'
+  );
+
+  React.useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
+
   const [isResetting, setIsResetting] = useState(false);
   const [isExporting, setIsExporting] = useState<'csv' | 'json' | null>(null);
   const [customHex, setCustomHex] = useState(accent || '');

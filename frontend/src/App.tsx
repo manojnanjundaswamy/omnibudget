@@ -107,6 +107,16 @@ const AppContent: React.FC = () => {
     setIsUtilitiesOpen(true);
   };
 
+  // Settings SubTab state for direct navigation (e.g. from Notification Center Preferences)
+  const [settingsSubTab, setSettingsSubTab] = useState<'appearance' | 'regional' | 'notifications' | 'billing' | 'data'>('appearance');
+
+  const handleOpenSettings = (subTab?: string) => {
+    if (subTab === 'notifications' || subTab === 'appearance' || subTab === 'regional' || subTab === 'billing' || subTab === 'data') {
+      setSettingsSubTab(subTab);
+    }
+    setCurrentTab('settings');
+  };
+
   // Core Data States
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [accounts, setAccounts] = useState<Account[]>([]);
@@ -285,7 +295,7 @@ const AppContent: React.FC = () => {
           onOpenSmartIngest={() => setIsSmartIngestOpen(true)}
           onOpenUtilities={() => handleOpenUtilities('calculator')}
           onNavigateTab={(tab) => setCurrentTab(tab)}
-          onOpenSettings={() => setCurrentTab('settings')}
+          onOpenSettings={handleOpenSettings}
           activeFilter={activeFilter}
           onClearFilter={() => setActiveFilter(undefined)}
         />
@@ -397,6 +407,7 @@ const AppContent: React.FC = () => {
               )}
               {currentTab === 'settings' && (
                 <SettingsView
+                  initialTab={settingsSubTab}
                   onOpenSmartIngest={() => setIsSmartIngestOpen(true)}
                   onRefreshAll={refreshAllData}
                   onNavigateToPlans={() => setCurrentTab('plans')}

@@ -12,7 +12,7 @@ interface TopBarProps {
   onOpenSmartIngest?: () => void;
   onOpenUtilities?: () => void;
   onNavigateTab?: (tab: NavTab) => void;
-  onOpenSettings?: () => void;
+  onOpenSettings?: (subTab?: string) => void;
   activeFilter?: TransactionFilter;
   onClearFilter?: () => void;
 }
@@ -88,7 +88,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   const { resolvedMode, toggleMode } = useTheme();
 
   return (
-    <header className="sticky top-0 z-30 bg-[var(--bg)]/90 backdrop-blur-md border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 py-3.5 transition-colors">
+    <header className="sticky top-0 z-30 h-16 min-h-[64px] max-h-[64px] flex items-center bg-[var(--surface)] border-b border-[var(--border)] px-4 sm:px-6 lg:px-8 transition-colors shrink-0">
       <div className="w-full max-w-[1720px] mx-auto flex items-center justify-between gap-4">
         {/* Left: Mobile Toggle & Page Title */}
         <div className="flex items-center gap-3">
