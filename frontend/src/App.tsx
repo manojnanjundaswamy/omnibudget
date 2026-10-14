@@ -29,6 +29,7 @@ import { SubscriptionModal } from './components/SubscriptionModal';
 import { GoalModal } from './components/GoalModal';
 import { FinanceUtilitiesSystem, UtilityTab } from './components/FinanceUtilitiesSystem';
 import { UtilitiesView } from './components/UtilitiesView';
+import { CaptureView } from './components/CaptureView';
 import { MobileTabBar } from './components/MobileTabBar';
 import { api } from './services/api';
 import {
@@ -52,6 +53,8 @@ const AppContent: React.FC = () => {
   const { formatAmount } = useCurrency();
   const [currentTab, setCurrentTab] = useState<NavTab>(() => {
     const params = new URLSearchParams(window.location.search);
+    const sharedText = params.get('text') || params.get('title');
+    if (sharedText) return 'capture';
     const tabParam = params.get('tab') as NavTab;
     if (tabParam) return tabParam;
     return 'dashboard';
@@ -419,6 +422,14 @@ const AppContent: React.FC = () => {
               )}
               {currentTab === 'admin' && (
                 <AdminView />
+              )}
+              {currentTab === 'capture' && (
+                <CaptureView
+                  accounts={accounts}
+                  envelopes={envelopes}
+                  onNavigateToTransactions={() => setCurrentTab('transactions')}
+                  onRefreshAll={refreshAllData}
+                />
               )}
               {currentTab === 'settings' && (
                 <SettingsView

@@ -14,6 +14,7 @@ import {
   TrendingUp,
   Calculator,
   X,
+  Inbox,
 } from 'lucide-react';
 import { NavTab } from '../types';
 
@@ -33,6 +34,7 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({
   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   const moreItems: { id: NavTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+    { id: 'capture', label: 'Auto-Capture', icon: Inbox },
     { id: 'accounts', label: 'Accounts', icon: Wallet },
     { id: 'assets', label: 'Investments', icon: TrendingUp },
     { id: 'recurring', label: 'Bills', icon: CalendarClock },

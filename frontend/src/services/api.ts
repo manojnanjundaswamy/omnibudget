@@ -47,6 +47,10 @@ import {
   FinancialHealth,
   CashFlowForecast,
   AnomalyDetection,
+  CapturedItem,
+  CaptureView,
+  PasteCaptureResponse,
+  AddCapturedItemPayload,
 } from '../types';
 
 const API_BASE = '/api';
@@ -876,5 +880,71 @@ export const api = {
     if (!res.ok) throw new Error('Failed to fetch anomalies');
     return res.json();
   },
+
+  // Auto-Capture & Inbound Pipeline
+  getCaptureView: async (): Promise<CaptureView> => {
+    const res = await fetch(`${API_BASE}/capture`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch capture view');
+    return res.json();
+  },
+
+  getCaptureCount: async (): Promise<{ pending: number }> => {
+    const res = await fetch(`${API_BASE}/capture/count`, {
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch capture count');
+    return res.json();
+  },
+
+  resetCaptureAddress: async (): Promise<CaptureView> => {
+    const res = await fetch(`${API_BASE}/capture/address/reset`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to reset capture address');
+    return res.json();
+  },
+
+  pasteCapture: async (data: { text: string; source?: 'PASTE' | 'SHARE' }): Promise<PasteCaptureResponse> => {
+    const res = await fetch(`${API_BASE}/capture/paste`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to process pasted capture text');
+    return res.json();
+  },
+
+  addCapturedItem: async (id: string, data?: AddCapturedItemPayload): Promise<CapturedItem> => {
+    const res = await fetch(`${API_BASE}/capture/items/${id}/add`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data || {}),
+    });
+    if (!res.ok) throw new Error('Failed to add captured transaction');
+    return res.json();
+  },
+
+  dismissCapturedItem: async (id: string): Promise<CapturedItem> => {
+    const res = await fetch(`${API_BASE}/capture/items/${id}/dismiss`, {
+      method: 'POST',
+      headers: getHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to dismiss captured item');
+    return res.json();
+  },
+
+  sendInboundEmailWebhook: async (data: { to: string; from?: string; subject?: string; text: string }): Promise<any> => {
+    const res = await fetch(`${API_BASE}/capture/inbound`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to send inbound email webhook');
+    return res.json();
+  },
 };
+
 

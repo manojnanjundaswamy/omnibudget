@@ -74,6 +74,10 @@ const TAB_TITLES: Record<NavTab, { title: string; subtitle: string }> = {
     title: 'Finance Utilities',
     subtitle: 'Calculators and financial planning tools',
   },
+  capture: {
+    title: 'Auto-Capture & Ingest',
+    subtitle: 'Forwarded bank emails, pasted SMS and mobile share staging queue',
+  },
 };
 
 export const TopBar: React.FC<TopBarProps> = ({

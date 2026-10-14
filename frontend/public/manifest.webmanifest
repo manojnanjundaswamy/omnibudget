@@ -1,0 +1,54 @@
+{
+  "name": "OmniBudget - Autonomous Financial Cockpit",
+  "short_name": "OmniBudget",
+  "description": "Zero vendor lock-in personal finance cockpit with auto-pull bank alerts, envelope budgeting and cashflow forecasting.",
+  "start_url": "/?tab=dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "share_target": {
+    "action": "/?tab=capture",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text"
+    }
+  },
+  "shortcuts": [
+    {
+      "name": "Auto-Capture Bank SMS",
+      "short_name": "Capture",
+      "description": "Ingest forwarded email or bank SMS alerts into To Review queue",
+      "url": "/?tab=capture",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Transactions Ledger",
+      "short_name": "Transactions",
+      "description": "View and manage financial transactions",
+      "url": "/?tab=transactions",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}

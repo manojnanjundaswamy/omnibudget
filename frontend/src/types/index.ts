@@ -525,7 +525,8 @@ export type NavTab =
   | 'plans'
   | 'utilities'
   | 'settings'
-  | 'admin';
+  | 'admin'
+  | 'capture';
 
 export interface TrendPoint {
   month: string;
@@ -637,6 +638,64 @@ export interface AnomalyDetection {
   totalAnomalies: number;
   potentialSavings: number;
   items: AnomalyItem[];
+}
+
+export interface CapturedItem {
+  id: string;
+  userId: string;
+  source: 'EMAIL' | 'PASTE' | 'SHARE';
+  status: 'PENDING' | 'ADDED' | 'DISMISSED' | 'UNREADABLE';
+  sender?: string;
+  subject?: string;
+  body?: string;
+  kind?: TransactionType;
+  amount?: number;
+  occurredOn?: string;
+  merchant?: string;
+  bank?: string;
+  accountHint?: string;
+  balance?: number;
+  accountId?: string;
+  accountName?: string;
+  category?: string;
+  categorySource?: string;
+  envelopeId?: string;
+  envelopeName?: string;
+  duplicateOf?: string;
+  transactionId?: string;
+  receivedAt: string;
+  decidedAt?: string;
+}
+
+export interface CaptureConfirmation {
+  code?: string;
+  link?: string;
+  receivedAt?: string;
+}
+
+export interface CaptureView {
+  address: string;
+  emailReady: boolean;
+  confirmation?: CaptureConfirmation;
+  pending: number;
+  items: CapturedItem[];
+  lastEmailAt?: string;
+}
+
+export interface PasteCaptureResponse {
+  added: number;
+  duplicates: number;
+  unreadable: number;
+  items: CapturedItem[];
+}
+
+export interface AddCapturedItemPayload {
+  accountId?: string;
+  category?: string;
+  envelopeId?: string;
+  merchant?: string;
+  amount?: number;
+  occurredOn?: string;
 }
 
 

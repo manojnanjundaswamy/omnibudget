@@ -36,3 +36,7 @@ logging:
   level:
     root: INFO
     com.omnibudget: INFO
+
+app:
+  capture:
+    domain: ${APP_CAPTURE_DOMAIN:inbound.omnibudget.local}

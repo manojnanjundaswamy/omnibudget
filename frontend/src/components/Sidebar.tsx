@@ -20,10 +20,12 @@ import {
   RotateCcw,
   TrendingUp,
   Calculator,
+  Inbox,
 } from 'lucide-react';
 import { NavTab } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency, SUPPORTED_CURRENCIES } from '../context/CurrencyContext';
+import { api } from '../services/api';
 
 interface SidebarProps {
   currentTab: NavTab;
@@ -47,6 +49,7 @@ const NAV_ITEMS: NavItemDef[] = [
   // Money
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, section: 'money' },
   { id: 'transactions', label: 'Transactions', icon: ArrowLeftRight, section: 'money' },
+  { id: 'capture', label: 'Auto-Capture', icon: Inbox, section: 'money' },
   { id: 'budgets', label: 'Budgets', icon: PieChart, section: 'money' },
   { id: 'accounts', label: 'Accounts', icon: Wallet, section: 'money' },
   { id: 'assets', label: 'Assets & Investments', icon: TrendingUp, section: 'money' },
@@ -96,6 +99,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
+  }, []);
+
+  const [pendingCaptureCount, setPendingCaptureCount] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchCount = () => {
+      api.getCaptureCount()
+        .then((res) => setPendingCaptureCount(res.pending || 0))
+        .catch(() => {});
+    };
+    fetchCount();
+    const timer = setInterval(fetchCount, 15000);
+    return () => clearInterval(timer);
   }, []);
 
   const isAdmin = currentUser?.role === 'ADMIN';
@@ -213,7 +229,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         }`}
                       />
                       {!isCollapsed && (
-                        <span className="truncate tracking-tight flex-1 text-left">{item.label}</span>
+                        <span className="truncate tracking-tight flex-1 text-left flex items-center justify-between gap-1">
+                          <span>{item.label}</span>
+                          {item.id === 'capture' && pendingCaptureCount > 0 && (
+                            <span className="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                              {pendingCaptureCount}
+                            </span>
+                          )}
+                        </span>
                       )}
                       {isActive && !isCollapsed && (
                         <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0 animate-scale-in" />
